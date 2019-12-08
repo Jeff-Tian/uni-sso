@@ -28,7 +28,7 @@ spec:
         deployedBy: deploy-node-app
     spec:
       containers:
-        - image: 'jefftian/uni-sso:ae7e27d'
+        - image: 'jefftian/uni-sso:latest'
           imagePullPolicy: Always
           name: uni-sso
           env:
@@ -51,4 +51,3 @@ spec:
           envFrom: []
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
-

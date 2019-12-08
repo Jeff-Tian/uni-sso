@@ -22,10 +22,17 @@ describe('AppController (e2e)', () => {
       .expect('Hello World!');
   });
 
-  it('/login (POST)', () => {
-    return request(app.getHttpServer())
+  it('/login (POST) and /profile (GET)', async () => {
+    const res = await request(app.getHttpServer())
       .post('/auth/login')
       .send({ username: 'john', password: 'changeme' })
-      .expect(201).expect({ userId: 1, username: 'john' });
+      .expect(201).expect(/access_token/);
+
+    expect(res.body.access_token).toBeDefined();
+
+    const { body: profile } = await request(app.getHttpServer())
+      .get('/profile').set('Authorization', `Bearer ${res.body.access_token}`).expect(200);
+
+    expect(profile).toStrictEqual({ userId: 1, username: 'john' });
   });
 });
