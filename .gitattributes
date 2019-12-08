@@ -1,0 +1,6 @@
+*.ts text eol=lf
+*.json text eol=lf
+.prettierrc text eol=lf
+*.md text eol=lf
+.gitattributes text eol=lf
+.gitignore text eol=lf
