@@ -1,0 +1,31 @@
+language: node_js
+node_js:
+- 11.10.0
+services:
+- docker
+install:
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- npm i
+cache:
+  directories:
+  - node_modules
+env:
+  ci: true
+script:
+- npm test
+- npm run test:e2e
+- npm run build
+- docker build -t "$DOCKER_USERNAME"/uni-sso .
+- docker images
+- docker run -d -p 127.0.0.1:3000:3000 --name uni-sso "$DOCKER_USERNAME"/uni-sso
+- docker ps | grep -q uni-sso
+- docker push "$DOCKER_USERNAME"/uni-sso
+jobs:
+  include:
+  - stage: release
+    node_js: lts/*
+    deploy:
+    - provider: heroku
+      app: uni-sso
+      api_key:
+        secure: uhwbN7YRZ30iBKtGWCoRI4Zv3RJhHuwntnQo215+jrQLP99DLhGvPaQcSil+VS6E09yzgWfnjQDj5Di5nLpTXfAgOElwTP5411CjxupYbpjR/odg7r1w0d1gesHxbNZzZ978O7nvfT1vknPdxTbiCX41AEs+LswMPJTdW4lDJGKDE6JrjVF42SuA/ilH3TgXGCbK38Syd+ZtVdQCVrv3rr2YcPOpNB+3SSmun2k2QC2SDXsAlIu0X9YgBEGeDqlxdLNy9W7oDqQiRwWzItw208k95zib+1AzcdZGTTKwtO85cO9ZwbJWAF82n8b+rEKw9k6lD79HkZdINi1CabrmCCO/o15yYx6OsekQg5Fufk2bughdffyahrSHLwFKReveu77dMDY8YNz60rSI5KWinow4iP8gIPQQGnjHirV8bnQVFGPPUXRzccV6zsqR29+vls5baQ14s/Nn0qGxAuMG9spD/NtsmuUYWwVxWlD3W73t0YvhQxV8kGOacNnIzvvFr3zfyJtVgxEpHZbYe/yTNTNLvf/GzAHNOP+b+IJnVYIStviZunfdCwe9Y8sxnHtROzb+FqD86NDvXwV6FKyXjOKv+mEiu4ih8STWMNoCU+e4Q3Ea1Wmmjh5sbQ7EZRlE3MLsc7nOpVV03aXDC/F3dHDYl1Mkr+vd+UqA0JSq8es=

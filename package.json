@@ -17,7 +17,9 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "deploy": "npx deploy-node-app",
+    "update": "kubectl --context=\"kubesail-jeff-tian\" apply -k inf/prod"
   },
   "dependencies": {
     "@nestjs/common": "^6.7.2",
@@ -62,5 +64,17 @@
     },
     "coverageDirectory": "./coverage",
     "testEnvironment": "node"
+  },
+  "deploy-node-app": {
+    "prod": {
+      "context": "kubesail-jeff-tian",
+      "registry": "index.docker.io/v1/",
+      "type": "server",
+      "port": 3000,
+      "protocol": "https",
+      "entrypoint": "src\\main.ts",
+      "registryUsername": "jefftian",
+      "isPublic": true
+    }
   }
 }
