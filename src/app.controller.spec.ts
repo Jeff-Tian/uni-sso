@@ -19,4 +19,15 @@ describe('AppController', () => {
       expect(appController.getHello()).toBe('Hello World!');
     });
   });
+
+  describe('auth', () => {
+    it('should login successfully', async () => {
+      expect(await appController.login({
+        user: {
+          userId: 1,
+          username: 'john',
+        },
+      })).toStrictEqual({ userId: 1, username: 'john' });
+    });
+  });
 });
