@@ -19,14 +19,11 @@ script:
   - docker images
   - docker run -d -p 127.0.0.1:3000:3000 --name uni-sso "$DOCKER_USERNAME"/uni-sso
   - docker ps | grep -q uni-sso
-  - curl -X POST http://localhost:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json"
+  - curl -X POST http://127.0.0.1:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json"
   - docker push "$DOCKER_USERNAME"/uni-sso
-jobs:
-  include:
-    - stage: release
-      node_js: lts/*
-      deploy:
-        - provider: heroku
-          app: uni-sso
-          api_key:
-            secure: cQmd2MrBCkA17JXIhoWpaBX/9Q9qPsRgsIKRdiVo64EajbWQHYp9yQr1OGvBrqAm+uifEVarj87ngRni0AYU5wTJkHpbR5nQ0TYXhK51xgbibLREhaEKJhjPIlJ90DYPlDFee4v6k90/2qxFlXSth+u9OK9Kp9HalyPyvCIArQmA40n2w60ujwPmZHi2lu+hXSmBDOR+n6BgEi0oCRg621qYrPyOVp2Dx+fY6r9N467m3lOJL63MkF8jXxTcvMLi8LMM+FTr/fICSbq4onehEKH+RLU3EidGjCKwYTbeFYbj/o0L21YhFlBUf6qoEdrcsFYlJsS6Az/GTzkwWPDvMc05u1nYIY9PKwnWu7IAydtBOvrfdzNLNj2vGum1g19Il/ja02ZscBFkeh/z1go6iuuCFZRNxInsa3PN8IWyJycXis9+CGkSmnEiGwvgXKZ3nBznz9OIesE7L5RX/xoq0EZ8EkCp8BgJnbsrM2CjeY32M3ZI2ZY16Qpb8s3XvLQ8PPCLrkxcRq3AfxXNFrPHpaQKPOGHOyFkkaH6DNq1nCxchBvW1saCfoDS0jSu+gvvob1BVdBq04FvM11WAJ3JHDTsNZ4MaOnCLBNc3yFcAZsC8MYqyuZ4/rAPx0M4bKnzZAAtdasCr3+u4jvfMDmk6BZT8N1pfzE8+deQ+qPT8Oo=
+
+deploy:
+  - provider: heroku
+    app: uni-sso
+    api_key:
+      secure: cQmd2MrBCkA17JXIhoWpaBX/9Q9qPsRgsIKRdiVo64EajbWQHYp9yQr1OGvBrqAm+uifEVarj87ngRni0AYU5wTJkHpbR5nQ0TYXhK51xgbibLREhaEKJhjPIlJ90DYPlDFee4v6k90/2qxFlXSth+u9OK9Kp9HalyPyvCIArQmA40n2w60ujwPmZHi2lu+hXSmBDOR+n6BgEi0oCRg621qYrPyOVp2Dx+fY6r9N467m3lOJL63MkF8jXxTcvMLi8LMM+FTr/fICSbq4onehEKH+RLU3EidGjCKwYTbeFYbj/o0L21YhFlBUf6qoEdrcsFYlJsS6Az/GTzkwWPDvMc05u1nYIY9PKwnWu7IAydtBOvrfdzNLNj2vGum1g19Il/ja02ZscBFkeh/z1go6iuuCFZRNxInsa3PN8IWyJycXis9+CGkSmnEiGwvgXKZ3nBznz9OIesE7L5RX/xoq0EZ8EkCp8BgJnbsrM2CjeY32M3ZI2ZY16Qpb8s3XvLQ8PPCLrkxcRq3AfxXNFrPHpaQKPOGHOyFkkaH6DNq1nCxchBvW1saCfoDS0jSu+gvvob1BVdBq04FvM11WAJ3JHDTsNZ4MaOnCLBNc3yFcAZsC8MYqyuZ4/rAPx0M4bKnzZAAtdasCr3+u4jvfMDmk6BZT8N1pfzE8+deQ+qPT8Oo=
