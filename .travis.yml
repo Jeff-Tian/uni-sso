@@ -1,29 +1,27 @@
 language: node_js
 node_js:
-  - 11.10.0
+- 11.10.0
 services:
-  - docker
+- docker
 install:
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - npm i
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- npm i
 cache:
   directories:
-    - node_modules
+  - node_modules
 env:
   ci: true
 script:
-  - npm test
-  - npm run test:e2e
-  - npm run build
-  - docker build -t "$DOCKER_USERNAME"/uni-sso .
-  - docker images
-  - docker run -d -p 127.0.0.1:3000:3000 --name uni-sso "$DOCKER_USERNAME"/uni-sso
-  - docker ps | grep -q uni-sso
-  # - curl -X POST http://127.0.0.1:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json"
-  - docker push "$DOCKER_USERNAME"/uni-sso
-
+- npm test
+- npm run test:e2e
+- npm run build
+- docker build -t "$DOCKER_USERNAME"/uni-sso .
+- docker images
+- docker run -d -p 127.0.0.1:3000:3000 --name uni-sso "$DOCKER_USERNAME"/uni-sso
+- docker ps | grep -q uni-sso
+- docker push "$DOCKER_USERNAME"/uni-sso
 deploy:
-  - provider: heroku
-    app: uni-sso
-    api_key:
-      secure: cQmd2MrBCkA17JXIhoWpaBX/9Q9qPsRgsIKRdiVo64EajbWQHYp9yQr1OGvBrqAm+uifEVarj87ngRni0AYU5wTJkHpbR5nQ0TYXhK51xgbibLREhaEKJhjPIlJ90DYPlDFee4v6k90/2qxFlXSth+u9OK9Kp9HalyPyvCIArQmA40n2w60ujwPmZHi2lu+hXSmBDOR+n6BgEi0oCRg621qYrPyOVp2Dx+fY6r9N467m3lOJL63MkF8jXxTcvMLi8LMM+FTr/fICSbq4onehEKH+RLU3EidGjCKwYTbeFYbj/o0L21YhFlBUf6qoEdrcsFYlJsS6Az/GTzkwWPDvMc05u1nYIY9PKwnWu7IAydtBOvrfdzNLNj2vGum1g19Il/ja02ZscBFkeh/z1go6iuuCFZRNxInsa3PN8IWyJycXis9+CGkSmnEiGwvgXKZ3nBznz9OIesE7L5RX/xoq0EZ8EkCp8BgJnbsrM2CjeY32M3ZI2ZY16Qpb8s3XvLQ8PPCLrkxcRq3AfxXNFrPHpaQKPOGHOyFkkaH6DNq1nCxchBvW1saCfoDS0jSu+gvvob1BVdBq04FvM11WAJ3JHDTsNZ4MaOnCLBNc3yFcAZsC8MYqyuZ4/rAPx0M4bKnzZAAtdasCr3+u4jvfMDmk6BZT8N1pfzE8+deQ+qPT8Oo=
+  provider: heroku
+  app: uni-sso
+  api_key:
+    secure: vu1al+pwcEGjz1OxHTLpNgWjOExvALAYK2gLYgpP5AWWY0uW1Y9o5yjOC1a0OO+lbmzaINGEbSETWfMmw9T8186RCcQjcs49yABH5RbCyCI/xGCUfWRgzPdncI4Mlcg+WXDd/iA534zUxxy9nhnJbGfTwwUBWMiLMsmhM1WRtnULdxdp1nJ00qFX06xYDw3g/hAHAswwKzWofMWTEDvcumj0buDgJsaRBy53H9VWzLlpn+B+nnyjva0xdL1Ra4iFRqN/8kM96y3uwoiH//4exARM56crXwNFKk0zL9orPt7ouw0OznE/49j298ycSleDizs4hgOwNbrGek+FFF0aCgVvVpq1mXj840mXDsPSU8KK9dNHeaTxjVGyk8+YnJKSO9WLDsJxpODZi4u0AZBE7N4zSCQS3WQxBPyUA3hU/jxNrTwzDE7wotLzGCu1yTidJwBRYHKTlo/OUa2gjvDA+bB2Xmb6xuDutTiYQiiHYGoMN3vn6yPlx1/pJYJRuQe3cFr6+E5SErL06+3V4ZxkVo1TY153PnaGD//1u1xkPbFH8TNJjET9HKEZ/p96SmcLZ+ls+kHCwgSX2cqUcmn+U9H9ySHld6kJm1bhVElK0JPFzzSax07lFrXcsXcdhZksWsvC5wx38a0s3Y8aLCk7WkAyYBS6Eu9VYST8rdsr14c=
