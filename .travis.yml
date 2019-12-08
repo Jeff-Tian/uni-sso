@@ -1,25 +1,27 @@
 language: node_js
 node_js:
-- 11.10.0
+  - 11.10.0
 services:
-- docker
+  - docker
 install:
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-- npm i
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - npm i
 cache:
   directories:
-  - node_modules
+    - node_modules
 env:
   ci: true
 script:
-- npm test
-- npm run test:e2e
-- npm run build
-- docker build -t "$DOCKER_USERNAME"/uni-sso .
-- docker images
-- docker run -d -p 127.0.0.1:3000:3000 --name uni-sso "$DOCKER_USERNAME"/uni-sso
-- docker ps | grep -q uni-sso
-- docker push "$DOCKER_USERNAME"/uni-sso
+  - npm test
+  - npm run test:e2e
+  - npm run build
+  - docker build -t "$DOCKER_USERNAME"/uni-sso .
+  - docker images
+  - docker run -d -p 127.0.0.1:3000:3000 --name uni-sso "$DOCKER_USERNAME"/uni-sso
+  - docker ps | grep -q uni-sso
+  - docker push "$DOCKER_USERNAME"/uni-sso
+  - curl localhost:3000
+  - curl -X POST localhost:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json"
 deploy:
   provider: heroku
   app: uni-sso
