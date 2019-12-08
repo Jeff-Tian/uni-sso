@@ -20,4 +20,4 @@ RUN npm install --production --no-cache --no-audit
 
 COPY . /app/
 
-CMD ["node", "src/index.js"]
+CMD ["node", "dist/main.js"]
