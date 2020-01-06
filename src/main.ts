@@ -9,7 +9,7 @@ async function bootstrap() {
         /^http:\/\/localhost/,
         /^https:\/\/uni\-sso\.herokuapp\.com/,
       ],
-      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      methods: 'OPTIONS,GET,HEAD,PUT,PATCH,POST,DELETE',
       preflightContinue: false,
       optionsSuccessStatus: 204,
     },
