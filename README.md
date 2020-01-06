@@ -16,6 +16,12 @@ https://sso.jiwai.win
 
 This can be done through `npm run deploy` for the first time and `npm run update` afterwards.
 
+You need to be have already configured and switched to your kubesail context before you run `npm run deploy` or `npm run update`, for example using `k8ss`:
+
+```
+k8ss switch --cluster=kubesail --namespace=jeff-tian
+```
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>
