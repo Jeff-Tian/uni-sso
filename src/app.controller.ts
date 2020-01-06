@@ -1,11 +1,22 @@
-import { Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  Options,
+  Post,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService, private readonly authService: AuthService) { }
+  constructor(
+    private readonly appService: AppService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Get()
   getHello(): string {
@@ -22,5 +33,11 @@ export class AppController {
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
+  }
+
+  @Options('auth/login')
+  @HttpCode(204)
+  async options() {
+    return '';
   }
 }
