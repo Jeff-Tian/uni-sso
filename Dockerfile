@@ -21,3 +21,5 @@ RUN npm install --production --no-cache --no-audit
 COPY . /app/
 
 CMD ["node", "dist/main.js"]
+
+EXPOSE 3000

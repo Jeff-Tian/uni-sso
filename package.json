@@ -19,7 +19,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "deploy": "npx deploy-node-app",
-    "update": "kubectl --context=\"kubesail-jeff-tian\" apply -k inf/prod"
+    "update": "kubectl --context=\"kubesail-jeff-tian\" apply -k inf/prod",
+    "update-deployment": "kubectl --context=\"kubesail-jeff-tian\" apply -f inf/prod/deployment.yaml"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",
