@@ -1,0 +1,293 @@
+{
+  "type": "build",
+  "state": "done",
+  "image_reference": "jefftian/uni-sso",
+  "system": {
+    "type": "Linux",
+    "release": "4.9.184-linuxkit",
+    "os": "Debian GNU/Linux 9 (stretch)"
+  },
+  "source_image": {
+    "id": "sha256:b6184a8c076f68046aef81597e029f77402593328c400219f97178d4e368ce28",
+    "name": "jefftian/uni-sso:latest",
+    "size": 233916954,
+    "size_human": "234 MB",
+    "create_time": "2020-01-06T12:13:23Z",
+    "all_names": [
+      "jefftian/uni-sso:latest"
+    ],
+    "docker_version": "19.03.5",
+    "architecture": "amd64",
+    "user": "node",
+    "exposed_ports": [
+      "3000/tcp"
+    ]
+  },
+  "minified_image_size": 53905521,
+  "minified_image_size_human": "54 MB",
+  "minified_image": "jefftian/uni-sso.slim",
+  "minified_image_has_data": true,
+  "minified_by": 4.339387685354159,
+  "artifact_location": "/Users/jefftian/Downloads/dist_mac/.docker-slim-state/images/b6184a8c076f68046aef81597e029f77402593328c400219f97178d4e368ce28/artifacts",
+  "container_report_name": "creport.json",
+  "seccomp_profile_name": "jefftian-uni-sso-seccomp.json",
+  "apparmor_profile_name": "jefftian-uni-sso-apparmor-profile",
+  "image_stack": [
+    {
+      "is_top_image": false,
+      "id": "sha256:bc30bd2232129077a93ac4b119999a5132411d62f25c6fb2c2f450ac2900c8c5",
+      "full_name": "node:12-slim",
+      "repo_name": "node",
+      "version_tag": "12-slim",
+      "raw_tags": [
+        "node:12-slim"
+      ],
+      "create_time": "2019-12-28T23:36:52Z",
+      "new_size": 157370668,
+      "new_size_human": "157 MB",
+      "instructions": [
+        {
+          "type": "ADD",
+          "time": "2019-12-28T04:23:47Z",
+          "is_nop": true,
+          "is_local": false,
+          "size": 55340118,
+          "size_human": "55 MB",
+          "command_snippet": "ADD file:90a2c81769a336bed3f731f44a385f2a65b..."
+        },
+        {
+          "type": "CMD",
+          "time": "2019-12-28T04:23:47Z",
+          "is_nop": true,
+          "is_local": false,
+          "size": 0,
+          "command_snippet": "CMD [\"bash\"]"
+        },
+        {
+          "type": "RUN",
+          "time": "2019-12-28T23:33:14Z",
+          "is_nop": false,
+          "is_local": false,
+          "size": 333348,
+          "size_human": "333 kB",
+          "command_snippet": "RUN groupadd --gid 1000 node && \\\n\tuseradd -...",
+          "system_commands": [
+            "groupadd --gid 1000 node",
+            "useradd --uid 1000 --gid node --shell /bin/bash --create-home node"
+          ]
+        },
+        {
+          "type": "ENV",
+          "time": "2019-12-28T23:36:30Z",
+          "is_nop": true,
+          "is_local": false,
+          "size": 0,
+          "command_snippet": "ENV NODE_VERSION=12.14.0"
+        },
+        {
+          "type": "RUN",
+          "time": "2019-12-28T23:36:48Z",
+          "is_nop": false,
+          "is_local": false,
+          "size": 96214277,
+          "size_human": "96 MB",
+          "command_snippet": "RUN buildDeps='xz-utils' && \\\n\tARCH= && \\\n\td...",
+          "system_commands": [
+            "buildDeps='xz-utils'",
+            "ARCH=",
+            "dpkgArch=\"$(dpkg --print-architecture)\"",
+            "case \"${dpkgArch##*-}\" in       amd64) ARCH='x64';;       ppc64el) ARCH='ppc64le';;       s390x) ARCH='s390x';;       arm64) ARCH='arm64';;       armhf) ARCH='armv7l';;       i386) ARCH='x86';;       *) echo \"unsupported architecture\"; exit 1 ;;     esac",
+            "set -ex",
+            "apt-get update",
+            "apt-get install -y ca-certificates curl wget gnupg dirmngr $buildDeps --no-install-recommends",
+            "rm -rf /var/lib/apt/lists/*",
+            "for key in       94AE36675C464D64BAFA68DD7434390BDBE9B9C5       FD3A5288F042B6850C66B31F09FE44734EB7990E       71DCFD284A79C3B38668286BC97EC7A07EDE3FC1       DD8F2338BAE7501E3DD5AC78C273792F7D83545D       C4F0DFFF4E8C1A8236409D08E73BC641CC11F4C8       B9AE9905FFD7803F25714661B63B535A4C206CA9       77984A986EBC2AA786BC0F66B01FBB92821C587A       8FCCA13FEF1D0C2E91008E09770F7A9A5AE15600       4ED778F539E3634C779C87C6D7062848A1AB005C       A48C2BEE680E841632CD4E44F07496B3EB3C1762       B9E2F5981AA6E0CD28160D9FF13993A75599653C     ; do       gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys \"$key\" ||       gpg --batch --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys \"$key\" ||       gpg --batch --keyserver hkp://pgp.mit.edu:80 --recv-keys \"$key\" ;     done",
+            "curl -fsSLO --compressed \"https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-$ARCH.tar.xz\"",
+            "curl -fsSLO --compressed \"https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc\"",
+            "gpg --batch --decrypt --output SHASUMS256.txt SHASUMS256.txt.asc",
+            "grep \" node-v$NODE_VERSION-linux-$ARCH.tar.xz$\" SHASUMS256.txt | sha256sum -c -",
+            "tar -xJf \"node-v$NODE_VERSION-linux-$ARCH.tar.xz\" -C /usr/local --strip-components=1 --no-same-owner",
+            "rm \"node-v$NODE_VERSION-linux-$ARCH.tar.xz\" SHASUMS256.txt.asc SHASUMS256.txt",
+            "apt-get purge -y --auto-remove $buildDeps",
+            "ln -s /usr/local/bin/node /usr/local/bin/nodejs"
+          ]
+        },
+        {
+          "type": "ENV",
+          "time": "2019-12-28T23:36:48Z",
+          "is_nop": true,
+          "is_local": false,
+          "size": 0,
+          "command_snippet": "ENV YARN_VERSION=1.21.1"
+        },
+        {
+          "type": "RUN",
+          "time": "2019-12-28T23:36:52Z",
+          "is_nop": false,
+          "is_local": false,
+          "size": 5482809,
+          "size_human": "5.5 MB",
+          "command_snippet": "RUN set -ex && \\\n\tfor key in     6A010C51660...",
+          "system_commands": [
+            "set -ex",
+            "for key in     6A010C5166006599AA17F08146C2130DFD2497F5   ; do     gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys \"$key\" ||     gpg --batch --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys \"$key\" ||     gpg --batch --keyserver hkp://pgp.mit.edu:80 --recv-keys \"$key\" ;   done",
+            "curl -fsSLO --compressed \"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz\"",
+            "curl -fsSLO --compressed \"https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz.asc\"",
+            "gpg --batch --verify yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz",
+            "mkdir -p /opt",
+            "tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/",
+            "ln -s /opt/yarn-v$YARN_VERSION/bin/yarn /usr/local/bin/yarn",
+            "ln -s /opt/yarn-v$YARN_VERSION/bin/yarnpkg /usr/local/bin/yarnpkg",
+            "rm yarn-v$YARN_VERSION.tar.gz.asc yarn-v$YARN_VERSION.tar.gz"
+          ]
+        },
+        {
+          "type": "COPY",
+          "time": "2019-12-28T23:36:52Z",
+          "is_nop": true,
+          "is_local": false,
+          "size": 116,
+          "size_human": "116 B",
+          "command_snippet": "COPY file:238737301d47304174e4d24f4def935b29..."
+        },
+        {
+          "type": "ENTRYPOINT",
+          "time": "2019-12-28T23:36:52Z",
+          "is_nop": true,
+          "is_local": false,
+          "size": 0,
+          "command_snippet": "ENTRYPOINT [\"docker-entrypoint.sh\"]"
+        },
+        {
+          "type": "CMD",
+          "time": "2019-12-28T23:36:52Z",
+          "is_nop": true,
+          "is_local": true,
+          "intermediate_image_id": "sha256:bc30bd2232129077a93ac4b119999a5132411d62f25c6fb2c2f450ac2900c8c5",
+          "size": 0,
+          "command_snippet": "CMD [\"node\"]",
+          "raw_tags": [
+            "node:12-slim"
+          ]
+        }
+      ]
+    },
+    {
+      "is_top_image": true,
+      "id": "sha256:b6184a8c076f68046aef81597e029f77402593328c400219f97178d4e368ce28",
+      "full_name": "jefftian/uni-sso:latest",
+      "repo_name": "jefftian/uni-sso",
+      "version_tag": "latest",
+      "raw_tags": [
+        "jefftian/uni-sso:latest"
+      ],
+      "create_time": "2020-01-06T12:13:23Z",
+      "new_size": 76546286,
+      "new_size_human": "76 MB",
+      "base_image_id": "sha256:bc30bd2232129077a93ac4b119999a5132411d62f25c6fb2c2f450ac2900c8c5",
+      "instructions": [
+        {
+          "type": "WORKDIR",
+          "time": "2020-01-06T12:06:57Z",
+          "is_nop": true,
+          "is_local": true,
+          "intermediate_image_id": "sha256:627337fd5154855ffd54983318a35e275775d20bbd0b9277a1be9e3565bd660a",
+          "size": 0,
+          "command_snippet": "WORKDIR /app",
+          "system_commands": [
+            "mkdir -p /app"
+          ]
+        },
+        {
+          "type": "ENV",
+          "time": "2020-01-06T12:06:58Z",
+          "is_nop": true,
+          "is_local": true,
+          "intermediate_image_id": "sha256:a03ed453669ea67d24c7cfafea329ca41706fe6f430cde8a9c8b0da2161d54dd",
+          "size": 0,
+          "command_snippet": "ENV NODE_ENV=production"
+        },
+        {
+          "type": "RUN",
+          "time": "2020-01-06T12:07:29Z",
+          "is_nop": false,
+          "is_local": true,
+          "intermediate_image_id": "sha256:28fe97d471dc5446455f893f288b2f8e0acbe4c6d69a1455272b6f336b1a106a",
+          "size": 53848523,
+          "size_human": "54 MB",
+          "command_snippet": "RUN apt-get update && \\\n\tapt-get install -yq...",
+          "system_commands": [
+            "apt-get update",
+            "apt-get install -yqq nginx",
+            "sed -i 's/root /var/www/html/root /app/build/' /etc/nginx/sites-enabled/default",
+            "chown -R node /app /home/node /etc/nginx /var/log/nginx /var/lib/nginx /usr/share/nginx",
+            "rm -rf /var/lib/apt/lists/*"
+          ]
+        },
+        {
+          "type": "USER",
+          "time": "2020-01-06T12:07:30Z",
+          "is_nop": true,
+          "is_local": true,
+          "intermediate_image_id": "sha256:6885dc3a03806450539411e3cd607e0599f094f654f524da5a7eacb37862ef58",
+          "size": 0,
+          "command_snippet": "USER node"
+        },
+        {
+          "type": "COPY",
+          "time": "2020-01-06T12:07:30Z",
+          "is_nop": true,
+          "is_local": true,
+          "intermediate_image_id": "sha256:409bc824e068094a56d5f5df112513c8d251a56f448d7f75874d6ade7ef2763f",
+          "size": 404380,
+          "size_human": "404 kB",
+          "command_snippet": "COPY multi:3426331a11b998df3fcae66a8632a97d8..."
+        },
+        {
+          "type": "RUN",
+          "time": "2020-01-06T12:07:46Z",
+          "is_nop": false,
+          "is_local": true,
+          "intermediate_image_id": "sha256:2f57641c656e012f875a06a94c2efda7229e756adc1d58e5dc1d18e0070d0c09",
+          "size": 21378696,
+          "size_human": "21 MB",
+          "command_snippet": "RUN npm install --production --no-cache --no...",
+          "system_commands": [
+            "npm install --production --no-cache --no-audit"
+          ]
+        },
+        {
+          "type": "COPY",
+          "time": "2020-01-06T12:13:22Z",
+          "is_nop": true,
+          "is_local": true,
+          "intermediate_image_id": "sha256:06a0d3c8671cfed29ccc28529f123c52309571310e5d1702e99b8fb0e3894ab0",
+          "size": 914687,
+          "size_human": "915 kB",
+          "command_snippet": "COPY dir:ee78107ddd571a0e709e003de68b3f02053..."
+        },
+        {
+          "type": "CMD",
+          "time": "2020-01-06T12:13:23Z",
+          "is_nop": true,
+          "is_local": true,
+          "intermediate_image_id": "sha256:f4c85d6e13821b9ec799b629c871a407a24a9eab9073d831b378983b2600c5a9",
+          "size": 0,
+          "command_snippet": "CMD [\"node\" \"dist/main.js\"]"
+        },
+        {
+          "type": "EXPOSE",
+          "time": "2020-01-06T12:13:23Z",
+          "is_nop": true,
+          "is_local": true,
+          "intermediate_image_id": "sha256:b6184a8c076f68046aef81597e029f77402593328c400219f97178d4e368ce28",
+          "size": 0,
+          "command_snippet": "EXPOSE 3000",
+          "raw_tags": [
+            "jefftian/uni-sso:latest"
+          ]
+        }
+      ]
+    }
+  ]
+}
