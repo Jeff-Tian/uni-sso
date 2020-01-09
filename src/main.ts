@@ -5,8 +5,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: {
       origin: [
-        /\.jiwai\.win$/,
-        /\.pa-ca\.me$/,
+        /^https:\/\/[^.]+\.jiwai\.win/,
+        /^https:\/\/jiwai\.win/,
+        /^https:\/\/[^.]+\.pa-ca\.me/,
+        /^https:\/\/pa-ca\.me/,
         /^http:\/\/localhost/,
         /^https:\/\/uni-sso\.herokuapp\.com/,
         /^https:\/\/gatsby-sso\.netlify\.com/,
