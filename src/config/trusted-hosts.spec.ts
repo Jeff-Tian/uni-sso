@@ -1,5 +1,5 @@
-import { trustedHosts } from './main';
 import R from 'ramda';
+import { trustedHosts } from './trusted-hosts';
 
 describe('trusted hosts', () => {
   it('trusts', () => {
