@@ -4,6 +4,11 @@ node_js:
 services:
   - docker
 install:
+  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+  - chmod +x ./kubectl
+  - sudo mv ./kubectl /usr/local/bin/kubectl
+  - mkdir ${HOME}/.kube
+  - echo "$KUBE_CONFIG" | base64 --decode > ${HOME}/.kube/config
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - npm i
 cache:
@@ -12,6 +17,7 @@ cache:
 env:
   ci: true
 script:
+  - kubectl get pods
   - npm test
   - npm run test:e2e
   - npm run build
@@ -31,6 +37,7 @@ script:
   - docker push "$DOCKER_USERNAME"/uni-sso.slim
   - curl localhost:3000
   - curl -X POST localhost:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json"
+  - npm run update-deployment
 deploy:
   provider: heroku
   app: uni-sso

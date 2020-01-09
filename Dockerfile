@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -yqq nginx && \
 
 USER node
 
-COPY package.json yarn.lock package-lock.json /app/
+COPY package.json package-lock.json /app/
 
 RUN npm install --production --no-cache --no-audit
 
