@@ -3,6 +3,7 @@ node_js:
   - 11.10.0
 services:
   - docker
+  - mongodb
 install:
   - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
   - chmod +x ./kubectl
@@ -16,6 +17,9 @@ cache:
     - node_modules
 env:
   ci: true
+before_script:
+  - sleep 15
+  - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
 script:
   - kubectl get pods
   - npm test

@@ -14,13 +14,15 @@
     "start:prod": "node dist/main",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest --detectOpenHandles",
+    "test:windows": "bash test/mongo-up.sh&&npm run test",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "deploy": "npx deploy-node-app",
     "update": "kubectl --context=\"kubesail-jeff-tian\" apply -k inf/prod",
-    "update-deployment": "kubectl --context=\"kubesail-jeff-tian\" apply -f inf/prod/deployment.yaml"
+    "update-deployment": "kubectl --context=\"kubesail-jeff-tian\" apply -f inf/prod/deployment.yaml",
+    "tplant": "tplant --input src/**/*.model.ts --output models.svg"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",
@@ -29,17 +31,23 @@
     "@nestjs/jwt": "^6.1.1",
     "@nestjs/passport": "^6.1.1",
     "@nestjs/platform-express": "^6.7.2",
+    "@typegoose/typegoose": "^6.2.1",
+    "class-validator": "^0.11.0",
     "data.either": "^1.5.2",
     "dotenv": "^8.2.0",
+    "mongoose": "^5.8.7",
+    "nestjs-typegoose": "^7.0.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "ramda": "^0.26.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
-    "rxjs": "^6.5.3"
+    "rxjs": "^6.5.3",
+    "typegoose": "^5.9.1"
   },
   "devDependencies": {
+    "@jeff-tian/tplant": "^2.4.6",
     "@nestjs/cli": "^6.9.0",
     "@nestjs/schematics": "^6.7.0",
     "@nestjs/testing": "^6.7.1",
