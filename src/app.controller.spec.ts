@@ -1,10 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from './config/config.module';
-import { TypegooseModule } from 'nestjs-typegoose';
+import { getModelToken } from 'nestjs-typegoose';
+import { User } from './users/user.model';
+import { UsersService } from './users/users.service';
+import { AuthService } from './auth/auth.service';
+import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from './config/config.service';
 
 describe('AppController', () => {
@@ -13,26 +15,25 @@ describe('AppController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       imports: [
-        AuthModule,
-        UsersModule,
         ConfigModule,
-        TypegooseModule.forRootAsync({
+        JwtModule.registerAsync({
           imports: [ConfigModule],
           useFactory: async (configService: ConfigService) => {
-            // tslint:disable-next-line:no-console
-            console.log('env = ', process.env.NODE_ENV);
-            // tslint:disable-next-line:no-console
-            console.log('mongo = , ', configService.get('JWT_SECRET'));
-
             return {
-              uri: configService.get('MONGODB_URI'),
+              secret: configService.get('JWT_SECRET'),
+              signOptions: { expiresIn: '60s' },
             };
           },
           inject: [ConfigService],
         }),
       ],
       controllers: [AppController],
-      providers: [AppService],
+      providers: [
+        { provide: getModelToken('User'), useValue: User },
+        UsersService,
+        AuthService,
+        AppService,
+      ],
     }).compile();
 
     appController = app.get<AppController>(AppController);

@@ -1,10 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
-import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '../config/config.service';
-import { TypegooseModule } from 'nestjs-typegoose';
+import { getModelToken } from 'nestjs-typegoose';
+import { User } from '../users/user.model';
+import { UsersService } from '../users/users.service';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -18,21 +19,18 @@ describe('AuthService', () => {
 
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        UsersModule,
         ConfigModule,
         JwtModule.register({
           secret: config.get('JWT_SECRET'),
           signOptions: { expiresIn: '60s' },
         }),
-        TypegooseModule.forRootAsync({
-          imports: [ConfigModule],
-          useFactory: async (configService: ConfigService) => ({
-            uri: configService.get('MONGODB_URI'),
-          }),
-          inject: [ConfigService],
-        }),
       ],
-      providers: [AuthService, ConfigService],
+      providers: [
+        { provide: getModelToken('User'), useValue: User },
+        UsersService,
+        AuthService,
+        ConfigService,
+      ],
     }).compile();
 
     service = module.get<AuthService>(AuthService);
