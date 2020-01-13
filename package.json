@@ -14,6 +14,7 @@
     "start:prod": "node dist/main",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest --detectOpenHandles",
+    "test:local": "sh test/mongo-up.sh&&jest --detectOpenHandles",
     "test:windows": "bash test/mongo-up.sh&&npm run test",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
