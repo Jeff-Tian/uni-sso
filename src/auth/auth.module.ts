@@ -10,7 +10,7 @@ import { ConfigModule } from '../config/config.module';
 @Module({
   imports: [UsersModule, ConfigModule, PassportModule.register({ defaultStrategy: 'jwt' }), JwtModule.register({
     secret: 'secret',
-    signOptions: { expiresIn: '60s' },
+    signOptions: { expiresIn: '7200s' },
   })],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   exports: [AuthService],
