@@ -2,6 +2,7 @@ import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import { AppModule } from './../src/app.module';
+import { sleep } from '@jeff-tian/sleep';
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
@@ -13,6 +14,16 @@ describe('AppController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+  });
+
+  afterEach(async () => {
+    await app.close();
+  });
+
+  // https://github.com/visionmedia/supertest/issues/520#issuecomment-579291801
+  // For eliminate the testing hang up
+  afterAll(async () => {
+    await sleep(500);
   });
 
   it('/ (GET)', () => {
@@ -40,9 +51,11 @@ describe('AppController (e2e)', () => {
   });
 
   it('allows options request for /auth/login', async () => {
-    await request(app.getHttpServer())
+    const { body } = await request(app.getHttpServer())
       .options('/auth/login')
-      .expect(204);
+      .expect(204)
+      .expect('');
+
+    expect(body).toEqual({});
   });
 });
-

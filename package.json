@@ -19,7 +19,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:e2e": "jest --config ./test/jest-e2e.json --detectOpenHandles --forceExit",
     "deploy": "npx deploy-node-app",
     "update": "kubectl --context=\"kubesail-jeff-tian\" apply -k inf/prod",
     "update-deployment": "kubectl --context=\"kubesail-jeff-tian\" apply -f inf/prod/deployment.yaml",
@@ -49,6 +49,7 @@
     "typegoose": "^5.9.1"
   },
   "devDependencies": {
+    "@jeff-tian/sleep": "^1.0.0",
     "@jeff-tian/tplant": "^2.4.6",
     "@nestjs/cli": "^6.9.0",
     "@nestjs/schematics": "^6.7.0",
