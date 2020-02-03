@@ -10,7 +10,7 @@ import path from 'path';
       useValue: new ConfigService(
         process.env.NODE_ENV === 'production' ?
           '/etc/uni-sso-config' :
-          path.join(__dirname, `${process.env.NODE_ENV || 'development'}.env`),
+          path.join(__dirname, '../../config', `${process.env.NODE_ENV || 'development'}.env`),
       ),
     },
   ],

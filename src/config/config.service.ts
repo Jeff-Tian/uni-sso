@@ -9,9 +9,9 @@ const schema = {
   NODE_ENV: Joi.string()
     .valid('development', 'production', 'test', 'stage')
     .default('development'),
-  PORT: Joi.number().required().default(3000),
-  JWT_SECRET: Joi.string().required().default('secret'),
-  MONGODB_URI: Joi.string().required().default('mongo://localhost:27017'),
+  PORT: Joi.number().default(3000),
+  JWT_SECRET: Joi.string().default('secret'),
+  MONGODB_URI: Joi.string().default('mongodb://localhost:27017'),
 };
 
 const safeRead = filePath =>
@@ -24,6 +24,8 @@ export class ConfigService {
 
   constructor(filePath: string) {
     this.envConfig = R.compose(this.validateInput, safeRead)(filePath);
+    // tslint:disable-next-line: no-console
+    console.log('config = ', this.envConfig, filePath);
   }
 
   get(key: string): string {
