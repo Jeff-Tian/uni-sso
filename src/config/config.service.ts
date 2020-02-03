@@ -33,9 +33,6 @@ export class ConfigService {
   }
 
   private validateInput(envConfig: EnvConfig): EnvConfig {
-    // tslint:disable-next-line:no-console
-    console.log('envConfig = ', envConfig);
-
     const envVarsSchema: Joi.ObjectSchema = Joi.object(schema);
 
     const { error, value: validatedEnvConfig } = envVarsSchema.validate(

@@ -1,2 +1,0 @@
-echo 'hello'
-docker images

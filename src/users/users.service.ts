@@ -22,4 +22,3 @@ export class UsersService {
         return await createdUser.save();
     }
 }
-

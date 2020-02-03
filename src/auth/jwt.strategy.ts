@@ -14,6 +14,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     async validate(payload: any) {
+        // tslint:disable-next-line: no-console
+        console.log('validate ', payload)
         return { userId: payload.sub, username: payload.username };
     }
 }
