@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
@@ -49,5 +49,13 @@ spec:
             - node
             - dist/main.js
           envFrom: []
+          volumeMounts:
+            - name: uni-sso-config
+              mountPath: '/etc/uni-sso-config'
+              readOnly: true
+      volumes:
+        - name: uni-sso-config
+          configMap:
+            name: uni-sso-config
       restartPolicy: Always
       terminationGracePeriodSeconds: 30

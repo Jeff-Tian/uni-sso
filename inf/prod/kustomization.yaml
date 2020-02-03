@@ -1,4 +1,8 @@
 bases: []
 resources:
   - deployment.yaml
-  - service.yaml
+  # - service.yaml
+configMapGenerator:
+  - name: uni-sso-config
+    files:
+      - config/production.env

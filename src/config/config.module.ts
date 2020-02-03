@@ -8,10 +8,12 @@ import path from 'path';
     {
       provide: ConfigService,
       useValue: new ConfigService(
-        path.join(__dirname, `${process.env.NODE_ENV || 'development'}.env`),
+        process.env.NODE_ENV === 'production' ?
+          '/etc/uni-sso-config' :
+          path.join(__dirname, `${process.env.NODE_ENV || 'development'}.env`),
       ),
     },
   ],
   exports: [ConfigService],
 })
-export class ConfigModule {}
+export class ConfigModule { }

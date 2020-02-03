@@ -23,8 +23,6 @@ export class ConfigService {
   private readonly envConfig: EnvConfig;
 
   constructor(filePath: string) {
-    // tslint:disable-next-line:no-console
-    console.log('filePath = ', filePath);
     this.envConfig = R.compose(this.validateInput, safeRead)(filePath);
   }
 

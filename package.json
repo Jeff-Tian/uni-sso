@@ -23,7 +23,8 @@
     "deploy": "npx deploy-node-app",
     "update": "kubectl --context=\"kubesail-jeff-tian\" apply -k inf/prod",
     "update-deployment": "kubectl --context=\"kubesail-jeff-tian\" apply -f inf/prod/deployment.yaml",
-    "tplant": "tplant --input src/**/*.model.ts --output models.svg"
+    "tplant": "tplant --input src/**/*.model.ts --output models.svg",
+    "kubesail": "k8ss switch --cluster=kubesail --namespace=jeff-tian"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",
