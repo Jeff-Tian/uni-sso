@@ -30,8 +30,8 @@ script:
   - docker run -d -p 127.0.0.1:3000:3000 --name uni-sso "$DOCKER_USERNAME"/uni-sso
   - docker ps | grep -q uni-sso
   - docker push "$DOCKER_USERNAME"/uni-sso
-  - curl 127.0.0.1:3000
-  - curl -X POST 127.0.0.1:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json"
+  - curl localhost:3000
+  - curl -X POST localhost:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json"
   - docker kill uni-sso || echo "uni-sso killed"
   - docker rm uni-sso || echo "uni-sso removed"
   - docker-slim/docker-slim build "$DOCKER_USERNAME"/uni-sso
@@ -39,8 +39,8 @@ script:
   - docker run -d -p 127.0.0.1:3000:3000 --name uni-sso.slim "$DOCKER_USERNAME"/uni-sso.slim
   - docker ps | grep -q uni-sso.slim
   - docker push "$DOCKER_USERNAME"/uni-sso.slim
-  - curl 127.0.0.1:3000
-  - curl -X POST 127.0.0.1:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json"
+  - curl localhost:3000
+  - curl -X POST localhost:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json"
   - npm run update-deployment
 deploy:
   provider: heroku

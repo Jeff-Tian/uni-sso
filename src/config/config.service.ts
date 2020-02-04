@@ -10,8 +10,8 @@ const schema = {
     .valid('development', 'production', 'test', 'stage')
     .default('development'),
   PORT: Joi.number().default(3000),
-  JWT_SECRET: Joi.string().default('secret'),
-  MONGODB_URI: Joi.string().default('mongodb://localhost:27017'),
+  JWT_SECRET: Joi.string().default('jwt_secret'),
+  MONGODB_URI: Joi.string().default('mongodb://host.docker.internal:27017'),
 };
 
 const safeRead = filePath =>
@@ -23,7 +23,8 @@ export class ConfigService {
   private readonly envConfig: EnvConfig;
 
   constructor(filePath: string) {
-    this.envConfig = R.compose(this.validateInput, safeRead)(filePath);
+    // tslint:disable-next-line: no-console
+    this.envConfig = R.compose(this.validateInput, R.tap(console.log), safeRead)(filePath);
     // tslint:disable-next-line: no-console
     console.log('config = ', this.envConfig, filePath);
   }
