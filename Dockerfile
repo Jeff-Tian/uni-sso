@@ -5,6 +5,7 @@ FROM node:12-slim
 WORKDIR /app
 
 ENV NODE_ENV="production"
+ENV MONGODB_URI="mongodb://heroku_x4zxzzqv:uc3623e0a9bc6qjgkkmvtra8rv@ds035167.mlab.com:35167/heroku_x4zxzzqv"
 
 # Add common build deps
 RUN apt-get update && apt-get install -yqq nginx && \
