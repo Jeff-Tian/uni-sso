@@ -27,7 +27,7 @@ script:
   - npm run build
   - docker build -t "$DOCKER_USERNAME"/uni-sso .
   - docker images
-  - docker run -d -p 127.0.0.1:3000:3000 --name uni-sso "$DOCKER_USERNAME"/uni-sso
+  - docker run -d -p 127.0.0.1:3000:3000 --name uni-sso "$DOCKER_USERNAME"/uni-sso -e MONGODB_URI
   - docker ps | grep -q uni-sso
   - docker ps -aqf "name=uni-sso$"
   - docker push "$DOCKER_USERNAME"/uni-sso
