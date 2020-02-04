@@ -1,6 +1,6 @@
+import Joi from '@hapi/joi';
 import dotenv from 'dotenv';
 import fs from 'fs';
-import Joi from '@hapi/joi';
 import R, { pick } from 'ramda';
 
 export type EnvConfig = Record<string, string>;
@@ -16,7 +16,8 @@ const schema = {
 
 const safeRead = filePath =>
   fs.existsSync(filePath)
-    ? R.compose(dotenv.parse, fs.readFileSync)(filePath)
+    // tslint:disable-next-line: no-console
+    ? R.compose(dotenv.parse, R.tap(console.log), fs.readFileSync)(filePath)
     : pick(Object.keys(schema), process.env);
 
 export class ConfigService {
