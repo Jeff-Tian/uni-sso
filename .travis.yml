@@ -30,7 +30,7 @@ script:
   - docker run -d -p 127.0.0.1:3000:3000 --name uni-sso "$DOCKER_USERNAME"/uni-sso
   - docker ps | grep -q uni-sso
   - docker ps -aqf "name=uni-sso$"
-  - docker logs "$(docker ps -aqf \"name=uni-sso$\")"
+  - docker logs $(docker ps -aqf name=uni-sso$)
   - docker push "$DOCKER_USERNAME"/uni-sso
   - curl localhost:3000
   - curl -X POST localhost:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json"
