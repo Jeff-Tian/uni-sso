@@ -20,11 +20,12 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json --detectOpenHandles --forceExit",
-    "deploy": "npx deploy-node-app",
-    "update": "kubectl --context=\"kubesail-jeff-tian\" apply -k inf/prod",
-    "update-deployment": "kubectl --context=\"kubesail-jeff-tian\" apply -f inf/prod/deployment.yaml",
+    "deploy": "npx deploy-node-app&&kubectl apply -f okteto/k8s.yml",
+    "update": "kubectl --context=\"kubesail-jeff-tian\" apply -k inf/prod&&kubectl --context=\"cloud_okteto_com\" apply -f okteto/k8s.yml",
+    "update-deployment": "kubectl --context=\"kubesail-jeff-tian\" apply -f inf/prod/deployment.yaml&&kubectl --context=\"cloud_okteto_com\" apply -f okteto/k8s.yml",
     "tplant": "tplant --input src/**/*.model.ts --output models.svg",
-    "kubesail": "k8ss switch --cluster=kubesail --namespace=jeff-tian"
+    "kubesail": "k8ss switch --cluster=kubesail --namespace=jeff-tian",
+    "k8ss:okteto": "k8ss switch --cluster=okteto --namespace=jeff-tian"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",

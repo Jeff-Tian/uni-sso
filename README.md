@@ -4,6 +4,14 @@
 
 ## Deployments
 
+This project's Travis CI will deploy it to 3 PaaS platforms. To make it deploy to KubeSail and Okteto successfully, you need to base64 encrypt the kubenetes config file and save it as a environment variable in Travis CI:
+
+- Windows
+
+  ```dos
+  certutil.exe -encodehex ..\k8s-config\okteto\config .\okteto\config 1 && type .\okteto\config | clip.exe
+  ```
+
 ### Heroku
 
 https://uni-sso.herokuapp.com/
@@ -18,9 +26,13 @@ This can be done through `npm run deploy` for the first time and `npm run update
 
 You need to be have already configured and switched to your kubesail context before you run `npm run deploy` or `npm run update`, for example using `k8ss`:
 
-```
+```shell
 k8ss switch --cluster=kubesail --namespace=jeff-tian
 ```
+
+### Okteto
+
+https://uni-sso-jeff-tian.cloud.okteto.net/
 
 <p align="center">
   <a href="https://sso-jiwai.win/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt

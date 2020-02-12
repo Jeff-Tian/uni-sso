@@ -43,7 +43,10 @@ script:
   - docker push "$DOCKER_USERNAME"/uni-sso.slim
   - curl localhost:3000 || docker logs $(docker ps -aqf name=uni-sso\.slim$)
   - curl -X POST localhost:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json" || docker logs $(docker ps -aqf name=uni-sso\.slim$)
-  - npm run update-deployment
+  - kubectl --context=\"kubesail-jeff-tian\" apply -f inf/prod/deployment.yaml
+  - rm ${HOME}/.kube/config
+  - echo "$OKTETO_CONFIG" | base64 --decode > ${HOME}/.kube/config
+  - kubectl --context=\"cloud_okteto_com\" apply -f okteto/k8s.yml
 deploy:
   provider: heroku
   app: uni-sso

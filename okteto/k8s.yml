@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uni-sso
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: uni-sso
+  template:
+    metadata:
+      labels:
+        app: uni-sso
+    spec:
+      containers:
+        - image: 'jefftian/uni-sso:latest'
+          name: uni-sso
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: uni-sso
+  annotations:
+    dev.okteto.com/auto-ingress: 'true'
+spec:
+  type: ClusterIP
+  ports:
+    - name: 'uni-sso'
+      port: 3000
+  selector:
+    app: uni-sso
