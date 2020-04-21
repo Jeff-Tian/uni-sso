@@ -12,6 +12,8 @@ install:
   - echo "$KUBE_CONFIG" | base64 --decode > ${HOME}/.kube/config
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - npm i
+  - npm i -g k8ss
+  - git clone git@github.com:Jeff-Tian/k8s-config.git ${HOME}/k8s-config
 cache:
   directories:
     - node_modules
@@ -43,9 +45,11 @@ script:
   - docker push "$DOCKER_USERNAME"/uni-sso.slim
   - curl localhost:3000 || docker logs $(docker ps -aqf name=uni-sso\.slim$)
   - curl -X POST localhost:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json" || docker logs $(docker ps -aqf name=uni-sso\.slim$)
+  - k8ss switch --cluster=kubesail --namespace=jeff-tian
   - kubectl apply -f inf/prod/deployment.yaml
   - rm ${HOME}/.kube/config
   - echo "$OKTETO_CONFIG" | base64 --decode > ${HOME}/.kube/config
+  - k8ss switch --cluster=okteto --namespace=jeff-tian
   - kubectl apply -f okteto/k8s.yml
 deploy:
   provider: heroku
