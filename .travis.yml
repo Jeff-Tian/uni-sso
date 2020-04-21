@@ -15,6 +15,7 @@ install:
   - npm i -g k8ss
   - ls ${HOME}/.ssh
   - cat ${HOME}/.ssh/config
+  - echo "$ID_RSA" | base64 --decode > ${HOME}/.ssh/id_rsa
   - git clone git@github.com:Jeff-Tian/k8s-config.git ${HOME}/k8s-config
 cache:
   directories:
