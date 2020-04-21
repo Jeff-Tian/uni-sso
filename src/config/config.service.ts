@@ -12,12 +12,13 @@ const schema = {
   PORT: Joi.number().default(3000),
   JWT_SECRET: Joi.string().default('jwt_secret'),
   MONGODB_URI: Joi.string().default('mongodb://host.docker.internal:27017'),
+  env: Joi.string(),
 };
 
 const safeRead = filePath =>
   fs.existsSync(filePath)
-    // tslint:disable-next-line: no-console
-    ? R.compose(dotenv.parse, R.tap(console.log), fs.readFileSync)(filePath)
+    ? // tslint:disable-next-line: no-console
+      R.compose(dotenv.parse, R.tap(console.log), fs.readFileSync)(filePath)
     : pick(Object.keys(schema), process.env);
 
 export class ConfigService {
@@ -25,7 +26,11 @@ export class ConfigService {
 
   constructor(filePath: string) {
     // tslint:disable-next-line: no-console
-    this.envConfig = R.compose(this.validateInput, R.tap(console.log), safeRead)(filePath);
+    this.envConfig = R.compose(
+      this.validateInput,
+      R.tap(console.log),
+      safeRead,
+    )(filePath);
     // tslint:disable-next-line: no-console
     console.log('config = ', this.envConfig, filePath);
   }

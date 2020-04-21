@@ -4,7 +4,8 @@
 
 ## Deployments
 
-This project's Travis CI will deploy it to 3 PaaS platforms. To make it deploy to KubeSail and Okteto successfully, you need to base64 encrypt the kubenetes config file and save it as a environment variable in Travis CI:
+This project's Travis CI will deploy it to 3 PaaS platforms. To make it deploy to KubeSail and Okteto successfully
+, you need to base64 encrypt the kubernetes config file and save it as a environment variable in Travis CI:
 
 - Windows
 
@@ -101,17 +102,3 @@ $ npm run test:cov
 ## Models
 
 ![Models](./models.svg)
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).

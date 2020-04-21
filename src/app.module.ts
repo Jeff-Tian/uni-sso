@@ -19,4 +19,3 @@ import { ConfigService } from './config/config.service';
   providers: [AppService],
 })
 export class AppModule { }
-

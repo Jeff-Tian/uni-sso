@@ -57,4 +57,12 @@ describe('AppController', () => {
       expect(res.access_token).toBeDefined();
     });
   });
+
+  describe('config', () => {
+    it('should show config', async () => {
+      const res = await appController.getConfig();
+
+      expect(res).toEqual('test');
+    });
+  });
 });

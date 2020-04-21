@@ -16,11 +16,16 @@ export class AppController {
   constructor(
     private readonly appService: AppService,
     private readonly authService: AuthService,
-  ) { }
+  ) {}
 
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @Get('/config')
+  getConfig(): string {
+    return this.appService.getConfig();
   }
 
   @UseGuards(AuthGuard('local'))
