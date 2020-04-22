@@ -48,7 +48,11 @@ https://uni-sso-jeff-tian.cloud.okteto.net/
 Secrets maintained in a separate private project: https://github.com/Jeff-Tian/uni-sso-secrets
 
 It's mainly a `secrets.yml` that can be applied to kubernetes cluster. In heroku, they are just configurable
- environment variables.
+environment variables.
+
+## Clients
+
+- https://sso.pa-ca.me/
 
 ## Installation
 
