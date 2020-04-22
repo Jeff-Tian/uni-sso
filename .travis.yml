@@ -23,7 +23,6 @@ before_script:
   - sleep 15
   - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
 script:
-  - kubectl get pods
   - npm test
   - npm run test:e2e
   - npm run build
@@ -46,7 +45,7 @@ script:
   - curl localhost:3000 || docker logs $(docker ps -aqf name=uni-sso\.slim$)
   - curl -X POST localhost:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json" || docker logs $(docker ps -aqf name=uni-sso\.slim$)
   - k8ss switch --cluster=kubesail --namespace=jeff-tian
-  - kubectl apply -k inf/prod/kustomization.yaml
+  - kubectl apply -f inf/prod/kustomization.yaml
   - k8ss switch --cluster=okteto --namespace=jeff-tian
   - kubectl apply -f okteto/k8s.yml
 deploy:
