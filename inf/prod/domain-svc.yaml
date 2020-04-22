@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: domain-ingress
+spec:
+  rules:
+    - host: sso.jiwai.win
+      http:
+        paths:
+          - backend:
+              serviceName: uni-sso
+              servicePort: 3000
+  tls:
+    - hosts:
+        - sso.jiwai.win
+      secretName: sso-jiwai-win
