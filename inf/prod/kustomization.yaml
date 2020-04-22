@@ -2,4 +2,4 @@ bases: []
 resources:
   - deployment.yaml
   - configmap.yaml
-  # - service.yaml
+  - service.yaml
