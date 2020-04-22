@@ -2,6 +2,8 @@
 
 > SSO, once and for all
 
+[![Build Status](https://travis-ci.com/Jeff-Tian/uni-sso.svg?branch=master)](https://travis-ci.com/Jeff-Tian/uni-sso)
+
 ## Deployments
 
 This project's Travis CI will deploy it to 3 PaaS platforms. To make it deploy to KubeSail and Okteto successfully
@@ -12,11 +14,11 @@ This project's Travis CI will deploy it to 3 PaaS platforms. To make it deploy t
 ```dos
 certutil.exe -encodehex ..\k8s-config\okteto\config .\okteto\config 1 && type .\okteto\config | clip.exe
 ```
-  
+
 - macOS
 
 ```shell
-cat ~/k8s-config/kubesail/config | base64 | pbcopy 
+cat ~/k8s-config/kubesail/config | base64 | pbcopy
 ```
 
 ### Heroku

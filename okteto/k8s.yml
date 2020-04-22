@@ -30,3 +30,16 @@ spec:
       port: 3000
   selector:
     app: uni-sso
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: uni-sso-configmap
+  namespace: jeff-tian
+  labels:
+    branch: master
+data:
+  JWT_SECRET: 'okteto'
+  MONGODB_URI: ''
+  env: 'okteto'
