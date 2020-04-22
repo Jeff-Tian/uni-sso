@@ -45,7 +45,7 @@ script:
   - curl localhost:3000 || docker logs $(docker ps -aqf name=uni-sso\.slim$)
   - curl -X POST localhost:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json" || docker logs $(docker ps -aqf name=uni-sso\.slim$)
   - k8ss switch --cluster=kubesail --namespace=jeff-tian
-  - kubectl apply -f inf/prod/kustomization.yaml
+  - kubectl apply -k inf/prod
   - k8ss switch --cluster=okteto --namespace=jeff-tian
   - kubectl apply -f okteto/k8s.yml
 deploy:
