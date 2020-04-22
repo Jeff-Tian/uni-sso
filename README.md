@@ -52,7 +52,8 @@ environment variables.
 
 ## Clients
 
-- https://sso.pa-ca.me/
+- https://sso.pa-ca.me/ (Direct, or uni-sso's pure front-end)
+- https://pa-ca.me (Indirect, will redirect to https://sso.pa-ca.me to redirect back)
 
 ## Installation
 
