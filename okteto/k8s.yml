@@ -15,6 +15,12 @@ spec:
       containers:
         - image: 'jefftian/uni-sso:latest'
           name: uni-sso
+          env:
+            - name: env
+              valueFrom:
+                configMapKeyRef:
+                  name: uni-sso-configmap
+                  key: env
 
 ---
 apiVersion: v1

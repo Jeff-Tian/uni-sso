@@ -28,6 +28,7 @@ export class ConfigService {
     // tslint:disable-next-line: no-console
     this.envConfig = R.compose(
       this.validateInput,
+      // tslint:disable-next-line:no-console
       R.tap(console.log),
       safeRead,
     )(filePath);
