@@ -10,4 +10,4 @@ spec:
       protocol: TCP
       targetPort: 3000
   selector:
-    app: nginx
+    app: uni-sso
