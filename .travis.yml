@@ -9,7 +9,6 @@ install:
   - chmod +x ./kubectl
   - sudo mv ./kubectl /usr/local/bin/kubectl
   - mkdir ${HOME}/.kube
-  - echo "$KUBE_CONFIG" | base64 --decode > ${HOME}/.kube/config
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - npm i
   - npm i -g k8ss
@@ -47,9 +46,7 @@ script:
   - curl localhost:3000 || docker logs $(docker ps -aqf name=uni-sso\.slim$)
   - curl -X POST localhost:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json" || docker logs $(docker ps -aqf name=uni-sso\.slim$)
   - k8ss switch --cluster=kubesail --namespace=jeff-tian
-  - kubectl apply -f inf/prod/deployment.yaml
-  - rm ${HOME}/.kube/config
-  - echo "$OKTETO_CONFIG" | base64 --decode > ${HOME}/.kube/config
+  - kubectl apply -k inf/prod/kustomization.yaml
   - k8ss switch --cluster=okteto --namespace=jeff-tian
   - kubectl apply -f okteto/k8s.yml
 deploy:

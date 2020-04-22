@@ -21,6 +21,16 @@ spec:
                 configMapKeyRef:
                   name: uni-sso-configmap
                   key: env
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: uni-sso-secrets
+                  key: JWT_SECRET
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: uni-sso-secrets
+                  key: MONGODB_URI
 
 ---
 apiVersion: v1
@@ -46,6 +56,5 @@ metadata:
   labels:
     branch: master
 data:
-  JWT_SECRET: 'okteto'
-  MONGODB_URI: ''
   env: 'okteto'
+  NODE_ENV: 'production'

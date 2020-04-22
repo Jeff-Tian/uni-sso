@@ -34,6 +34,21 @@ spec:
           env:
             - name: GET_HOSTS_FROM
               value: dns
+            - name: env
+              valueFrom:
+                configMapKeyRef:
+                  name: uni-sso-configmap
+                  key: env
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: uni-sso-secrets
+                  key: JWT_SECRET
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: uni-sso-secrets
+                  key: MONGODB_URI
           ports:
             - containerPort: 3000
               name: http
@@ -48,14 +63,3 @@ spec:
           command:
             - node
             - dist/main.js
-          envFrom: []
-          volumeMounts:
-            - name: uni-sso-config
-              mountPath: '/etc/uni-sso-config'
-              readOnly: true
-      volumes:
-        - name: uni-sso-config
-          configMap:
-            name: uni-sso-config
-      restartPolicy: Always
-      terminationGracePeriodSeconds: 30
