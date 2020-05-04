@@ -13,6 +13,7 @@ const schema = {
   JWT_SECRET: Joi.string().default('jwt_secret'),
   MONGODB_URI: Joi.string().default('mongodb://host.docker.internal:27017'),
   env: Joi.string(),
+  KEYCLOAK_CLIENT_ID: Joi.string(),
 };
 
 const safeRead = filePath =>

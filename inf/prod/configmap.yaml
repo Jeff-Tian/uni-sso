@@ -8,3 +8,4 @@ metadata:
 data:
   env: 'kubesail'
   NODE_ENV: 'production'
+  KEYCLOAK_CLIENT_ID: 'UniHeart-Client'
