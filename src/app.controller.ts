@@ -4,6 +4,7 @@ import {
   HttpCode,
   Options,
   Post,
+  Req,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -16,7 +17,8 @@ export class AppController {
   constructor(
     private readonly appService: AppService,
     private readonly authService: AuthService,
-  ) {}
+  ) {
+  }
 
   @Get()
   getHello(): string {
@@ -37,6 +39,18 @@ export class AppController {
   @UseGuards(AuthGuard('jwt'))
   @Get('profile')
   getProfile(@Request() req) {
+    return req.user;
+  }
+
+  @UseGuards(AuthGuard('keycloak'))
+  @Post('keycloak/login')
+  async getKeycloakToken(@Request() req) {
+    return { access_token: '123' };
+  }
+
+  @UseGuards(AuthGuard('keycloak'))
+  @Get('keycloak/profile')
+  getKeycloakProfile(@Request() req) {
     return req.user;
   }
 
