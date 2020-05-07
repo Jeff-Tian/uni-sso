@@ -14,7 +14,6 @@ spec:
   selector:
     matchLabels:
       app: uni-sso
-      tier: backend
   strategy:
     rollingUpdate:
       maxSurge: 1

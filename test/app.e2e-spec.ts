@@ -47,7 +47,10 @@ describe('AppController (e2e)', () => {
   it('/login (POST) and /profile (GET)', async () => {
     const res = await request(app.getHttpServer())
       .post('/auth/login')
-      .send({ username: 'john', password: 'changeme' })
+      .send({
+        username: 'jeff.tian@outlook.com',
+        password: process.env.JEFF_PASSWORD,
+      })
       .expect(201)
       .expect(/access_token/);
 
@@ -58,7 +61,15 @@ describe('AppController (e2e)', () => {
       .set('Authorization', `Bearer ${res.body.access_token}`)
       .expect(200);
 
-    expect(profile).toStrictEqual({ userId: 1, username: 'john' });
+    expect(profile).toStrictEqual({
+      email: 'jeff.tian@outlook.com',
+      email_verified: true,
+      family_name: 'Tian',
+      given_name: 'Jeff',
+      name: 'Jeff Tian',
+      preferred_username: 'jeff.tian@outlook.com',
+      sub: '39110bd4-bb6c-48b3-8055-b360cc8cc05a',
+    });
   });
 
   it('/login (POST) and /profile (GET) by keycloak', async () => {

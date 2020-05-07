@@ -52,7 +52,7 @@ script:
   - k8ss switch --cluster=kubesail --namespace=jeff-tian
   - kubectl apply -k inf/prod
   - k8ss switch --cluster=okteto --namespace=jeff-tian
-  - kubectl apply -k inf/prod-okteto
+  - kubectl apply -k inf
 deploy:
   provider: heroku
   app: uni-sso

@@ -2,11 +2,9 @@ import {
   Controller,
   Get,
   HttpCode,
-  HttpServer,
   HttpService,
   Options,
   Post,
-  Req,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -20,7 +18,6 @@ export class AppController {
   constructor(
     private readonly appService: AppService,
     private readonly authService: AuthService,
-    private readonly httpService: HttpService,
   ) {}
 
   @Get()
@@ -33,13 +30,19 @@ export class AppController {
     return this.appService.getConfig();
   }
 
-  @UseGuards(AuthGuard('local'))
+  // @UseGuards(AuthGuard('local'))
   @Post('auth/login')
   async login(@Request() req) {
-    return this.authService.login(req.user);
+    // return this.authService.login(req.user);
+
+    return this.authService.getKeycloakToken({
+      username: req.body.username,
+      password: req.body.password,
+    });
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
+  @UseGuards(KeycloakAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;

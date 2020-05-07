@@ -61,13 +61,15 @@ describe('AppController', () => {
   describe('auth', () => {
     it('should login successfully', async () => {
       const res = await appController.login({
-        user: {
-          userId: 1,
-          username: 'john',
+        body: {
+          username: 'jeff.tian@outlook.com',
+          password: process.env.JEFF_PASSWORD,
         },
       });
 
-      expect(res.access_token).toBeDefined();
+      res.subscribe(value => {
+        expect(value.access_token).toBeDefined();
+      });
     });
   });
 

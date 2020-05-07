@@ -1,5 +1,0 @@
-bases: []
-resources:
-  - ../prod/deployment.yaml
-  - ../prod/configmap.yaml
-  - ../prod/service.yaml
