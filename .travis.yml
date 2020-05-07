@@ -28,6 +28,7 @@ before_script:
   - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
 script:
   - npm test
+  - echo "KEYCLOAK_CLIENT_SECRET = ${KEYCLOAK_CLIENT_SECRET}" >> config/test.env
   - npm run test:e2e
   - npm run build
   - docker build -t "$DOCKER_USERNAME"/uni-sso .
@@ -51,7 +52,7 @@ script:
   - k8ss switch --cluster=kubesail --namespace=jeff-tian
   - kubectl apply -k inf/prod
   - k8ss switch --cluster=okteto --namespace=jeff-tian
-  - kubectl apply -k inf/prod
+  - kubectl apply -k inf/prod-okteto
 deploy:
   provider: heroku
   app: uni-sso

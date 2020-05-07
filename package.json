@@ -28,7 +28,7 @@
     "k8ss:okteto": "k8ss switch --cluster=okteto --namespace=jeff-tian"
   },
   "dependencies": {
-    "@exlinc/keycloak-passport": "^1.0.2",
+    "@jeff-tian/keycloak-passport": "^1.0.0",
     "@hapi/joi": "^16.1.8",
     "@jeff-tian/nest-keycloak-connect": "^1.0.3",
     "@nestjs/common": "^7.0.9",

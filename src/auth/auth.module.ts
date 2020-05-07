@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { HttpModule, Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
 import { PassportModule } from '@nestjs/passport';
@@ -7,7 +7,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '../config/config.service';
-import { KeycloakBearerStrategy } from './strategies/keycloak-bearer.strategy';
+import { KeycloakStrategy } from './strategies/keycloak.strategy';
 
 @Module({
   imports: [
@@ -24,8 +24,14 @@ import { KeycloakBearerStrategy } from './strategies/keycloak-bearer.strategy';
       },
       inject: [ConfigService],
     }),
+    HttpModule,
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy, KeycloakBearerStrategy],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    JwtStrategy,
+    KeycloakStrategy,
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

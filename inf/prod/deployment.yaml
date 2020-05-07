@@ -54,6 +54,26 @@ spec:
                 secretKeyRef:
                   name: uni-sso-secrets
                   key: MONGODB_URI
+            - name: KEYCLOAK_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: uni-sso-configmap
+                  key: KEYCLOAK_CLIENT_ID
+            - name: KEYCLOAK_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: uni-sso-configmap
+                  key: KEYCLOAK_HOST
+            - name: KEYCLOAK_REALM
+              valueFrom:
+                configMapKeyRef:
+                  name: uni-sso-configmap
+                  key: KEYCLOAK_REALM
+            - name: KEYCLOAK_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: uni-sso-secrets
+                  key: KEYCLOAK_CLIENT_SECRET
           ports:
             - containerPort: 3000
               name: http

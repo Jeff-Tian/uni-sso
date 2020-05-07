@@ -8,6 +8,8 @@ import { UsersService } from './users/users.service';
 import { AuthService } from './auth/auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from './config/config.service';
+import { HttpModule } from '@nestjs/common';
+import { KeycloakConnectModule } from '@jeff-tian/nest-keycloak-connect';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -26,6 +28,17 @@ describe('AppController', () => {
           },
           inject: [ConfigService],
         }),
+        KeycloakConnectModule.registerAsync({
+          imports: [ConfigModule],
+          useFactory: async (configService: ConfigService) => ({
+            authServerUrl: `${configService.KEYCLOAK_HOST}/auth`,
+            realm: configService.KEYCLOAK_REALM,
+            clientId: configService.KEYCLOAK_CLIENT_ID,
+            secret: configService.KEYCLOAK_CLIENT_SECRET,
+          }),
+          inject: [ConfigService],
+        }),
+        HttpModule,
       ],
       controllers: [AppController],
       providers: [
