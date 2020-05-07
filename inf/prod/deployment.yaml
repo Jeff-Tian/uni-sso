@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   labels:
     app: uni-sso
+    tier: backend
+    deployedBy: deploy-node-app
   name: uni-sso
 spec:
   minReadySeconds: 5
@@ -12,6 +14,7 @@ spec:
   selector:
     matchLabels:
       app: uni-sso
+      tier: backend
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -21,6 +24,8 @@ spec:
     metadata:
       labels:
         app: uni-sso
+        tier: backend
+        deployedBy: deploy-node-app
     spec:
       containers:
         - image: 'jefftian/uni-sso:latest'
