@@ -28,7 +28,7 @@ spec:
         deployedBy: deploy-node-app
     spec:
       containers:
-        - image: 'jefftian/uni-sso:4ba845b51419508924d428f456bcdc03eccf04db8ac6f98db999e224055795cb'
+        - image: 'jefftian/uni-sso:latest'
           imagePullPolicy: Always
           name: uni-sso
           env:
