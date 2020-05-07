@@ -15,7 +15,7 @@ import path from 'path';
               '../../config',
               `${process.env.NODE_ENV || 'development'}.env`,
             ),
-        process.env.NODE_ENV ||
+        !process.env.NODE_ENV ||
         process.env.NODE_ENV === 'development' ||
         process.env.NODE_ENV === 'test'
           ? path.join(__dirname, '../../config', 'local.env')

@@ -8,10 +8,10 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard as KeycloakAuthGuard } from '@jeff-tian/nest-keycloak-connect';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller()
 export class AppController {
@@ -46,6 +46,12 @@ export class AppController {
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
+  }
+
+  @UseGuards(AuthGuard('Keycloak'))
+  @Get('keycloak/login')
+  async keycloakLogin(@Request() req) {
+    return 'hello';
   }
 
   @Post('keycloak/login')
