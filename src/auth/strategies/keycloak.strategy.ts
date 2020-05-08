@@ -18,13 +18,20 @@ export class KeycloakStrategy extends PassportStrategy(KS) {
         clientSecret: configService.KEYCLOAK_CLIENT_SECRET,
         callbackURL: `/keycloak/login`,
       },
-      (accessToken, refreshToken, profile, done) => {
+      (accessToken, refreshToken, params, profile, done) => {
         // This is called after a successful authentication has been completed
         // Here's a sample of what you can then do, i.e., write the user to your DB
         // tslint:disable-next-line:no-console
-        console.log('access_token = ', accessToken, refreshToken, profile);
+        console.log(
+          'access_token = ',
+          accessToken,
+          refreshToken,
+          params,
+          profile,
+        );
         done(null, {
           ...profile,
+          ...params,
           access_token: accessToken,
           refresh_token: refreshToken,
         });

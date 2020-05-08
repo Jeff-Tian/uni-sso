@@ -12,6 +12,7 @@ import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard as KeycloakAuthGuard } from '@jeff-tian/nest-keycloak-connect';
 import { AuthGuard } from '@nestjs/passport';
+import * as util from 'util';
 
 @Controller()
 export class AppController {
@@ -51,7 +52,7 @@ export class AppController {
   @UseGuards(AuthGuard('Keycloak'))
   @Get('keycloak/login')
   async keycloakLogin(@Request() req) {
-    return 'hello';
+    return req.user;
   }
 
   @Post('keycloak/login')
