@@ -9,5 +9,5 @@ data:
   env: 'kubesail'
   NODE_ENV: 'production'
   KEYCLOAK_CLIENT_ID: 'UniHeart-Client'
-  KEYCLOAK_HOST: 'https://keycloak-jeff-tian.cloud.okteto.net'
+  KEYCLOAK_HOST: 'https://keycloak.jiwai.win/'
   KEYCLOAK_REALM: 'UniHeart'
