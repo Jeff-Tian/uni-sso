@@ -23,7 +23,11 @@ export class KeycloakStrategy extends PassportStrategy(KS) {
         // Here's a sample of what you can then do, i.e., write the user to your DB
         // tslint:disable-next-line:no-console
         console.log('access_token = ', accessToken, refreshToken, profile);
-        done();
+        done(null, {
+          ...profile,
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        });
       },
     );
   }
