@@ -49,6 +49,9 @@ script:
   - docker push "$DOCKER_USERNAME"/uni-sso.slim
   - curl localhost:3000 || docker logs $(docker ps -aqf name=uni-sso\.slim$)
   - curl -X POST localhost:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json" || docker logs $(docker ps -aqf name=uni-sso\.slim$)
+
+  - sh .travis/replace-deployment.sh
+
   - k8ss switch --cluster=kubesail --namespace=jeff-tian
   - kubectl apply -k inf/prod
   - k8ss switch --cluster=okteto --namespace=jeff-tian
