@@ -23,7 +23,8 @@ cat ~/k8s-config/kubesail/config | base64 | pbcopy
 
 ### Heroku
 
-https://uni-sso.herokuapp.com/
+- https://uni-sso.herokuapp.com/
+- https://keycloak.jiwai.win
 
 This is done by travis
 
