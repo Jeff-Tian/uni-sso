@@ -6,4 +6,5 @@ export const trustedHosts = [
   /^http:\/\/localhost/,
   /^https:\/\/uni-sso\.herokuapp\.com/,
   /^https:\/\/gatsby-sso\.netlify\.com/,
+  /^https:\/\/uni-sso\.onrender\.com/,
 ];

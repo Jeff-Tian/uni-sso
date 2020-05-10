@@ -53,6 +53,7 @@ environment variables.
 
 ## Clients
 
+- https://https://uni-sso.onrender.com (Direct, or uni-sso's pure front-end)
 - https://sso.pa-ca.me/ (Direct, or uni-sso's pure front-end)
 - https://pa-ca.me (Indirect, will redirect to https://sso.pa-ca.me to redirect back)
 
