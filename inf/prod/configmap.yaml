@@ -8,6 +8,6 @@ metadata:
 data:
   env: 'kubesail'
   NODE_ENV: 'production'
-  KEYCLOAK_CLIENT_ID: 'UniHeart-Client'
+  KEYCLOAK_CLIENT_ID: 'UniHeart-Client-Local-3000'
   KEYCLOAK_HOST: 'https://keycloak.jiwai.win'
   KEYCLOAK_REALM: 'UniHeart'
