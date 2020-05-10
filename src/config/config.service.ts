@@ -27,7 +27,7 @@ const schema = {
   env: Joi.string(),
   KEYCLOAK_CLIENT_ID: Joi.string().default('UniHeart-Client-Local-3000'),
   KEYCLOAK_HOST: Joi.string().default(
-    'https://keycloak.jiwai.win/',
+    'https://keycloak.jiwai.win',
   ),
   KEYCLOAK_REALM: Joi.string().default('UniHeart'),
   KEYCLOAK_CLIENT_SECRET: Joi.string(),

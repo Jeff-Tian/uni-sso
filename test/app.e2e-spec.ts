@@ -4,7 +4,7 @@ import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { sleep } from '@jeff-tian/sleep';
 
-jest.setTimeout(10000);
+jest.setTimeout(20000);
 
 describe('AppController (e2e)', () => {
   let app: INestApplication;
