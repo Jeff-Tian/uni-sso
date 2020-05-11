@@ -2,23 +2,25 @@ import {
   Controller,
   Get,
   HttpCode,
-  HttpService,
   Options,
   Post,
   Request,
+  Response,
   UseGuards,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { AuthService } from './auth/auth.service';
 import { AuthGuard as KeycloakAuthGuard } from '@jeff-tian/nest-keycloak-connect';
 import { AuthGuard } from '@nestjs/passport';
-import * as util from 'util';
+import Keycloak from 'keycloak-connect';
+import { ConfigService } from './config/config.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
     private readonly authService: AuthService,
+    private readonly configService: ConfigService,
   ) {}
 
   @Get()
@@ -67,6 +69,31 @@ export class AppController {
   @Get('keycloak/profile')
   getKeycloakProfile(@Request() req) {
     return req.user;
+  }
+
+  // @UseGuards(KeycloakAuthGuard)
+  @Get('keycloak/logout')
+  keycloakLogout(@Request() req, @Response() response) {
+    const keycloak = new Keycloak(
+      {},
+      {
+        'auth-server-url': `${this.configService.KEYCLOAK_HOST}/auth`,
+        'bearer-only': true,
+        'confidential-port': undefined,
+        'ssl-required': 'true',
+        'resource': '',
+        'realm': this.configService.KEYCLOAK_REALM,
+      },
+    );
+
+    keycloak.deauthenticated(req);
+
+    const port = req.headers.host.split(':')[1] ?? '';
+    const redirectUrl = `${req.protocol}://${req.hostname}${
+      port === '' ? '' : ':' + port
+    }/`;
+
+    return response.redirect(keycloak.logoutUrl(redirectUrl));
   }
 
   @Options('auth/login')
