@@ -53,8 +53,10 @@ export class AppController {
 
   @UseGuards(AuthGuard('Keycloak'))
   @Get('keycloak/login')
-  async keycloakLogin(@Request() req) {
-    return req.user;
+  async keycloakLogin(@Request() req, @Response() res) {
+    res.cookie('keycloakJWT', req.user.access_token);
+    return res.send(req.user);
+    // return req.user;
   }
 
   @Post('keycloak/login')
@@ -81,8 +83,8 @@ export class AppController {
         'bearer-only': true,
         'confidential-port': undefined,
         'ssl-required': 'true',
-        'resource': '',
-        'realm': this.configService.KEYCLOAK_REALM,
+        resource: '',
+        realm: this.configService.KEYCLOAK_REALM,
       },
     );
 

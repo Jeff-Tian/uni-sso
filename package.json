@@ -30,7 +30,7 @@
   "dependencies": {
     "@hapi/joi": "^16.1.8",
     "@jeff-tian/keycloak-passport": "^1.0.0",
-    "@jeff-tian/nest-keycloak-connect": "^1.0.3",
+    "@jeff-tian/nest-keycloak-connect": "^1.1.2",
     "@nestjs/common": "^7.0.9",
     "@nestjs/core": "^7.0.9",
     "@nestjs/jwt": "^7.0.0",
@@ -38,6 +38,7 @@
     "@nestjs/platform-express": "^7.0.9",
     "@typegoose/typegoose": "^6.2.1",
     "class-validator": "^0.11.0",
+    "cookie-parser": "^1.4.5",
     "data.either": "^1.5.2",
     "dotenv": "^8.2.0",
     "keycloak-connect": "^10.0.1",
