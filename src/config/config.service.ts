@@ -26,11 +26,11 @@ const schema = {
   MONGODB_URI: Joi.string().default('mongodb://host.docker.internal:27017'),
   env: Joi.string(),
   KEYCLOAK_CLIENT_ID: Joi.string().default('UniHeart-Client-Local-3000'),
-  KEYCLOAK_HOST: Joi.string().default(
-    'https://keycloak.jiwai.win',
-  ),
+  KEYCLOAK_HOST: Joi.string().default('https://keycloak.jiwai.win'),
   KEYCLOAK_REALM: Joi.string().default('UniHeart'),
   KEYCLOAK_CLIENT_SECRET: Joi.string(),
+  WECHAT_MP_APP_ID: Joi.string(),
+  WECHAT_MP_APP_SECRET: Joi.string(),
 };
 
 const safeRead = filePath =>
@@ -47,6 +47,8 @@ export class ConfigService implements Config {
   KEYCLOAK_CLIENT_ID: string;
   KEYCLOAK_HOST: string;
   private readonly envConfig: EnvConfig;
+  WECHAT_MP_APP_ID: string;
+  WECHAT_MP_APP_SECRET: string;
 
   constructor(filePath: string, overrideFilePath?: string) {
     // tslint:disable-next-line:no-console
@@ -66,6 +68,8 @@ export class ConfigService implements Config {
     this.KEYCLOAK_HOST = this.get('KEYCLOAK_HOST');
     this.KEYCLOAK_REALM = this.get('KEYCLOAK_REALM');
     this.KEYCLOAK_CLIENT_SECRET = this.get('KEYCLOAK_CLIENT_SECRET');
+    this.WECHAT_MP_APP_ID = this.get('WECHAT_MP_APP_ID');
+    this.WECHAT_MP_APP_SECRET = this.get('WECHAT_MP_APP_SECRET');
   }
 
   get(key: string): string {

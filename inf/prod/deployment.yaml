@@ -49,6 +49,16 @@ spec:
                 secretKeyRef:
                   name: uni-sso-secrets
                   key: JWT_SECRET
+            - name: WECHAT_MP_APP_ID
+              valueFrom:
+                secretKeyRef:
+                  name: uni-sso-secrets
+                  key: WECHAT_MP_APP_ID
+            - name: WECHAT_MP_APP_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: uni-sso-secrets
+                  key: WECHAT_MP_APP_SECRET
             - name: MONGODB_URI
               valueFrom:
                 secretKeyRef:

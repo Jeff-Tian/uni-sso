@@ -7,6 +7,7 @@ import { UsersModule } from './users/users.module';
 import { TypegooseModule } from 'nestjs-typegoose';
 import { ConfigService } from './config/config.service';
 import { KeycloakConnectModule } from '@jeff-tian/nest-keycloak-connect';
+import { WechatModule } from './wechat/wechat.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { KeycloakConnectModule } from '@jeff-tian/nest-keycloak-connect';
       inject: [ConfigService],
     }),
     HttpModule,
+    WechatModule,
   ],
   controllers: [AppController],
   providers: [AppService],

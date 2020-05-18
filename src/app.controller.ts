@@ -73,7 +73,6 @@ export class AppController {
     return req.user;
   }
 
-  // @UseGuards(KeycloakAuthGuard)
   @Get('keycloak/logout')
   keycloakLogout(@Request() req, @Response() response) {
     const keycloak = new Keycloak(
@@ -83,8 +82,8 @@ export class AppController {
         'bearer-only': true,
         'confidential-port': undefined,
         'ssl-required': 'true',
-        resource: '',
-        realm: this.configService.KEYCLOAK_REALM,
+        'resource': '',
+        'realm': this.configService.KEYCLOAK_REALM,
       },
     );
 
