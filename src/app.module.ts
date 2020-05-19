@@ -8,6 +8,7 @@ import { TypegooseModule } from 'nestjs-typegoose';
 import { ConfigService } from './config/config.service';
 import { KeycloakConnectModule } from '@jeff-tian/nest-keycloak-connect';
 import { WechatModule } from './wechat/wechat.module';
+import { LoggerModule } from 'nestjs-pino';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { WechatModule } from './wechat/wechat.module';
     }),
     HttpModule,
     WechatModule,
+    LoggerModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],
