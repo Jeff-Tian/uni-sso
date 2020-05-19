@@ -34,8 +34,7 @@ describe('WechatController', () => {
         })
         .reply(200, {
           expire_seconds: 60,
-          ticket:
-            'gQF27zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyNHZmZWtIb3JmazMxUkRUMjF1Y1IAAgQrd8JeAwQ8AAAA',
+          ticket: 'gQF27zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyNHZmZWtIb3JmazMxUkRUMjF1Y1IAAgQrd8JeAwQ8AAAA',
           url: 'http://weixin.qq.com/q/024vfekHorfk31RDT21ucR',
         });
 

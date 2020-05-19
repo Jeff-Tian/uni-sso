@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { trustedHosts } from './config/trusted-hosts';
 import cookieParser from 'cookie-parser';
+import { LoggerService } from './logger/logger.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -11,9 +12,18 @@ async function bootstrap() {
       preflightContinue: false,
       optionsSuccessStatus: 204,
     },
+    logger: new LoggerService(),
   });
   app.use(cookieParser());
-  await app.listen(process.env.PORT || 3000);
+
+  const port = process.env.PORT || 3000;
+
+  await app.listen(port, () => {
+    // tslint:disable-next-line:no-console
+    console.log(
+      `application started listening to "${port}", "${process.env.NODE_ENV}" environment`,
+    );
+  });
 }
 
 bootstrap();
