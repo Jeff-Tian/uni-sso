@@ -48,6 +48,7 @@ import { Params } from 'nestjs-pino/dist';
               useLevelLabels: true,
             } as pinoHttp.Options,
             pinoElastic({
+              'index': 'uniheart',
               'consistency': 'one',
               'node': configService.ELASTIC_SEARCH_NODE,
               'es-version': 7,
