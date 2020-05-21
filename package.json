@@ -50,6 +50,7 @@
     "passport-jwt": "^4.0.0",
     "passport-keycloak-bearer": "^2.0.5",
     "passport-local": "^1.0.0",
+    "pino-elasticsearch": "^4.4.1",
     "ramda": "^0.26.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
