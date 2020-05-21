@@ -10,6 +10,9 @@ import { KeycloakConnectModule } from '@jeff-tian/nest-keycloak-connect';
 import { WechatModule } from './wechat/wechat.module';
 import { LoggerModule } from 'nestjs-pino';
 import pinoElastic from 'pino-elasticsearch';
+import pinoHttp from 'pino-http';
+import { DestinationStream } from 'pino';
+import { Params } from 'nestjs-pino/dist';
 
 @Module({
   imports: [
@@ -38,20 +41,21 @@ import pinoElastic from 'pino-elasticsearch';
     LoggerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        pinoHttp: [
-          {
-            useLevelLabels: true,
-          },
-          pinoElastic({
-            'index': 'an-index',
-            'consistency': 'one',
-            'node': configService.ELASTIC_SEARCH_NODE,
-            'es-version': 7,
-            'bulk-size': 200,
-          }),
-        ],
-      }),
+      useFactory: async (configService: ConfigService) =>
+        ({
+          pinoHttp: [
+            {
+              useLevelLabels: true,
+            } as pinoHttp.Options,
+            pinoElastic({
+              'index': 'an-index',
+              'consistency': 'one',
+              'node': configService.ELASTIC_SEARCH_NODE,
+              'es-version': 7,
+              'bulk-size': 200,
+            }) as DestinationStream,
+          ],
+        } as Params),
     }),
   ],
   controllers: [AppController],
