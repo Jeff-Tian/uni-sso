@@ -44,7 +44,7 @@ describe('AppController (e2e)', () => {
     expect(error).toStrictEqual({ message: 'Unauthorized', statusCode: 401 });
   });
 
-  it('/login (POST) and /profile (GET)', async () => {
+  it.skip('/login (POST) and /profile (GET)', async () => {
     const res = await request(app.getHttpServer())
       .post('/auth/login')
       .send({
@@ -72,7 +72,7 @@ describe('AppController (e2e)', () => {
     });
   });
 
-  it('/login (POST) and /profile (GET) by keycloak', async () => {
+  it.skip('/login (POST) and /profile (GET) by keycloak', async () => {
     const res = await request(app.getHttpServer())
       .post('/keycloak/login')
       .send({

@@ -17,13 +17,14 @@ describe('WechatController', () => {
   });
 
   describe('mp-qr', () => {
-    it('should return "Hello World!"', async () => {
+    it('should getMediaPlatformTempQRImage', async () => {
       const scope = nock('https://api.weixin.qq.com');
       scope
         .get(
           /\/cgi\-bin\/token\?grant_type=client_credential&appid=[\w\d]+&secret=[\w\d]+/,
         )
         .reply(200, {});
+
       scope
         .post('/cgi-bin/qrcode/create?access_token=undefined', {
           expire_seconds: 60,
