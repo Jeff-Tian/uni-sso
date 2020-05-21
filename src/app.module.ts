@@ -41,21 +41,26 @@ import { Params } from 'nestjs-pino/dist';
     LoggerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) =>
-        ({
+      useFactory: async (configService: ConfigService) => {
+        // tslint:disable-next-line:no-console
+        console.log(
+          'configService.ELASTIC_SEARCH_NODE = ',
+          configService.ELASTIC_SEARCH_NODE,
+        );
+        return {
           pinoHttp: [
             {
               useLevelLabels: true,
             } as pinoHttp.Options,
             pinoElastic({
-              'index': 'an-index',
               'consistency': 'one',
               'node': configService.ELASTIC_SEARCH_NODE,
               'es-version': 7,
               'bulk-size': 200,
             }) as DestinationStream,
           ],
-        } as Params),
+        } as Params;
+      },
     }),
   ],
   controllers: [AppController],
