@@ -84,6 +84,11 @@ spec:
                 secretKeyRef:
                   name: uni-sso-secrets
                   key: KEYCLOAK_CLIENT_SECRET
+            - name: ELASTIC_SEARCH_NODE
+              valueFrom:
+                secretKeyRef:
+                  name: uni-sso-secrets
+                  key: ELASTIC_SEARCH_NODE
           ports:
             - containerPort: 3000
               name: http

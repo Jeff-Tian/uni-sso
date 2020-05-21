@@ -54,9 +54,6 @@ export class ConfigService implements Config {
   ELASTIC_SEARCH_NODE: string;
 
   constructor(filePath: string, overrideFilePath?: string) {
-    // tslint:disable-next-line:no-console
-    console.log('filePath = ', filePath, overrideFilePath);
-
     this.envConfig = this.validateInput({
       ...safeRead(filePath),
       ...(overrideFilePath ? safeRead(overrideFilePath) : {}),
