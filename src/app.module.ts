@@ -13,6 +13,7 @@ import pinoElastic from 'pino-elasticsearch';
 import pinoHttp from 'pino-http';
 import { DestinationStream } from 'pino';
 import { Params } from 'nestjs-pino/dist';
+import tee from 'pino-tee';
 
 @Module({
   imports: [
@@ -47,13 +48,15 @@ import { Params } from 'nestjs-pino/dist';
             {
               useLevelLabels: true,
             } as pinoHttp.Options,
-            pinoElastic({
-              'index': 'uniheart',
-              'consistency': 'one',
-              'node': configService.ELASTIC_SEARCH_NODE,
-              'es-version': 7,
-              'bulk-size': 200,
-            }) as DestinationStream,
+            tee(
+              pinoElastic({
+                'index': 'uniheart',
+                'consistency': 'one',
+                'node': configService.ELASTIC_SEARCH_NODE,
+                'es-version': 7,
+                'bulk-size': 200,
+              }) as DestinationStream,
+            ).pipe(process.stdout),
           ],
         } as Params),
     }),
