@@ -37,6 +37,7 @@
     "@nestjs/passport": "^7.0.0",
     "@nestjs/platform-express": "^7.0.9",
     "@typegoose/typegoose": "^6.2.1",
+    "axios": "^0.19.2",
     "class-validator": "^0.11.0",
     "co-wechat-api": "^3.10.0",
     "cookie-parser": "^1.4.5",

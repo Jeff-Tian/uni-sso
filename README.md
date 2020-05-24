@@ -51,6 +51,11 @@ Secrets maintained in a separate private project: https://github.com/Jeff-Tian/u
 It's mainly a `secrets.yml` that can be applied to kubernetes cluster. In heroku, they are just configurable
 environment variables.
 
+## Logging
+
+Log streamed to elastic search
+https://uniheart-2072617778.k4a.bonsaisearch.net/app/kibana#/discover
+
 ## Clients
 
 - https://https://uni-sso.onrender.com (Direct, or uni-sso's pure front-end)

@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { WechatController } from './wechat.controller';
 import { ConfigModule } from '../config/config.module';
 import nock from 'nock';
+import { WechatService } from './wechat.service';
 
 describe('WechatController', () => {
   let wechatController: WechatController;
@@ -10,7 +11,7 @@ describe('WechatController', () => {
     const app: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule],
       controllers: [WechatController],
-      providers: [],
+      providers: [WechatService],
     }).compile();
 
     wechatController = app.get<WechatController>(WechatController);
@@ -41,7 +42,7 @@ describe('WechatController', () => {
         });
 
       expect(
-        await wechatController.getMediaPlatformTempQRImage({
+        await wechatController.getMediaPlatformTempQRImageTicket({
           query: {},
         } as any),
       ).toStrictEqual({
