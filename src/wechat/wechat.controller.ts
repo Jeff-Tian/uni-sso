@@ -26,9 +26,8 @@ export class WechatController {
   }
 
   @Get('/mp-qr-image')
-  async getMediaPlatformTempQRImage(@Req() request, @Res() response) {
-    const url = this.getMediaPlatformTempQRImageUrl(request);
-
-    return await axios.get(url).pipe(response);
+  async getMediaPlatformTempQRImage(@Req() request) {
+    const url = await this.getMediaPlatformTempQRImageUrl(request);
+    return await axios.get(url);
   }
 }

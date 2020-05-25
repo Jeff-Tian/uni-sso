@@ -3,6 +3,8 @@ import { WechatController } from './wechat.controller';
 import { ConfigModule } from '../config/config.module';
 import nock from 'nock';
 import { WechatService } from './wechat.service';
+import { PassThrough } from 'stream';
+import * as fs from 'fs';
 
 describe('WechatController', () => {
   let wechatController: WechatController;
@@ -51,6 +53,25 @@ describe('WechatController', () => {
           'gQF27zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyNHZmZWtIb3JmazMxUkRUMjF1Y1IAAgQrd8JeAwQ8AAAA',
         url: 'http://weixin.qq.com/q/024vfekHorfk31RDT21ucR',
       });
+    });
+
+    it('pipes image to response', async () => {
+      jest
+        .spyOn(wechatController, 'getMediaPlatformTempQRImageUrl')
+        .mockImplementationOnce(
+          async () =>
+            'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=ticket',
+        );
+
+      nock('https://mp.weixin.qq.com')
+        .get('/cgi-bin/showqrcode?ticket=ticket')
+        .reply(200, () => fs.createReadStream(__filename));
+
+      expect(
+        await wechatController.getMediaPlatformTempQRImage({
+          query: {},
+        } as any),
+      ).toHaveProperty('data');
     });
   });
 });
