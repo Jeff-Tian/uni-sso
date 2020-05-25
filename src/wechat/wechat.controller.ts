@@ -1,6 +1,7 @@
 import { Controller, Get, Req, Res } from '@nestjs/common';
 import { WechatService } from './wechat.service';
 import { Logger } from 'nestjs-pino';
+import * as util from 'util';
 // tslint:disable-next-line:no-var-requires
 const axios = require('axios').default;
 
@@ -31,18 +32,13 @@ export class WechatController {
 
   @Get('/mp-qr-image')
   async getMediaPlatformTempQRImage(@Req() request, @Res() response) {
-    this.logger.log('getting url...');
     const url = await this.getMediaPlatformTempQRImageUrl(request);
-    this.logger.log('url = ', 'WechatController.getMediaPlatformTempQRImage', {
-      url,
-    });
-    const axiosResponse = await axios.get(url);
-    this.logger.log(
-      'axiosResponse = ',
-      'WechatController.getMediaPlatformTempQRImage',
-      { axiosResponse },
-    );
+    const axiosResponse = await axios.get(url, { responseType: 'stream' });
+    axiosResponse.data.pipe(response);
 
-    return axiosResponse.request.response.pipe(response);
+    return new Promise((resolve, reject) => {
+      response.on('finish', resolve);
+      response.on('error', reject);
+    });
   }
 }

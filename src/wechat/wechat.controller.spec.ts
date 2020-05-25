@@ -3,16 +3,18 @@ import { WechatController } from './wechat.controller';
 import { ConfigModule } from '../config/config.module';
 import nock from 'nock';
 import { WechatService } from './wechat.service';
-import { PassThrough } from 'stream';
 import * as fs from 'fs';
 import * as path from 'path';
+import { LoggerModule } from 'nestjs-pino';
+import { ConfigService } from '../config/config.service';
+import { Logger } from 'nestjs-pino/dist';
 
 describe('WechatController', () => {
   let wechatController: WechatController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      imports: [ConfigModule],
+      imports: [ConfigModule, LoggerModule.forRoot({})],
       controllers: [WechatController],
       providers: [WechatService],
     }).compile();
@@ -55,30 +57,70 @@ describe('WechatController', () => {
         url: 'http://weixin.qq.com/q/024vfekHorfk31RDT21ucR',
       });
     });
+  });
+});
 
-    it('pipes image to response', async () => {
-      jest
-        .spyOn(wechatController, 'getMediaPlatformTempQRImageUrl')
-        .mockImplementationOnce(
-          async () =>
-            'https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=ticket',
-        );
+describe('pipes', () => {
+  let configService: ConfigService;
+  let wechatService: WechatService;
+  let wechatController: WechatController;
 
-      nock('https://mp.weixin.qq.com')
-        .get('/cgi-bin/showqrcode?ticket=ticket')
-        .reply(
-          200,
-          fs.createReadStream(path.resolve(__dirname, '../../models.svg')),
-        );
+  beforeEach(() => {
+    configService = new ConfigService('/not/exists');
+    wechatService = new WechatService(configService);
+    wechatController = new WechatController(wechatService, {
+      // tslint:disable-next-line:no-console
+      log: console.log,
+    } as Logger);
+  });
 
-      expect(
-        await wechatController.getMediaPlatformTempQRImage(
-          {
-            query: {},
-          } as any,
-          process.stdout,
-        ),
-      ).toHaveProperty('writable');
-    });
+  it('pipes image to response', async () => {
+    jest
+      .spyOn(wechatService, 'getMediaPlatformTempQRImageTicketResult')
+      .mockImplementationOnce(async () => ({
+        ticket: 'ticket',
+      }));
+
+    nock('https://mp.weixin.qq.com')
+      .get('/cgi-bin/showqrcode?ticket=ticket')
+      .reply(
+        200,
+        fs.createReadStream(path.resolve(__dirname, '../../models.svg')),
+      );
+
+    const bufferReceived = [];
+    const logBuffer = (buffer: any) => {
+      // tslint:disable-next-line:no-console
+      console.log('received: ', buffer);
+
+      bufferReceived.push(buffer);
+    };
+
+    await wechatController.getMediaPlatformTempQRImage(
+      {
+        query: {},
+      } as any,
+      {
+        on: (event: string, callback: () => void) => {
+          // tslint:disable-next-line:no-console
+          console.log('on ', event);
+
+          callback();
+        },
+        once: logBuffer,
+        emit: logBuffer,
+        write: logBuffer,
+        end: () => {
+          // tslint:disable-next-line:no-console
+          console.log('ending...');
+        },
+        removeListener: (listener: () => void) => {
+          // tslint:disable-next-line:no-console
+          console.log('removing... ', listener);
+        },
+      } as any,
+    );
+
+    expect(bufferReceived.length).toBeGreaterThan(0);
   });
 });
