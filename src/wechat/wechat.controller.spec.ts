@@ -5,6 +5,7 @@ import nock from 'nock';
 import { WechatService } from './wechat.service';
 import { PassThrough } from 'stream';
 import * as fs from 'fs';
+import * as path from 'path';
 
 describe('WechatController', () => {
   let wechatController: WechatController;
@@ -65,13 +66,19 @@ describe('WechatController', () => {
 
       nock('https://mp.weixin.qq.com')
         .get('/cgi-bin/showqrcode?ticket=ticket')
-        .reply(200, () => fs.createReadStream(__filename));
+        .reply(
+          200,
+          fs.createReadStream(path.resolve(__dirname, '../../models.svg')),
+        );
 
       expect(
-        await wechatController.getMediaPlatformTempQRImage({
-          query: {},
-        } as any),
-      ).toHaveProperty('data');
+        await wechatController.getMediaPlatformTempQRImage(
+          {
+            query: {},
+          } as any,
+          process.stdout,
+        ),
+      ).toHaveProperty('writable');
     });
   });
 });
