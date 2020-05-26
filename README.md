@@ -3,6 +3,7 @@
 > SSO, once and for all
 
 [![Build Status](https://travis-ci.com/Jeff-Tian/uni-sso.svg?branch=master)](https://travis-ci.com/Jeff-Tian/uni-sso)
+[![Assertible status](https://assertible.com/apis/ed5330e3-148c-41c1-b76c-c5d6046227a0/status?api_token=7uy5oHmuxHm5lZoO)](https://assertible.com/dashboard#/services/ed5330e3-148c-41c1-b76c-c5d6046227a0/results)
 
 ## Deployments
 
