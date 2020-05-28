@@ -3,6 +3,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { sleep } from '@jeff-tian/sleep';
+import { v4 as uuid } from 'uuid';
+
+jest.mock('uuid');
 
 jest.setTimeout(10000);
 describe('WechatController (e2e)', () => {
@@ -15,6 +18,9 @@ describe('WechatController (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+
+    // @ts-ignore
+    uuid.mockImplementation(() => '1234');
   });
 
   afterEach(async () => {
@@ -27,10 +33,11 @@ describe('WechatController (e2e)', () => {
     await sleep(500);
   });
 
-  it('/wechat/mp-qr-image (GET)', async () => {
+  it('/wechat/mp-qr-image (GET) with x-scene-id header', async () => {
     return request(app.getHttpServer())
       .get('/wechat/mp-qr-image')
       .expect(200)
+      .expect('x-scene-id', '1234')
       .end();
   });
 });

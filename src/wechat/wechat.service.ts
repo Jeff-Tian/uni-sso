@@ -16,6 +16,9 @@ export class WechatService {
       this.configService.WECHAT_MP_APP_SECRET,
     );
 
-    return await wechatApi.createTmpQRCode(sceneId, expiresInSeconds);
+    return {
+      ...(await wechatApi.createTmpQRCode(sceneId, expiresInSeconds)),
+      sceneId,
+    };
   }
 }

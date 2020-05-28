@@ -27,13 +27,20 @@ export class WechatController {
       request.query.expiresInSeconds,
     );
 
-    return `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${ticketResult.ticket}`;
+    return {
+      imageUrl: `https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=${ticketResult.ticket}`,
+      ...ticketResult,
+    };
   }
 
   @Get('/mp-qr-image')
   async getMediaPlatformTempQRImage(@Req() request, @Res() response) {
-    const url = await this.getMediaPlatformTempQRImageUrl(request);
+    const {
+      imageUrl: url,
+      sceneId,
+    } = await this.getMediaPlatformTempQRImageUrl(request);
     const axiosResponse = await axios.get(url, { responseType: 'stream' });
+    response.setHeader('x-scene-id', sceneId);
     return axiosResponse.data.pipe(response);
   }
 }
