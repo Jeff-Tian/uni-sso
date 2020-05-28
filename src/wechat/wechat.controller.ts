@@ -40,7 +40,13 @@ export class WechatController {
       sceneId,
     } = await this.getMediaPlatformTempQRImageUrl(request);
     const axiosResponse = await axios.get(url, { responseType: 'stream' });
+
     response.setHeader('x-scene-id', sceneId);
     return axiosResponse.data.pipe(response);
+  }
+
+  @Get('/mp-qr-scanned')
+  async receivedQrScannedMessage(@Req() request) {
+    return await this.wechatService.receiveQrScannedMessage(request);
   }
 }
