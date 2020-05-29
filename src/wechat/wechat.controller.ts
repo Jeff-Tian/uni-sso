@@ -1,4 +1,4 @@
-import { Controller, Get, Req, Res } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { WechatService } from './wechat.service';
 import { Logger } from 'nestjs-pino';
 import * as util from 'util';
@@ -48,5 +48,15 @@ export class WechatController {
   @Get('/mp-qr-scanned')
   async receivedQrScannedMessage(@Req() request) {
     return await this.wechatService.receiveQrScannedMessage(request);
+  }
+
+  @Post('/mp-qr-scanned')
+  async receivedQrScannedPostMessage(@Req() request) {
+    this.logger.log('Recevied message: ', 'mp', [
+      {
+        body: request.body,
+      },
+    ]);
+    return 'Hello';
   }
 }
