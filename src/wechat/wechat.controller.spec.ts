@@ -8,6 +8,9 @@ import * as path from 'path';
 import { LoggerModule } from 'nestjs-pino';
 import { ConfigService } from '../config/config.service';
 import { Logger } from 'nestjs-pino/dist';
+import { v4 as uuid } from 'uuid';
+
+jest.mock('uuid');
 
 describe('WechatController', () => {
   let wechatController: WechatController;
@@ -20,11 +23,15 @@ describe('WechatController', () => {
     }).compile();
 
     wechatController = app.get<WechatController>(WechatController);
+
+    // @ts-ignore
+    uuid.mockImplementation(() => '1234-5678');
   });
 
   describe('mp-qr', () => {
     it('should getMediaPlatformTempQRImage', async () => {
-      const scope = nock('https://api.weixin.qq.com');
+      // tslint:disable-next-line:no-console
+      const scope = nock('https://api.weixin.qq.com').log(console.log);
       scope
         .get(
           /\/cgi\-bin\/token\?grant_type=client_credential&appid=[\w\d]+&secret=[\w\d]+/,
@@ -52,6 +59,7 @@ describe('WechatController', () => {
         } as any),
       ).toStrictEqual({
         expire_seconds: 60,
+        sceneId: '1234-5678',
         ticket:
           'gQF27zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyNHZmZWtIb3JmazMxUkRUMjF1Y1IAAgQrd8JeAwQ8AAAA',
         url: 'http://weixin.qq.com/q/024vfekHorfk31RDT21ucR',
@@ -108,14 +116,10 @@ describe('pipes', () => {
         once: logBuffer,
         emit: logBuffer,
         write: logBuffer,
-        end: () => {
-          // tslint:disable-next-line:no-console
-          console.log('ending...');
-        },
-        removeListener: (listener: () => void) => {
-          // tslint:disable-next-line:no-console
-          console.log('removing... ', listener);
-        },
+        // tslint:disable-next-line:no-empty
+        end: () => {},
+        // tslint:disable-next-line:no-empty
+        removeListener: (listener: () => void) => {},
         setHeader: (key: string, value: string) => {
           // tslint:disable-next-line:no-console
           console.log('setting ', key, ' to ', value);
