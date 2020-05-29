@@ -42,23 +42,27 @@ import tee from 'pino-tee';
     LoggerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: async (configService: ConfigService) =>
-        ({
+      useFactory: async (configService: ConfigService) => {
+        const teeable = tee(process.stdin);
+        teeable.tee(process.stdout);
+        teeable.tee(
+          pinoElastic({
+            'index': 'uniheart',
+            'consistency': 'one',
+            'node': configService.ELASTIC_SEARCH_NODE,
+            'es-version': 7,
+            'bulk-size': 200,
+          }) as DestinationStream,
+        );
+        return {
           pinoHttp: [
             {
               useLevelLabels: true,
             } as pinoHttp.Options,
-            tee(
-              pinoElastic({
-                'index': 'uniheart',
-                'consistency': 'one',
-                'node': configService.ELASTIC_SEARCH_NODE,
-                'es-version': 7,
-                'bulk-size': 200,
-              }) as DestinationStream,
-            ).pipe(process.stdout),
+            teeable,
           ],
-        } as Params),
+        } as Params;
+      },
     }),
   ],
   controllers: [AppController],

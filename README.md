@@ -54,8 +54,12 @@ environment variables.
 
 ## Logging
 
-Log streamed to elastic search
-https://uniheart-2072617778.k4a.bonsaisearch.net/app/kibana#/discover
+Log streamed to elastic search,
+
+### Kibana:
+
+- https://uniheart-2072617778.k4a.bonsaisearch.net/app/kibana#/discover
+- https://uni-sso-kibana.herokuapp.com/
 
 ## Clients
 
