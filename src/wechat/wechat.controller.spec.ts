@@ -67,7 +67,10 @@ describe('pipes', () => {
 
   beforeEach(() => {
     configService = new ConfigService('/not/exists');
-    wechatService = new WechatService(configService);
+    wechatService = new WechatService(configService, {
+      // tslint:disable-next-line:no-console
+      info: console.log,
+    } as any);
     wechatController = new WechatController(wechatService, {
       // tslint:disable-next-line:no-console
       log: console.log,
@@ -89,12 +92,7 @@ describe('pipes', () => {
       );
 
     const bufferReceived = [];
-    const logBuffer = (buffer: any) => {
-      // tslint:disable-next-line:no-console
-      console.log('received: ', buffer);
-
-      bufferReceived.push(buffer);
-    };
+    const logBuffer = bufferReceived.push.bind(bufferReceived);
 
     await wechatController.getMediaPlatformTempQRImage(
       {
@@ -117,6 +115,10 @@ describe('pipes', () => {
         removeListener: (listener: () => void) => {
           // tslint:disable-next-line:no-console
           console.log('removing... ', listener);
+        },
+        setHeader: (key: string, value: string) => {
+          // tslint:disable-next-line:no-console
+          console.log('setting ', key, ' to ', value);
         },
       } as any,
     );
