@@ -52,7 +52,7 @@ export class WechatController {
 
   @Post('/mp-qr-scanned')
   async receivedQrScannedPostMessage(@Req() request) {
-    this.logger.log('Recevied message: ', 'mp', [
+    this.logger.log(`Recevied message: ${request.body}`, 'mp', [
       {
         body: request.body,
       },
