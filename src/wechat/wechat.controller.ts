@@ -59,4 +59,9 @@ export class WechatController {
     ]);
     return 'Hello';
   }
+
+  @Get('/mp-qr-scenes/count')
+  async getQrScenesCount() {
+    return { count: await this.wechatService.getSceneStatusList() };
+  }
 }

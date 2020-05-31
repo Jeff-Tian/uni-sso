@@ -34,10 +34,13 @@ describe('WechatController (e2e)', () => {
   });
 
   it('/wechat/mp-qr-image (GET) with x-scene-id header', async () => {
-    return request(app.getHttpServer())
+    await request(app.getHttpServer())
       .get('/wechat/mp-qr-image')
       .expect(200)
-      .expect('x-scene-id', '1234')
-      .end();
+      .expect('x-scene-id', '1234');
+
+    await request(app.getHttpServer())
+      .get('/wechat/mp-qr-scenes/count')
+      .expect(200, { count: 1 });
   });
 });

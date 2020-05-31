@@ -9,6 +9,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { ConfigService } from '../config/config.service';
 import { Logger } from 'nestjs-pino/dist';
 import { v4 as uuid } from 'uuid';
+import MemoryStorage from '@jeff-tian/memory-storage/src/MemoryStorage';
 
 jest.mock('uuid');
 
@@ -19,7 +20,13 @@ describe('WechatController', () => {
     const app: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule, LoggerModule.forRoot({})],
       controllers: [WechatController],
-      providers: [WechatService],
+      providers: [
+        {
+          provide: 'ICacheStorage',
+          useClass: MemoryStorage,
+        },
+        WechatService,
+      ],
     }).compile();
 
     wechatController = app.get<WechatController>(WechatController);
@@ -75,10 +82,14 @@ describe('pipes', () => {
 
   beforeEach(() => {
     configService = new ConfigService('/not/exists');
-    wechatService = new WechatService(configService, {
-      // tslint:disable-next-line:no-console
-      info: console.log,
-    } as any);
+    wechatService = new WechatService(
+      configService,
+      {
+        // tslint:disable-next-line:no-console
+        info: console.log,
+      } as any,
+      {} as any,
+    );
     wechatController = new WechatController(wechatService, {
       // tslint:disable-next-line:no-console
       log: console.log,
