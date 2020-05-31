@@ -23,7 +23,7 @@ async function bootstrap() {
       limit: '5MB',
       xmlParseOptions: {
         normalize: true,
-        normalizeTags: true,
+        normalizeTags: false,
         explicitArray: false,
       },
     }),

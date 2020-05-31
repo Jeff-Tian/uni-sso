@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Req, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Post,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { WechatService } from './wechat.service';
 import { Logger } from 'nestjs-pino';
 import * as util from 'util';
@@ -48,9 +56,16 @@ export class WechatController {
     return axiosResponse.data.pipe(response);
   }
 
-  @Get('/mp-qr-scanned')
+  @Get('/mp-qr-scan-status')
   async receivedQrScannedMessage(@Req() request) {
-    return await this.wechatService.receiveQrScannedMessage(request);
+    if (!request.query.ticket) {
+      throw new HttpException(
+        'Ticket must have a value!',
+        HttpStatus.NOT_ACCEPTABLE,
+      );
+    }
+
+    return await this.wechatService.getQRScanStatus(request.query.ticket);
   }
 
   @Post('/mp-qr-scanned')
