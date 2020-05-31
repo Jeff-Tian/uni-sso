@@ -11,6 +11,7 @@ import ICacheStorage from '@jeff-tian/memory-storage/src/ICacheStorage';
   providers: [
     {
       provide: 'ICacheStorage',
+      // TODO: use redis storage
       useClass: MemoryStorage,
     },
     WechatService,

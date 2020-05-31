@@ -38,10 +38,13 @@ export class WechatController {
     const {
       imageUrl: url,
       sceneId,
+      ticket,
     } = await this.getMediaPlatformTempQRImageUrl(request);
     const axiosResponse = await axios.get(url, { responseType: 'stream' });
 
     response.setHeader('x-scene-id', sceneId);
+    response.setHeader('x-ticket', ticket);
+
     return axiosResponse.data.pipe(response);
   }
 
@@ -62,6 +65,6 @@ export class WechatController {
 
   @Get('/mp-qr-scenes/count')
   async getQrScenesCount() {
-    return { count: await this.wechatService.getSceneStatusList() };
+    return { count: await this.wechatService.getTicketStatusListSize() };
   }
 }

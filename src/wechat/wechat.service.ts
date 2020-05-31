@@ -29,10 +29,15 @@ export class WechatService {
       this.configService.WECHAT_MP_APP_SECRET,
     );
 
-    this.saveSceneStatus(sceneId, expiresInSeconds * 1000).then();
+    const ticketResult = await wechatApi.createTmpQRCode(
+      sceneId,
+      expiresInSeconds,
+    );
+
+    this.saveTicketStatus(ticketResult.ticket, expiresInSeconds * 1000).then();
 
     return {
-      ...(await wechatApi.createTmpQRCode(sceneId, expiresInSeconds)),
+      ...ticketResult,
       sceneId,
     };
   }
@@ -41,15 +46,15 @@ export class WechatService {
     return this.logger.info(`received message: ${util.inspect(request)}`);
   }
 
-  private async saveSceneStatus(sceneId: string, clearAfter: number) {
+  private async saveTicketStatus(ticket: string, clearAfter: number) {
     await this.cacheStorage.save(
-      `QR-STATUS|${sceneId}`,
+      `QR-STATUS|${ticket}`,
       QR_SCAN_STATUS.NOT_SCANNED,
       clearAfter,
     );
   }
 
-  public async getSceneStatusList() {
+  public async getTicketStatusListSize() {
     return this.cacheStorage.size;
   }
 }

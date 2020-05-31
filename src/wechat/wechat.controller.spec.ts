@@ -10,6 +10,7 @@ import { ConfigService } from '../config/config.service';
 import { Logger } from 'nestjs-pino/dist';
 import { v4 as uuid } from 'uuid';
 import MemoryStorage from '@jeff-tian/memory-storage/src/MemoryStorage';
+import WechatNocked from '../../test/nocks/wechat';
 
 jest.mock('uuid');
 
@@ -37,28 +38,10 @@ describe('WechatController', () => {
 
   describe('mp-qr', () => {
     it('should getMediaPlatformTempQRImage', async () => {
-      // tslint:disable-next-line:no-console
-      const scope = nock('https://api.weixin.qq.com').log(console.log);
-      scope
-        .get(
-          /\/cgi\-bin\/token\?grant_type=client_credential&appid=[\w\d]+&secret=[\w\d]+/,
-        )
-        .reply(200, {});
-
-      scope
-        .post('/cgi-bin/qrcode/create?access_token=undefined', {
-          expire_seconds: 60,
-          action_name: 'QR_STR_SCENE',
-          action_info: {
-            scene: { scene_str: /\d\w\-+/ },
-          },
-        })
-        .reply(200, {
-          expire_seconds: 60,
-          ticket:
-            'gQF27zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyNHZmZWtIb3JmazMxUkRUMjF1Y1IAAgQrd8JeAwQ8AAAA',
-          url: 'http://weixin.qq.com/q/024vfekHorfk31RDT21ucR',
-        });
+      WechatNocked.nockGetClientAccessToken('fake_token');
+      const fakeTicket =
+        'gQF27zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyNHZmZWtIb3JmazMxUkRUMjF1Y1IAAgQrd8JeAwQ8AAAA';
+      WechatNocked.nockCreateTempQRTicket(fakeTicket);
 
       expect(
         await wechatController.getMediaPlatformTempQRImageTicket({
@@ -67,8 +50,7 @@ describe('WechatController', () => {
       ).toStrictEqual({
         expire_seconds: 60,
         sceneId: '1234-5678',
-        ticket:
-          'gQF27zwAAAAAAAAAAS5odHRwOi8vd2VpeGluLnFxLmNvbS9xLzAyNHZmZWtIb3JmazMxUkRUMjF1Y1IAAgQrd8JeAwQ8AAAA',
+        ticket: fakeTicket,
         url: 'http://weixin.qq.com/q/024vfekHorfk31RDT21ucR',
       });
     });
