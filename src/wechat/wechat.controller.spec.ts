@@ -11,6 +11,7 @@ import { Logger } from 'nestjs-pino/dist';
 import { v4 as uuid } from 'uuid';
 import MemoryStorage from '@jeff-tian/memory-storage/src/MemoryStorage';
 import WechatNocked from '../../test/nocks/wechat';
+import QrScanStatus from './QrScanStatus';
 
 jest.mock('uuid');
 
@@ -25,6 +26,10 @@ describe('WechatController', () => {
         {
           provide: 'ICacheStorage',
           useClass: MemoryStorage,
+        },
+        {
+          provide: 'QrScanStatus',
+          useClass: QrScanStatus,
         },
         WechatService,
       ],
@@ -71,6 +76,7 @@ describe('pipes', () => {
         info: console.log,
       } as any,
       {} as any,
+      new QrScanStatus(),
     );
     wechatController = new WechatController(wechatService, {
       // tslint:disable-next-line:no-console

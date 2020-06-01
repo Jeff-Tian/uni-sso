@@ -5,12 +5,11 @@ import { v4 as uuidv4 } from 'uuid';
 import * as util from 'util';
 import { PinoLogger } from 'nestjs-pino/dist';
 import ICacheStorage from '@jeff-tian/memory-storage/src/ICacheStorage';
-import { sleep } from '@jeff-tian/sleep';
+import QrScanStatus from './QrScanStatus';
 
 export enum QR_SCAN_STATUS {
   NOT_SCANNED,
   SCANNED,
-  ERROR,
   TIMEOUT,
 }
 
@@ -24,6 +23,7 @@ export class WechatService {
     private readonly configService: ConfigService,
     private readonly logger: PinoLogger,
     @Inject('ICacheStorage') private readonly cacheStorage: ICacheStorage,
+    @Inject('QrScanStatus') private readonly qrScanStatus: QrScanStatus,
   ) {}
 
   async getMediaPlatformTempQRImageTicketResult(
@@ -48,14 +48,25 @@ export class WechatService {
     };
   }
 
-  async receiveQrScannedMessage(request: any) {
-    return this.logger.info(`received message: ${util.inspect(request)}`);
+  async receiveQrScannedMessage(message: any) {
+    this.logger.info(`received message: ${util.inspect(message)}`);
+
+    this.qrScanStatus.emit(`qr-scanned-${message.Ticket}`);
+    this.saveTicketStatus(
+      message.Ticket,
+      60 * 1000,
+      QR_SCAN_STATUS.SCANNED,
+    ).then();
   }
 
-  private async saveTicketStatus(ticket: string, clearAfter: number) {
+  private async saveTicketStatus(
+    ticket: string,
+    clearAfter: number,
+    status = QR_SCAN_STATUS.NOT_SCANNED,
+  ) {
     await this.cacheStorage.save(
       getTicketStatusKey(ticket),
-      QR_SCAN_STATUS.NOT_SCANNED.toString(),
+      status.toString(),
       clearAfter,
     );
   }
@@ -70,15 +81,33 @@ export class WechatService {
   ) {
     const status = await this.cacheStorage.get(getTicketStatusKey(ticket));
 
-    if (
-      status === QR_SCAN_STATUS.SCANNED.toString() ||
-      status === QR_SCAN_STATUS.ERROR.toString()
-    ) {
+    if (status === QR_SCAN_STATUS.SCANNED.toString()) {
       return literal(status);
     }
 
-    return new Promise((resolve, reject) => {
-      setTimeout(() => reject(new Error('timeout')), timeoutInMilliSeconds);
-    });
+    return Promise.race([
+      new Promise((resolve, reject) =>
+        this.qrScanStatus.on(`qr-scanned-${ticket}`, () =>
+          resolve(literal(QR_SCAN_STATUS.SCANNED.toString())),
+        ),
+      ),
+      new Promise((resolve, reject) =>
+        setTimeout(async () => {
+          const statusAgain = await this.cacheStorage.get(
+            getTicketStatusKey(ticket),
+          );
+          if (statusAgain === QR_SCAN_STATUS.SCANNED.toString()) {
+            resolve(literal(statusAgain));
+          } else {
+            reject(new Error('timeout'));
+            this.saveTicketStatus(
+              ticket,
+              60 * 1000,
+              QR_SCAN_STATUS.TIMEOUT,
+            ).then();
+          }
+        }, timeoutInMilliSeconds),
+      ),
+    ]);
   }
 }

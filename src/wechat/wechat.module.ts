@@ -4,6 +4,7 @@ import { ConfigModule } from '../config/config.module';
 import { WechatService } from './wechat.service';
 import MemoryStorage from '@jeff-tian/memory-storage/src/MemoryStorage';
 import ICacheStorage from '@jeff-tian/memory-storage/src/ICacheStorage';
+import QrScanStatus from './QrScanStatus';
 
 @Module({
   imports: [ConfigModule],
@@ -13,6 +14,10 @@ import ICacheStorage from '@jeff-tian/memory-storage/src/ICacheStorage';
       provide: 'ICacheStorage',
       // TODO: use redis storage
       useClass: MemoryStorage,
+    },
+    {
+      provide: 'QrScanStatus',
+      useClass: QrScanStatus,
     },
     WechatService,
   ],

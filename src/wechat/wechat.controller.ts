@@ -75,7 +75,10 @@ export class WechatController {
         body: request.body,
       },
     ]);
-    return 'Hello';
+
+    this.wechatService.receiveQrScannedMessage(request.body.xml).then();
+
+    return 'Noticed, thank you!';
   }
 
   @Get('/mp-qr-scenes/count')
