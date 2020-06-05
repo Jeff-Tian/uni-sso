@@ -46,6 +46,7 @@ export class AppController {
 
   // @UseGuards(AuthGuard('jwt'))
   @UseGuards(KeycloakAuthGuard)
+  // @UseGuards(AuthGuard('Keycloak')) // This will redirect keycloak.jiwai.win for oauth 2
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;
@@ -82,8 +83,8 @@ export class AppController {
         'bearer-only': true,
         'confidential-port': undefined,
         'ssl-required': 'true',
-        'resource': '',
-        'realm': this.configService.KEYCLOAK_REALM,
+        resource: '',
+        realm: this.configService.KEYCLOAK_REALM,
       },
     );
 

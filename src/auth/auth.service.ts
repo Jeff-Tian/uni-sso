@@ -49,7 +49,7 @@ export class AuthService {
     return this.httpService
       .post<IKeycloakToken>(
         `${this.configService.KEYCLOAK_HOST}/auth/realms/UniHeart/protocol/openid-connect/token`,
-        `username=${user.username}&password=${user.password}&grant_type=password&client_id=render`,
+        `username=${user.username}&password=${user.password}&grant_type=password&client_id=${this.configService.KEYCLOAK_CLIENT_ID}&client_secret=${this.configService.KEYCLOAK_CLIENT_SECRET}`,
         {
           headers: {
             'content-type': 'application/x-www-form-urlencoded',

@@ -44,7 +44,7 @@ describe('AppController (e2e)', () => {
     expect(error).toStrictEqual({ message: 'Unauthorized', statusCode: 401 });
   });
 
-  it.skip('/login (POST) and /profile (GET)', async () => {
+  it('/login (POST) and /profile (GET)', async () => {
     const res = await request(app.getHttpServer())
       .post('/auth/login')
       .send({
@@ -68,11 +68,11 @@ describe('AppController (e2e)', () => {
       given_name: 'Jeff',
       name: 'Jeff Tian',
       preferred_username: 'jeff.tian@outlook.com',
-      sub: '39110bd4-bb6c-48b3-8055-b360cc8cc05a',
+      sub: '71792e89-1d72-4509-b19f-ab19b35adb61',
     });
   });
 
-  it.skip('/login (POST) and /profile (GET) by keycloak', async () => {
+  it('/login (POST) and /profile (GET) by keycloak', async () => {
     const res = await request(app.getHttpServer())
       .post('/keycloak/login')
       .send({
@@ -96,7 +96,7 @@ describe('AppController (e2e)', () => {
       given_name: 'Jeff',
       name: 'Jeff Tian',
       preferred_username: 'jeff.tian@outlook.com',
-      sub: '39110bd4-bb6c-48b3-8055-b360cc8cc05a',
+      sub: '71792e89-1d72-4509-b19f-ab19b35adb61',
     });
   });
 
