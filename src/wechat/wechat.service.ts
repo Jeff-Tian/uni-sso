@@ -6,6 +6,7 @@ import * as util from 'util';
 import { PinoLogger } from 'nestjs-pino/dist';
 import ICacheStorage from '@jeff-tian/memory-storage/src/ICacheStorage';
 import QrScanStatus from './QrScanStatus';
+import { tryCatchProxy } from '@jeff-tian/failable';
 
 export enum QR_SCAN_STATUS {
   NOT_SCANNED,
@@ -30,6 +31,12 @@ export class WechatService {
     sceneId: string = uuidv4(),
     expiresInSeconds: number = 60,
   ) {
+    tryCatchProxy(WechatAPI, (error: Error) => {
+      this.logger.error(error, error.message, {
+        context: 'wechat.service.ts',
+      });
+    });
+
     const wechatApi = new WechatAPI(
       this.configService.WECHAT_MP_APP_ID,
       this.configService.WECHAT_MP_APP_SECRET,

@@ -6,10 +6,10 @@ services:
     image: mongo:3.4
     restart: always
     ports:
-      27017:27017
+      - 27017:27017
 
   uni-sso:
     image: jeff-tian/uni-sso
     restart: always
     ports:
-      3000:3000
+      - 3000:3000

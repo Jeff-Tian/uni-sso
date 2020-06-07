@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",
+    "@jeff-tian/failable": "^1.4.0",
     "@jeff-tian/keycloak-passport": "^1.0.0",
     "@jeff-tian/memory-storage": "^1.1.11",
     "@jeff-tian/nest-keycloak-connect": "^1.2.1",
