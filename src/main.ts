@@ -4,6 +4,7 @@ import { trustedHosts } from './config/trusted-hosts';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import xmlParser from 'body-parser-xml';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 xmlParser(bodyParser);
 
@@ -28,6 +29,16 @@ async function bootstrap() {
       },
     }),
   );
+
+  const options = new DocumentBuilder()
+    .setTitle('Uni SSO')
+    .setDescription('Single sign on, once and for all')
+    .setVersion('1.0')
+    .addTag('sso')
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(process.env.PORT || 3000);
 }

@@ -5,6 +5,10 @@
 [![Build Status](https://travis-ci.com/Jeff-Tian/uni-sso.svg?branch=master)](https://travis-ci.com/Jeff-Tian/uni-sso)
 [![Assertible status](https://assertible.com/apis/ed5330e3-148c-41c1-b76c-c5d6046227a0/status?api_token=7uy5oHmuxHm5lZoO)](https://assertible.com/dashboard#/services/ed5330e3-148c-41c1-b76c-c5d6046227a0/results)
 
+## API Documentation
+
+- **Swagger Hub**: https://sso.jiwai.win/api
+
 ## Deployments
 
 This project's Travis CI will deploy it to 3 PaaS platforms. To make it deploy to KubeSail and Okteto successfully
