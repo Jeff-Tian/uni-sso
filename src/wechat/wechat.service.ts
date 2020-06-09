@@ -20,16 +20,13 @@ const getTicketStatusKey = (ticket: string) => `QR-STATUS|${ticket}`;
 
 @Injectable()
 export class WechatService {
+  private readonly wechatApi;
+
   constructor(
     private readonly configService: ConfigService,
     private readonly logger: PinoLogger,
     @Inject('ICacheStorage') private readonly cacheStorage: ICacheStorage,
     @Inject('QrScanStatus') private readonly qrScanStatus: QrScanStatus,
-  ) {}
-
-  async getMediaPlatformTempQRImageTicketResult(
-    sceneId: string = uuidv4(),
-    expiresInSeconds: number = 60,
   ) {
     tryCatchProxy(WechatAPI, (error: Error) => {
       this.logger.error(error, error.message, {
@@ -37,12 +34,17 @@ export class WechatService {
       });
     });
 
-    const wechatApi = new WechatAPI(
+    this.wechatApi = new WechatAPI(
       this.configService.WECHAT_MP_APP_ID,
       this.configService.WECHAT_MP_APP_SECRET,
     );
+  }
 
-    const ticketResult = await wechatApi.createTmpQRCode(
+  async getMediaPlatformTempQRImageTicketResult(
+    sceneId: string = uuidv4(),
+    expiresInSeconds: number = 60,
+  ) {
+    const ticketResult = await this.wechatApi.createTmpQRCode(
       sceneId,
       expiresInSeconds,
     );
@@ -64,6 +66,13 @@ export class WechatService {
       60 * 1000,
       QR_SCAN_STATUS.SCANNED,
     ).then();
+
+    const profile = await this.wechatApi.getUser({
+      openid: message.FromUserName,
+      lang: 'en',
+    });
+
+    this.logger.info(`got user profile = ${util.inspect(profile)}`);
   }
 
   private async saveTicketStatus(
