@@ -83,8 +83,8 @@ export class AppController {
         'bearer-only': true,
         'confidential-port': undefined,
         'ssl-required': 'true',
-        resource: '',
-        realm: this.configService.KEYCLOAK_REALM,
+        'resource': '',
+        'realm': this.configService.KEYCLOAK_REALM,
       },
     );
 

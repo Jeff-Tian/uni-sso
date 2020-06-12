@@ -58,9 +58,18 @@ environment variables.
 
 ## Logging
 
-Log streamed to elastic search,
+Log streamed to elastic search
 
-### Kibana:
+### Local
+
+- https://gimli-eu-west-1.searchly.com
+
+### Production
+
+- https://uniheart-2072617778.ap-southeast-2.bonsaisearch.net
+- Dashboard: https://app.bonsai.io/login
+
+#### Kibana
 
 - https://uniheart-2072617778.k4a.bonsaisearch.net/app/kibana#/discover
 - https://uni-sso-kibana.herokuapp.com/

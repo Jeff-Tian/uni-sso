@@ -17,6 +17,7 @@ export enum QR_SCAN_STATUS {
 export const literal = (status: string) => QR_SCAN_STATUS[Number(status)];
 
 const getTicketStatusKey = (ticket: string) => `QR-STATUS|${ticket}`;
+const getTicketUserKey = (ticket: string) => `USER|${ticket}`;
 
 @Injectable()
 export class WechatService {
@@ -61,18 +62,25 @@ export class WechatService {
     this.logger.info(`received message: ${util.inspect(message)}`);
 
     this.qrScanStatus.emit(`qr-scanned-${message.Ticket}`);
+
     this.saveTicketStatus(
       message.Ticket,
       60 * 1000,
       QR_SCAN_STATUS.SCANNED,
     ).then();
 
-    const profile = await this.wechatApi.getUser({
-      openid: message.FromUserName,
-      lang: 'en',
-    });
+    this.saveTicketUserOpenIdMapping(
+      message.Ticket,
+      60 * 1000,
+      message.FromUserName,
+    ).then();
 
-    this.logger.info(`got user profile = ${util.inspect(profile)}`);
+    // const profile = await this.wechatApi.getUser({
+    //   openid: message.FromUserName,
+    //   lang: 'en',
+    // });
+    //
+    // this.logger.info(`got user profile = ${util.inspect(profile)}`);
   }
 
   private async saveTicketStatus(
@@ -87,6 +95,14 @@ export class WechatService {
     );
   }
 
+  private async saveTicketUserOpenIdMapping(
+    ticket: string,
+    clearAfter: number,
+    openid: string,
+  ) {
+    await this.cacheStorage.save(getTicketUserKey(ticket), openid, clearAfter);
+  }
+
   public async getTicketStatusListSize() {
     return this.cacheStorage.size;
   }
@@ -98,14 +114,20 @@ export class WechatService {
     const status = await this.cacheStorage.get(getTicketStatusKey(ticket));
 
     if (status === QR_SCAN_STATUS.SCANNED.toString()) {
-      return literal(status);
+      const openId = await this.cacheStorage.get(getTicketUserKey(ticket));
+      return { status: literal(status), openId };
     }
 
     return Promise.race([
       new Promise((resolve, reject) =>
-        this.qrScanStatus.on(`qr-scanned-${ticket}`, () =>
-          resolve(literal(QR_SCAN_STATUS.SCANNED.toString())),
-        ),
+        this.qrScanStatus.on(`qr-scanned-${ticket}`, async () => {
+          const openId = await this.cacheStorage.get(getTicketUserKey(ticket));
+
+          return resolve({
+            status: literal(QR_SCAN_STATUS.SCANNED.toString()),
+            openId,
+          });
+        }),
       ),
       new Promise((resolve, reject) =>
         setTimeout(async () => {
