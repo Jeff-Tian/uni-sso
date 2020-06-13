@@ -61,19 +61,24 @@ export class WechatService {
   async receiveQrScannedMessage(message: any) {
     this.logger.info(`received message: ${util.inspect(message)}`);
 
-    this.qrScanStatus.emit(`qr-scanned-${message.Ticket}`);
+    const savingTicketUserOpenIdPromise = this.saveTicketUserOpenIdMapping(
+      message.Ticket,
+      2 * 60 * 1000,
+      message.FromUserName,
+    );
 
-    this.saveTicketStatus(
+    const savingTicketStatusPromise = this.saveTicketStatus(
       message.Ticket,
       60 * 1000,
       QR_SCAN_STATUS.SCANNED,
-    ).then();
+    );
 
-    this.saveTicketUserOpenIdMapping(
-      message.Ticket,
-      60 * 1000,
-      message.FromUserName,
-    ).then();
+    await Promise.all([
+      savingTicketUserOpenIdPromise,
+      savingTicketStatusPromise,
+    ]);
+
+    this.qrScanStatus.emit(`qr-scanned-${message.Ticket}`);
 
     // const profile = await this.wechatApi.getUser({
     //   openid: message.FromUserName,
@@ -107,6 +112,15 @@ export class WechatService {
     return this.cacheStorage.size;
   }
 
+  /**
+   * query QR Scan status
+   *
+   * @param ticket
+   * @param timeoutInMilliSeconds
+   *
+   * TODO: Return ticket only, and for keycloak.jiwai.win to exchange openid by
+   * ticket later
+   */
   async getQRScanStatus(
     ticket: string,
     timeoutInMilliSeconds: number = 60 * 1000,

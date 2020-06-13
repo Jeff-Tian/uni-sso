@@ -65,11 +65,7 @@ export class WechatController {
       );
     }
 
-    return {
-      status: await this.wechatService.getQRScanStatus(request.query.ticket),
-      // TODO: Return ticket only, and for keycloak.jiwai.win to exchange openid by ticket later
-      openid: ''
-    };
+    return await this.wechatService.getQRScanStatus(request.query.ticket);
   }
 
   @Post('/mp-qr-scanned')
