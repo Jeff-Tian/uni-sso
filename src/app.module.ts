@@ -14,6 +14,7 @@ import pinoHttp from 'pino-http';
 import { DestinationStream } from 'pino';
 import { Params } from 'nestjs-pino/dist';
 import tee from 'pino-tee';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import tee from 'pino-tee';
     TypegooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        uri: configService.get('MONGODB_URI'),
+        uri: configService.get('MONGODB_URI') as string,
       }),
       inject: [ConfigService],
     }),
@@ -47,9 +48,9 @@ import tee from 'pino-tee';
         teeable.tee(process.stdout);
         teeable.tee(
           pinoElastic({
-            'index': 'uniheart',
-            'consistency': 'one',
-            'node': configService.ELASTIC_SEARCH_NODE,
+            index: 'uniheart',
+            consistency: 'one',
+            node: configService.ELASTIC_SEARCH_NODE,
             'es-version': 7,
             'bulk-size': 200,
           }) as DestinationStream,
@@ -63,6 +64,12 @@ import tee from 'pino-tee';
           ],
         } as Params;
       },
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) =>
+        configService.getTypeOrmConfig(),
+      inject: [ConfigService],
     }),
   ],
   controllers: [AppController],

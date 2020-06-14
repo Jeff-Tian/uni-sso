@@ -22,7 +22,7 @@ describe('AppController', () => {
           imports: [ConfigModule],
           useFactory: async (configService: ConfigService) => {
             return {
-              secret: configService.get('JWT_SECRET'),
+              secret: configService.get('JWT_SECRET') as string,
               signOptions: { expiresIn: '60s' },
             };
           },

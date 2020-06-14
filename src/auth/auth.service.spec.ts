@@ -23,7 +23,7 @@ describe('AuthService', () => {
       imports: [
         ConfigModule,
         JwtModule.register({
-          secret: config.get('JWT_SECRET'),
+          secret: config.get('JWT_SECRET') as string,
           signOptions: { expiresIn: '60s' },
         }),
         KeycloakConnectModule.registerAsync({

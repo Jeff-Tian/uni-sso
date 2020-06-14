@@ -10,6 +10,6 @@ export class AppService {
   }
 
   getConfig(): string {
-    return this.configService.get('env');
+    return this.configService.get('env') as string;
   }
 }

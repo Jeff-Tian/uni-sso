@@ -2,8 +2,9 @@ import Joi from '@hapi/joi';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import R, { pick } from 'ramda';
+import { PostgresConnectionCredentialsOptions } from 'typeorm/driver/postgres/PostgresConnectionCredentialsOptions';
 
-export type EnvConfig = Record<string, string>;
+export type EnvConfig = Record<string, string | number>;
 
 export interface Config {
   NODE_ENV: string;
@@ -16,6 +17,8 @@ export interface Config {
   KEYCLOAK_REALM: string;
   KEYCLOAK_CLIENT_SECRET: string;
   ELASTIC_SEARCH_NODE: string;
+
+  getTypeOrmConfig: () => PostgresConnectionCredentialsOptions;
 }
 
 const schema = {
@@ -33,6 +36,13 @@ const schema = {
   WECHAT_MP_APP_ID: Joi.string(),
   WECHAT_MP_APP_SECRET: Joi.string(),
   ELASTIC_SEARCH_NODE: Joi.string(),
+
+  POSTGRES_URL: Joi.string().optional(),
+  POSTGRES_HOST: Joi.string().optional(),
+  POSTGRES_PORT: Joi.number().optional(),
+  POSTGRES_USERNAME: Joi.string().optional(),
+  POSTGRES_PASSWORD: Joi.string().optional(),
+  POSTGRES_DATABASE: Joi.string().optional(),
 };
 
 const safeRead = filePath =>
@@ -59,21 +69,21 @@ export class ConfigService implements Config {
       ...(overrideFilePath ? safeRead(overrideFilePath) : {}),
     });
 
-    this.NODE_ENV = this.get('NODE_ENV');
-    this.PORT = this.get('PORT');
-    this.JWT_SECRET = this.get('JWT_SECRET');
-    this.MONGODB_URI = this.get('MONGODB_URI');
-    this.env = this.get('env');
-    this.KEYCLOAK_CLIENT_ID = this.get('KEYCLOAK_CLIENT_ID');
-    this.KEYCLOAK_HOST = this.get('KEYCLOAK_HOST');
-    this.KEYCLOAK_REALM = this.get('KEYCLOAK_REALM');
-    this.KEYCLOAK_CLIENT_SECRET = this.get('KEYCLOAK_CLIENT_SECRET');
-    this.WECHAT_MP_APP_ID = this.get('WECHAT_MP_APP_ID');
-    this.WECHAT_MP_APP_SECRET = this.get('WECHAT_MP_APP_SECRET');
-    this.ELASTIC_SEARCH_NODE = this.get('ELASTIC_SEARCH_NODE');
+    this.NODE_ENV = this.get('NODE_ENV') as string;
+    this.PORT = this.get('PORT') as string;
+    this.JWT_SECRET = this.get('JWT_SECRET') as string;
+    this.MONGODB_URI = this.get('MONGODB_URI') as string;
+    this.env = this.get('env') as string;
+    this.KEYCLOAK_CLIENT_ID = this.get('KEYCLOAK_CLIENT_ID') as string;
+    this.KEYCLOAK_HOST = this.get('KEYCLOAK_HOST') as string;
+    this.KEYCLOAK_REALM = this.get('KEYCLOAK_REALM') as string;
+    this.KEYCLOAK_CLIENT_SECRET = this.get('KEYCLOAK_CLIENT_SECRET') as string;
+    this.WECHAT_MP_APP_ID = this.get('WECHAT_MP_APP_ID') as string;
+    this.WECHAT_MP_APP_SECRET = this.get('WECHAT_MP_APP_SECRET') as string;
+    this.ELASTIC_SEARCH_NODE = this.get('ELASTIC_SEARCH_NODE') as string;
   }
 
-  get(key: string): string {
+  get(key: string): string | number {
     return this.envConfig[key];
   }
 
@@ -99,4 +109,15 @@ export class ConfigService implements Config {
 
   KEYCLOAK_REALM: string;
   KEYCLOAK_CLIENT_SECRET: string;
+
+  getTypeOrmConfig(): PostgresConnectionCredentialsOptions {
+    return {
+      url: this.get('POSTGRES_URL') as string,
+      host: this.get('POSTGRES_HOST') as string,
+      port: this.get('POSTGRES_PORT') as number,
+      username: this.get('POSTGRES_USERNAME') as string,
+      password: this.get('POSTGRES_PASSWORD') as string,
+      database: this.get('POSTGRES_DATABASE') as string,
+    };
+  }
 }
