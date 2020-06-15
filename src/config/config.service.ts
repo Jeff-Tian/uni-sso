@@ -2,7 +2,7 @@ import Joi from '@hapi/joi';
 import dotenv from 'dotenv';
 import fs from 'fs';
 import R, { pick } from 'ramda';
-import { PostgresConnectionCredentialsOptions } from 'typeorm/driver/postgres/PostgresConnectionCredentialsOptions';
+import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-options.interface';
 
 export type EnvConfig = Record<string, string | number>;
 
@@ -18,7 +18,7 @@ export interface Config {
   KEYCLOAK_CLIENT_SECRET: string;
   ELASTIC_SEARCH_NODE: string;
 
-  getTypeOrmConfig: () => PostgresConnectionCredentialsOptions;
+  getTypeOrmConfig: () => TypeOrmModuleOptions;
 }
 
 const schema = {
@@ -45,10 +45,14 @@ const schema = {
   POSTGRES_DATABASE: Joi.string().optional(),
 };
 
+const parseFromFile = R.compose(
+  dotenv.parse,
+  fs.readFileSync,
+);
+const parseFromEnv = pick(Object.keys(schema), process.env);
+
 const safeRead = filePath =>
-  fs.existsSync(filePath)
-    ? R.compose(dotenv.parse, fs.readFileSync)(filePath)
-    : pick(Object.keys(schema), process.env);
+  fs.existsSync(filePath) ? parseFromFile(filePath) : parseFromEnv;
 
 export class ConfigService implements Config {
   NODE_ENV: string;
@@ -110,14 +114,16 @@ export class ConfigService implements Config {
   KEYCLOAK_REALM: string;
   KEYCLOAK_CLIENT_SECRET: string;
 
-  getTypeOrmConfig(): PostgresConnectionCredentialsOptions {
+  getTypeOrmConfig(): TypeOrmModuleOptions {
     return {
+      type: 'postgres',
       url: this.get('POSTGRES_URL') as string,
       host: this.get('POSTGRES_HOST') as string,
       port: this.get('POSTGRES_PORT') as number,
       username: this.get('POSTGRES_USERNAME') as string,
       password: this.get('POSTGRES_PASSWORD') as string,
       database: this.get('POSTGRES_DATABASE') as string,
+      autoLoadEntities: true,
     };
   }
 }

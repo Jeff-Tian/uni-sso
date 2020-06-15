@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { getModelToken } from 'nestjs-typegoose';
 import { User } from './user.model';
+import { User as UserEntity } from './user.entity';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -10,6 +12,7 @@ describe('UsersService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         { provide: getModelToken('User'), useValue: User },
+        { provide: getRepositoryToken(UserEntity), useValue: {} },
         UsersService,
       ],
     }).compile();

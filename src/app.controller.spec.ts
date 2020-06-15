@@ -4,12 +4,14 @@ import { AppService } from './app.service';
 import { ConfigModule } from './config/config.module';
 import { getModelToken } from 'nestjs-typegoose';
 import { User } from './users/user.model';
+import { User as UserEntity } from './users/user.entity';
 import { UsersService } from './users/users.service';
 import { AuthService } from './auth/auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from './config/config.service';
 import { HttpModule } from '@nestjs/common';
 import { KeycloakConnectModule } from '@jeff-tian/nest-keycloak-connect';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -43,6 +45,7 @@ describe('AppController', () => {
       controllers: [AppController],
       providers: [
         { provide: getModelToken('User'), useValue: User },
+        { provide: getRepositoryToken(UserEntity), useValue: {} },
         UsersService,
         AuthService,
         AppService,

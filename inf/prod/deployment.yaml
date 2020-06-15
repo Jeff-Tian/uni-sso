@@ -89,6 +89,11 @@ spec:
                 secretKeyRef:
                   name: uni-sso-secrets
                   key: ELASTIC_SEARCH_NODE
+            - name: POSTGRES_SQL
+              valueFrom:
+                secretKeyRef:
+                  name: uni-sso-secrets
+                  key: POSTGRES_SQL
           ports:
             - containerPort: 3000
               name: http

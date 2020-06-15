@@ -7,9 +7,18 @@ services:
     restart: always
     ports:
       - 27017:27017
-
-  uni-sso:
-    image: jeff-tian/uni-sso
+  local-postgres:
+    image: postgres
     restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+    - ./data/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
-      - 3000:3000
+      - 5432:5432
+
+#  uni-sso:
+#    image: jeff-tian/uni-sso
+#    restart: always
+#    ports:
+#      - 3000:3000

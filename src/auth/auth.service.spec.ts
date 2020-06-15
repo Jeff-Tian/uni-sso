@@ -5,9 +5,11 @@ import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '../config/config.service';
 import { getModelToken } from 'nestjs-typegoose';
 import { User } from '../users/user.model';
+import { User as UserEntity } from '../users/user.entity';
 import { UsersService } from '../users/users.service';
 import { KeycloakConnectModule } from '@jeff-tian/nest-keycloak-connect';
 import { HttpModule } from '@nestjs/common';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -40,6 +42,7 @@ describe('AuthService', () => {
       ],
       providers: [
         { provide: getModelToken('User'), useValue: User },
+        { provide: getRepositoryToken(UserEntity), useValue: {} },
         UsersService,
         AuthService,
         ConfigService,
