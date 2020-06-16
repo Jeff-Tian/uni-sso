@@ -1,6 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity({
+  name: 'public.user_entity',
+})
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -9,19 +11,23 @@ export class User {
   email: string;
 
   @Column()
-  emailVerified: string;
+    // tslint:disable-next-line:variable-name
+  email_verified: string;
 
   @Column()
-  firstName: string;
+    // tslint:disable-next-line:variable-name
+  first_name: string;
 
   @Column()
-  lastName: string;
+    // tslint:disable-next-line:variable-name
+  last_name: string;
 
   @Column()
   username: string;
 
   @Column()
-  createdTimestamp: Date;
+    // tslint:disable-next-line:variable-name
+  created_timestamp: Date;
 
   @Column({ default: true })
   enabled: boolean;

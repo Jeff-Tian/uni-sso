@@ -43,6 +43,7 @@ const schema = {
   POSTGRES_USERNAME: Joi.string().optional(),
   POSTGRES_PASSWORD: Joi.string().optional(),
   POSTGRES_DATABASE: Joi.string().optional(),
+  POSTGRES_SSL: Joi.boolean().optional(),
 };
 
 const parseFromFile = R.compose(dotenv.parse, fs.readFileSync);
@@ -84,7 +85,7 @@ export class ConfigService implements Config {
     this.ELASTIC_SEARCH_NODE = this.get('ELASTIC_SEARCH_NODE') as string;
   }
 
-  get(key: string): string | number {
+  get(key: string): string | number | boolean {
     return this.envConfig[key];
   }
 
@@ -121,12 +122,14 @@ export class ConfigService implements Config {
       password: this.get('POSTGRES_PASSWORD') as string,
       database: this.get('POSTGRES_DATABASE') as string,
       autoLoadEntities: true,
-      ssl: true,
-      extra: {
-        ssl: {
-          rejectUnauthorized: false,
-        },
-      },
+      ssl: this.get('POSTGRES_SSL') as boolean,
+      extra: (this.get('POSTGRES_SSL') as boolean)
+        ? {
+            ssl: {
+              rejectUnauthorized: false,
+            },
+          }
+        : {},
     };
   }
 }
