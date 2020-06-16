@@ -21,7 +21,7 @@ cache:
 env:
   ci: true
 before_install:
-  - psql -U postgres --password="" < data/init.sql
+  - psql -U postgres < data/init.sql
 before_script:
   - echo "before script..."
   - curl https://downloads.dockerslim.com/releases/1.29.0/dist_linux.tar.gz | tar xvz
