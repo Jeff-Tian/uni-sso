@@ -21,6 +21,7 @@ cache:
 env:
   ci: true
 before_install:
+  - psql -c 'create database travis_ci_test;' -U postgres
   - psql -U postgres < data/seeds.sql
 before_script:
   - echo "before script..."
@@ -29,7 +30,6 @@ before_script:
   - ls docker-slim
   - sleep 9
   - mongo mydb_test --eval 'db.createUser({user:"travis",pwd:"test",roles:["readWrite"]});'
-  - psql -c 'create database travis_ci_test;' -U postgres
 script:
   - npm test
   - echo "KEYCLOAK_CLIENT_SECRET = ${KEYCLOAK_CLIENT_SECRET}" >> config/test.env
