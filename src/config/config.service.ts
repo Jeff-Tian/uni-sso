@@ -121,8 +121,11 @@ export class ConfigService implements Config {
       password: this.get('POSTGRES_PASSWORD') as string,
       database: this.get('POSTGRES_DATABASE') as string,
       autoLoadEntities: true,
+      ssl: true,
       extra: {
-        ssl: true,
+        ssl: {
+          rejectUnauthorized: false,
+        },
       },
     };
   }
