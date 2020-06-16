@@ -45,14 +45,11 @@ const schema = {
   POSTGRES_DATABASE: Joi.string().optional(),
 };
 
-const parseFromFile = R.compose(
-  dotenv.parse,
-  fs.readFileSync,
-);
-const parseFromEnv = pick(Object.keys(schema), process.env);
+const parseFromFile = R.compose(dotenv.parse, fs.readFileSync);
+const parseFromEnv = env => pick(Object.keys(schema), env);
 
-const safeRead = filePath =>
-  fs.existsSync(filePath) ? parseFromFile(filePath) : parseFromEnv;
+const safeRead = (filePath, env) =>
+  fs.existsSync(filePath) ? parseFromFile(filePath) : parseFromEnv(env);
 
 export class ConfigService implements Config {
   NODE_ENV: string;
@@ -67,10 +64,10 @@ export class ConfigService implements Config {
   WECHAT_MP_APP_SECRET: string;
   ELASTIC_SEARCH_NODE: string;
 
-  constructor(filePath: string, overrideFilePath?: string) {
+  constructor(filePath: string, overrideFilePath?: string, env = process.env) {
     this.envConfig = this.validateInput({
-      ...safeRead(filePath),
-      ...(overrideFilePath ? safeRead(overrideFilePath) : {}),
+      ...safeRead(filePath, env),
+      ...(overrideFilePath ? safeRead(overrideFilePath, env) : {}),
     });
 
     this.NODE_ENV = this.get('NODE_ENV') as string;
