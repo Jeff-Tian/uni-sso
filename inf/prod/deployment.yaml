@@ -95,7 +95,7 @@ spec:
                   name: uni-sso-secrets
                   key: POSTGRES_URL
             - name: POSTGRES_SSL
-              value: true
+              value: "true"
           ports:
             - containerPort: 3000
               name: http
