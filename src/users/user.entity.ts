@@ -11,23 +11,25 @@ export class User {
   email: string;
 
   @Column()
-    // tslint:disable-next-line:variable-name
+  // tslint:disable-next-line:variable-name
   email_verified: string;
 
   @Column()
-    // tslint:disable-next-line:variable-name
+  // tslint:disable-next-line:variable-name
   first_name: string;
 
   @Column()
-    // tslint:disable-next-line:variable-name
+  // tslint:disable-next-line:variable-name
   last_name: string;
 
   @Column()
   username: string;
 
-  @Column()
-    // tslint:disable-next-line:variable-name
-  created_timestamp: Date;
+  @Column({
+    type: 'bigint',
+  })
+  // tslint:disable-next-line:variable-name
+  created_timestamp: number;
 
   @Column({ default: true })
   enabled: boolean;

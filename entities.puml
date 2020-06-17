@@ -1,0 +1,12 @@
+@startuml
+class User {
+    +id: number
+    +email: string
+    +email_verified: string
+    +first_name: string
+    +last_name: string
+    +username: string
+    +created_timestamp: number
+    +enabled: boolean
+}
+@enduml
