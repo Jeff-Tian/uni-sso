@@ -112,6 +112,6 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Models
+## Entities
 
-![Models](./models.svg)
+![Entities](./entities.svg)

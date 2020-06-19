@@ -5,24 +5,25 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 })
 export class User {
   @PrimaryGeneratedColumn()
+  @Column({ type: 'varchar', length: 36 })
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255 })
   email: string;
 
-  @Column()
+  @Column({type: 'boolean'})
   // tslint:disable-next-line:variable-name
   email_verified: string;
 
-  @Column()
+  @Column({type: 'varchar', length: 255})
   // tslint:disable-next-line:variable-name
   first_name: string;
 
-  @Column()
+  @Column({type: 'varchar', length: 255})
   // tslint:disable-next-line:variable-name
   last_name: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 255 })
   username: string;
 
   @Column({
@@ -31,6 +32,6 @@ export class User {
   // tslint:disable-next-line:variable-name
   created_timestamp: number;
 
-  @Column({ default: true })
+  @Column({ default: true, type: 'boolean' })
   enabled: boolean;
 }
