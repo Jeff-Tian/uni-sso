@@ -23,7 +23,7 @@
     "deploy": "npx deploy-node-app&&kubectl apply -f okteto/k8s.yml",
     "update": "kubectl --context=\"kubesail-jeff-tian\" apply -k inf/prod&&kubectl --context=\"cloud_okteto_com\" apply -f okteto/k8s.yml",
     "update-deployment": "kubectl --context=\"kubesail-jeff-tian\" apply -f inf/prod/deployment.yaml&&kubectl --context=\"cloud_okteto_com\" apply -f okteto/k8s.yml",
-    "tplant": "tplant --project tsconfig.json --input src/**/\\*.entity.ts --output entities.svg && npm run tplantuml && npm run tplantex && open entities.svg",
+    "tplant": "tplant --project tsconfig.json --input src/**/\\*.entity.ts --output entities.svg && npm run tplantuml && npm run tplantex && open entities.svg && java -Djava.awt.headless=true -jar tools/plantuml.jar -charset UTF-8 -tlatex:nopreamble entities.puml",
     "tplantuml": "tplant --input src/**/\\*.entity.ts --output entities.puml",
     "tplantex": "npm run tplantuml && (echo \"\\\\\\begin{plantuml}\n\" | cat - entities.puml > /tmp/out) && echo \"\n\n\\\\\\end{plantuml}\n\" >> /tmp/out && cat /tmp/out && mv /tmp/out entities.tex",
     "kubesail": "k8ss switch --cluster=kubesail --namespace=jeff-tian",
