@@ -7,6 +7,7 @@ services:
     restart: always
     ports:
       - 27017:27017
+
   local-postgres:
     image: postgres
     restart: always
@@ -14,9 +15,15 @@ services:
       POSTGRES_PASSWORD: example
     volumes:
     - ./data/init.sql:/docker-entrypoint-initdb.d/init.sql
-    - ./data/seeds.sql:/docker-entrypoint-initdb.d/seeds.sql
+#    - ./data:/var/lib/postgresql/data
     ports:
       - 5432:5432
+
+  adminer:
+    image: adminer:4.7.7
+    restart: always
+    ports:
+      - 7777:8080
 
 #  uni-sso:
 #    image: jeff-tian/uni-sso

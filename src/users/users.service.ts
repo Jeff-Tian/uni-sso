@@ -5,6 +5,7 @@ import { ReturnModelType } from '@typegoose/typegoose';
 import { User as UserEntity } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UserAttribute } from './user-attribute.entity';
 
 @Injectable()
 export class UsersService {
@@ -12,6 +13,8 @@ export class UsersService {
     @InjectModel(User) private readonly userModel: ReturnModelType<typeof User>,
     @InjectRepository(UserEntity)
     private readonly usersRepo: Repository<UserEntity>,
+    @InjectRepository(UserAttribute)
+    private readonly userAttributesRepo: Repository<UserAttribute>,
   ) {}
 
   async findOne(username: string): Promise<User | undefined> {
@@ -20,6 +23,10 @@ export class UsersService {
 
   async findAll(): Promise<UserEntity[]> {
     return await this.usersRepo.find();
+  }
+
+  async findAllUserAttributes(): Promise<UserAttribute[]> {
+    return await this.userAttributesRepo.find();
   }
 
   async create(createUserDto: {

@@ -3,8 +3,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { sleep } from '@jeff-tian/sleep';
-import { v4 as uuid } from 'uuid';
-import WechatNocked from './nocks/wechat';
 
 jest.setTimeout(10000);
 describe('UsersController (e2e)', () => {
@@ -33,5 +31,11 @@ describe('UsersController (e2e)', () => {
     await request(app.getHttpServer())
       .get('/users')
       .expect(200);
+  });
+
+  it('/users/attributes', async () => {
+    await request(app.getHttpServer())
+      .get('/users/attributes')
+    .expect(200);
   });
 });

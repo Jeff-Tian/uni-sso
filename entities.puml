@@ -1,12 +1,8 @@
 @startuml
-class User {
+class UserAttribute {
     +id: varchar(36)
-    +email: varchar(255)
-    +email_verified: boolean
-    +first_name: varchar(255)
-    +last_name: varchar(255)
-    +username: varchar(255)
-    +created_timestamp: bigint
-    +enabled: boolean
+    +name: varchar(255)
+    +value: varchar(255)
+    +user_id: varchar(255)
 }
 @enduml

@@ -5,11 +5,12 @@ import { UsersService } from './users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User as UserEntity } from './user.entity';
 import { UsersController } from './users.controller';
+import { UserAttribute } from './user-attribute.entity';
 
 @Module({
   imports: [
     TypegooseModule.forFeature([User]),
-    TypeOrmModule.forFeature([UserEntity]),
+    TypeOrmModule.forFeature([UserEntity, UserAttribute]),
   ],
   controllers: [UsersController],
   providers: [UsersService],
