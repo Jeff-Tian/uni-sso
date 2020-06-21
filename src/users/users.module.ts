@@ -6,11 +6,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User as UserEntity } from './user.entity';
 import { UsersController } from './users.controller';
 import { UserAttribute } from './user-attribute.entity';
+import { Credential } from './credential.entity';
+import { ThirdPartyIdentity } from './third-party-identity.entity';
 
 @Module({
   imports: [
     TypegooseModule.forFeature([User]),
-    TypeOrmModule.forFeature([UserEntity, UserAttribute]),
+    TypeOrmModule.forFeature([
+      UserEntity,
+      UserAttribute,
+      Credential,
+      ThirdPartyIdentity,
+    ]),
   ],
   controllers: [UsersController],
   providers: [UsersService],

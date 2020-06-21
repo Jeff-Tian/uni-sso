@@ -2,11 +2,45 @@
 
 @startuml
 class UserAttribute {
-    +id: varchar(36)
-    +name: varchar(255)
-    +value: varchar(255)
-    +user_id: varchar(255)
+    +id: character varying(36)
+    +name: character varying(255)
+    +value: character varying(255)
+    +user_id: character varying(36)
 }
+class Credential {
+    +id: character varying(36)
+    +slat: bytea
+    +type: character varying(255)
+    +userId: character varying(36)
+    +createdDate: bigint
+    +userLabel: character varying(255)
+    +secretData: text
+    +credentialData: text
+    +priority: integer
+}
+class ThirdPartyIdentity {
+    +identityProvider: character varying(255)
+    +userId: character varying(36)
+    +thirdPartyUserId: character varying(255)
+    +thirdPartyUserName: character varying(255)
+    +token: text
+}
+class User {
+    +id: character varying(36)
+    +email: character varying(255)
+    +emailVerified: boolean
+    +firstName: character varying(255)
+    +lastName: character varying(255)
+    +username: character varying(255)
+    +createdTimestamp: bigint
+    +enabled: boolean
+    +userAttributes: UserAttribute[]
+    +credentials: Credential[]
+    +thirdPartyIdentities: ThirdPartyIdentity[]
+}
+User --> UserAttribute
+User --> Credential
+User --> ThirdPartyIdentity
 @enduml
 
 \end{plantuml}
