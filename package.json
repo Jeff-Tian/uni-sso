@@ -27,7 +27,8 @@
     "tplantuml": "tplant --input src/**/\\*.entity.ts --output entities.puml",
     "tplantex": "npm run tplantuml && (echo \"\\\\\\begin{plantuml}\n\" | cat - entities.puml > /tmp/out) && echo \"\n\n\\\\\\end{plantuml}\n\" >> /tmp/out && cat /tmp/out && mv /tmp/out entities.tex",
     "kubesail": "k8ss switch --cluster=kubesail --namespace=jeff-tian",
-    "k8ss:okteto": "k8ss switch --cluster=okteto --namespace=jeff-tian"
+    "k8ss:okteto": "k8ss switch --cluster=okteto --namespace=jeff-tian",
+    "README": "latexmk -lualatex -f -shell-escape README && open README.pdf"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",
