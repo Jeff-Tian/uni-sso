@@ -13,11 +13,13 @@ import {
 xmlParser(bodyParser);
 
 async function bootstrap() {
+  const fastifyAdapter = new FastifyAdapter({
+    logger: true,
+  });
+
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter({
-      logger: true,
-    }),
+    fastifyAdapter,
     {
       cors: {
         origin: trustedHosts,
