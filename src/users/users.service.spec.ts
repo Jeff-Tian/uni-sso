@@ -4,6 +4,7 @@ import { getModelToken } from 'nestjs-typegoose';
 import { User } from './user.model';
 import { User as UserEntity } from './user.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { UserAttribute } from './user-attribute.entity';
 
 describe('UsersService', () => {
   let service: UsersService;
@@ -13,6 +14,7 @@ describe('UsersService', () => {
       providers: [
         { provide: getModelToken('User'), useValue: User },
         { provide: getRepositoryToken(UserEntity), useValue: {} },
+        { provide: getRepositoryToken(UserAttribute), useValue: {} },
         UsersService,
       ],
     }).compile();

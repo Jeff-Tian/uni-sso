@@ -108,4 +108,10 @@ describe('AppController (e2e)', () => {
 
     expect(body).toEqual({});
   });
+
+  it('/metrics endpoint return the default metrics', async () => {
+    await request(app.getHttpServer())
+      .get('/metrics')
+      .expect(200);
+  });
 });

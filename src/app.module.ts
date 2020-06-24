@@ -15,6 +15,7 @@ import { DestinationStream } from 'pino';
 import { Params } from 'nestjs-pino/dist';
 import tee from 'pino-tee';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 
 @Module({
   imports: [
@@ -48,9 +49,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         teeable.tee(process.stdout);
         teeable.tee(
           pinoElastic({
-            index: 'uniheart',
-            consistency: 'one',
-            node: configService.ELASTIC_SEARCH_NODE,
+            'index': 'uniheart',
+            'consistency': 'one',
+            'node': configService.ELASTIC_SEARCH_NODE,
             'es-version': 7,
             'bulk-size': 200,
           }) as DestinationStream,
@@ -71,6 +72,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         configService.getTypeOrmConfig(),
       inject: [ConfigService],
     }),
+    PrometheusModule.register(),
   ],
   controllers: [AppController],
   providers: [AppService],

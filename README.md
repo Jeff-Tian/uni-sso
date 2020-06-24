@@ -74,6 +74,12 @@ Log streamed to elastic search
 - https://uniheart-2072617778.k4a.bonsaisearch.net/app/kibana#/discover
 - https://uni-sso-kibana.herokuapp.com/
 
+## Monitoring
+
+### Registered Users:
+
+- Grafana: https://jefftian.grafana.net/d/_79iEbWMz/uni-sso-registered-users?orgId=1
+
 ## Clients
 
 - https://https://uni-sso.onrender.com (Direct, or uni-sso's pure front-end)
