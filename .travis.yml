@@ -56,14 +56,17 @@ script:
   # - sh .travis/replace-deployment-linux.sh
 deploy:
   - provider: script
+    skip_cleanup: true
     script: .travis/deploy-kubesail.sh
     on:
       branch: master
   - provider: script
+    skip_cleanup: true
     script: .travis/deploy-okteto.sh
     on:
       branch: fastify
   - provider: heroku
+    skip_cleanup: true
     app: uni-sso
     on:
       branch: fastify
