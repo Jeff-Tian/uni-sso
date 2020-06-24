@@ -21,7 +21,6 @@ cache:
 env:
   ci: true
 before_install:
-#  - psql -c 'create database df1aqs65o6mn0e;' -U postgres
   - psql -U postgres < data/init.sql
 before_script:
   - echo "before script..."
@@ -55,14 +54,6 @@ script:
   - curl -X POST localhost:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json" || docker logs $(docker ps -aqf name=uni-sso\.slim$)
 
   # - sh .travis/replace-deployment-linux.sh
-
-  - k8ss switch --cluster=kubesail --namespace=jeff-tian
-  - kubectl apply -k inf/prod
-  - kubectl -n jeff-tian rollout restart deployment uni-sso
-  - k8ss switch --cluster=okteto --namespace=jeff-tian
-  - kubectl apply -k inf
-  - kubectl -n jeff-tian rollout restart deployment uni-sso
-  - sh .travis/trigger-assertible.sh
 deploy:
   - provider: script
     skip_cleanup: true

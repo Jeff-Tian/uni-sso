@@ -121,3 +121,8 @@ $ npm run test:cov
 ## Entities
 
 ![Entities](./entities.svg)
+
+## TODO
+
+- Switch to fastify, challenges:
+    - auth (don't use passport)
