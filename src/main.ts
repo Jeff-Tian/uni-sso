@@ -9,6 +9,7 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import swStats from 'swagger-stats';
 
 xmlParser(bodyParser);
 
@@ -16,6 +17,8 @@ async function bootstrap() {
   const fastifyAdapter = new FastifyAdapter({
     logger: true,
   });
+
+  await fastifyAdapter.register(swStats.getFastifyPlugin);
 
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
