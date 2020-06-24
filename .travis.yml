@@ -21,7 +21,6 @@ cache:
 env:
   ci: true
 before_install:
-#  - psql -c 'create database df1aqs65o6mn0e;' -U postgres
   - psql -U postgres < data/init.sql
 before_script:
   - echo "before script..."
@@ -55,16 +54,18 @@ script:
   - curl -X POST localhost:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json" || docker logs $(docker ps -aqf name=uni-sso\.slim$)
 
   # - sh .travis/replace-deployment-linux.sh
-
-  - k8ss switch --cluster=kubesail --namespace=jeff-tian
-  - kubectl apply -k inf/prod
-  - kubectl -n jeff-tian rollout restart deployment uni-sso
-  - k8ss switch --cluster=okteto --namespace=jeff-tian
-  - kubectl apply -k inf
-  - kubectl -n jeff-tian rollout restart deployment uni-sso
-  - sh .travis/trigger-assertible.sh
 deploy:
-  provider: heroku
-  app: uni-sso
-  api_key:
-    secure: vu1al+pwcEGjz1OxHTLpNgWjOExvALAYK2gLYgpP5AWWY0uW1Y9o5yjOC1a0OO+lbmzaINGEbSETWfMmw9T8186RCcQjcs49yABH5RbCyCI/xGCUfWRgzPdncI4Mlcg+WXDd/iA534zUxxy9nhnJbGfTwwUBWMiLMsmhM1WRtnULdxdp1nJ00qFX06xYDw3g/hAHAswwKzWofMWTEDvcumj0buDgJsaRBy53H9VWzLlpn+B+nnyjva0xdL1Ra4iFRqN/8kM96y3uwoiH//4exARM56crXwNFKk0zL9orPt7ouw0OznE/49j298ycSleDizs4hgOwNbrGek+FFF0aCgVvVpq1mXj840mXDsPSU8KK9dNHeaTxjVGyk8+YnJKSO9WLDsJxpODZi4u0AZBE7N4zSCQS3WQxBPyUA3hU/jxNrTwzDE7wotLzGCu1yTidJwBRYHKTlo/OUa2gjvDA+bB2Xmb6xuDutTiYQiiHYGoMN3vn6yPlx1/pJYJRuQe3cFr6+E5SErL06+3V4ZxkVo1TY153PnaGD//1u1xkPbFH8TNJjET9HKEZ/p96SmcLZ+ls+kHCwgSX2cqUcmn+U9H9ySHld6kJm1bhVElK0JPFzzSax07lFrXcsXcdhZksWsvC5wx38a0s3Y8aLCk7WkAyYBS6Eu9VYST8rdsr14c=
+  - provider: script
+    script: .travis/deploy-kubesail.sh
+    on:
+      branch: master
+  - provider: script
+    script: .travis/deploy-okteto.sh
+    on:
+      branch: fastify
+  - provider: heroku
+    app: uni-sso
+    on:
+      branch: fastify
+    api_key:
+      secure: vu1al+pwcEGjz1OxHTLpNgWjOExvALAYK2gLYgpP5AWWY0uW1Y9o5yjOC1a0OO+lbmzaINGEbSETWfMmw9T8186RCcQjcs49yABH5RbCyCI/xGCUfWRgzPdncI4Mlcg+WXDd/iA534zUxxy9nhnJbGfTwwUBWMiLMsmhM1WRtnULdxdp1nJ00qFX06xYDw3g/hAHAswwKzWofMWTEDvcumj0buDgJsaRBy53H9VWzLlpn+B+nnyjva0xdL1Ra4iFRqN/8kM96y3uwoiH//4exARM56crXwNFKk0zL9orPt7ouw0OznE/49j298ycSleDizs4hgOwNbrGek+FFF0aCgVvVpq1mXj840mXDsPSU8KK9dNHeaTxjVGyk8+YnJKSO9WLDsJxpODZi4u0AZBE7N4zSCQS3WQxBPyUA3hU/jxNrTwzDE7wotLzGCu1yTidJwBRYHKTlo/OUa2gjvDA+bB2Xmb6xuDutTiYQiiHYGoMN3vn6yPlx1/pJYJRuQe3cFr6+E5SErL06+3V4ZxkVo1TY153PnaGD//1u1xkPbFH8TNJjET9HKEZ/p96SmcLZ+ls+kHCwgSX2cqUcmn+U9H9ySHld6kJm1bhVElK0JPFzzSax07lFrXcsXcdhZksWsvC5wx38a0s3Y8aLCk7WkAyYBS6Eu9VYST8rdsr14c=
