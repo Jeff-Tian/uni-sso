@@ -76,13 +76,13 @@ Log streamed to elastic search
 
 ## Monitoring
 
-### Registered Users:
-
 - Grafana: https://jefftian.grafana.net/d/_79iEbWMz/uni-sso-registered-users?orgId=1
+
+- Swagger stats: https://sso.jiwai.win/swagger-stats/ux#/
 
 ## Clients
 
-- https://https://uni-sso.onrender.com (Direct, or uni-sso's pure front-end)
+- https://uni-sso.onrender.com (Direct, or uni-sso's pure front-end)
 - https://sso.pa-ca.me/ (Direct, or uni-sso's pure front-end)
 - https://pa-ca.me (Indirect, will redirect to https://sso.pa-ca.me to redirect back)
 

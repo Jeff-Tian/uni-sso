@@ -53,7 +53,6 @@ script:
   - curl localhost:3000 || docker logs $(docker ps -aqf name=uni-sso\.slim$)
   - curl -X POST localhost:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json" || docker logs $(docker ps -aqf name=uni-sso\.slim$)
 
-  # - sh .travis/replace-deployment-linux.sh
 deploy:
   - provider: script
     skip_cleanup: true

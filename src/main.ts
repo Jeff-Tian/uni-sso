@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import xmlParser from 'body-parser-xml';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import swStats from 'swagger-stats';
 
 xmlParser(bodyParser);
 
@@ -29,6 +30,7 @@ async function bootstrap() {
       },
     }),
   );
+  app.use(swStats.getMiddleware({ swaggerSpec: require('../swagger.json') }));
 
   const options = new DocumentBuilder()
     .setTitle('Uni SSO')
