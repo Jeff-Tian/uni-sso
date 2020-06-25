@@ -124,5 +124,5 @@ $ npm run test:cov
 
 ## TODO
 
-- Switch to fastify, challenges:
+- Switch to fastify (Already deployed to okteto, without something not working due to passport not supported by fastify), challenges:
     - auth (don't use passport)
