@@ -80,6 +80,10 @@ Log streamed to elastic search
 
 - Swagger stats: https://sso.jiwai.win/swagger-stats/ux#/
 
+## Analysis
+
+- Metabase: https://metalock.herokuapp.com/dashboard/1
+
 ## Clients
 
 - https://uni-sso.onrender.com (Direct, or uni-sso's pure front-end)
