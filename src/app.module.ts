@@ -60,6 +60,7 @@ import { PrometheusModule } from '@willsoto/nestjs-prometheus';
           pinoHttp: [
             {
               useLevelLabels: true,
+              useLevel: 'trace',
             } as pinoHttp.Options,
             teeable,
           ],
