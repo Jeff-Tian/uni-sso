@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from './config/config.service';
+import { PinoLogger } from 'nestjs-pino/dist';
 
 @Injectable()
 export class AppService {
-  constructor(private configService: ConfigService) {}
+  constructor(
+    private configService: ConfigService,
+  ) {}
 
   getHello(): string {
     return 'Hello World!';

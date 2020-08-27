@@ -20,6 +20,12 @@ export class WechatController {
     private readonly logger: Logger,
   ) {}
 
+  @Get('/wechat-logger-test')
+  async wechatLoggerTest() {
+    this.logger.log('Hello wechat world!');
+    return 'Hello wechat';
+  }
+
   @Get('/mp-qr-ticket')
   async getMediaPlatformTempQRImageTicket(@Req() request) {
     return await this.wechatService.getMediaPlatformTempQRImageTicketResult(
