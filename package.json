@@ -24,12 +24,16 @@
     "update": "kubectl --context=\"kubesail-jeff-tian\" apply -k inf/prod&&kubectl --context=\"cloud_okteto_com\" apply -f okteto/k8s.yml",
     "update-deployment": "kubectl --context=\"kubesail-jeff-tian\" apply -f inf/prod/deployment.yaml&&kubectl --context=\"cloud_okteto_com\" apply -f okteto/k8s.yml",
     "tplant": "tplant --project tsconfig.json --input src/**/\\*.entity.ts --output entities.svg && npm run tplantuml && npm run tplantex && open entities.svg && java -Djava.awt.headless=true -jar tools/plantuml.jar -charset UTF-8 -tlatex:nopreamble entities.puml",
+    "tplant-models": "tplant --project tsconfig.json --input src/models/hype/\\*.ts --output hype.puml",
     "tplantuml": "tplant --input src/**/\\*.entity.ts --output entities.puml",
     "tplantex": "npm run tplantuml && (echo \"\\\\\\begin{plantuml}\n\" | cat - entities.puml > /tmp/out) && echo \"\n\n\\\\\\end{plantuml}\n\" >> /tmp/out && cat /tmp/out && mv /tmp/out entities.tex",
     "kubesail": "k8ss switch --cluster=kubesail --namespace=jeff-tian",
     "k8ss:okteto": "k8ss switch --cluster=okteto --namespace=jeff-tian",
     "README": "latexmk -lualatex -f -shell-escape README && open README.pdf",
-    "swagger": "wget https://uni-sso-jeff-tian.cloud.okteto.net/api/json -O swagger.json"
+    "swagger": "wget https://uni-sso-jeff-tian.cloud.okteto.net/api/json -O swagger.json",
+    "tplantuml-cgs": "tplant --input src/models/cgs/\\*.ts --output cgs.puml",
+    "tplant-latex-cgs": "npm run tplantuml-cgs && (echo \"\\\\\\begin{plantuml}\n\" | cat - cgs.puml > /tmp/out) && echo \"\n\n\\\\\\end{plantuml}\n\" >> /tmp/out && cat /tmp/out && mv /tmp/out cgs.tex",
+    "tplnat-latex-hype": ""
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",

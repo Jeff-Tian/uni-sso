@@ -1,0 +1,69 @@
+@startuml
+class SQLCandidate implements Candidate {
+    +id: number
+    +userId: string(40)
+    +eventId: string
+    +score: number
+    +countryCode: string(2)
+    +productId?: string(20)
+    +sku?: string(20)
+    +status: enum
+    +expirationDate?: Date
+    +createdAt: Date
+    +updatedAt: Date
+    +includeInAllBatches: boolean
+    +batchNumber?: number
+}
+class SQLClosedGroupBatchStatistics implements ClosedGroupBatchStatistics {
+    +id: number
+    +eventId: string
+    +batchNumber: number
+    +startDate: Date
+    +endDate: Date
+}
+class SQLClosedGroupEvents implements ClosedGroupEvent {
+    +id: string
+    +style: string
+    +displayName: string
+    +products: string[]
+    +isEnabled: boolean
+    +postToFeed: boolean
+    +startDate: Date
+    +channels: string[]
+    +minIosVersion?: string
+    +minAndroidVersion?: string
+    +createdAt: Date
+    +updatedAt: Date
+    +translations?: any
+    +lastReport?: any
+    +lastReportCreationDate?: Date
+    +batchInterval: number
+    +checkoutMargin?: number
+    +skuReservationDuration?: number
+    +batchSize: number
+    +nextBatchOffset?: number
+    +addressableHoursFrom?: number
+    +addressableHoursTo?: number
+    +purchaseLimit?: number
+    +type: enum
+    +latestBatchStartDate?: Date
+    +isPlpEnabled: boolean
+    +feedImageUrls: any[]
+    +plpImageUrls: any[]
+    +isSecondChance: boolean
+    +selectionStrategy: enum
+}
+class SQLUserActivity implements UserActivity {
+    +id: number
+    +userId: string(40)
+    +counter: number
+    +updatedAt: Date
+}
+class SQLUserRisk implements UserRisk {
+    +userId: string
+    +memberId?: string
+    +lastUpdated: Date
+    +risk: enum
+    +reason?: string
+}
+@enduml

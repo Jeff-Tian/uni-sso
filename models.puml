@@ -1,0 +1,209 @@
+@startuml
+class SQLCandidate implements Candidate {
+    +id: number
+    +userId: string(40)
+    +eventId: string
+    +score: number
+    +countryCode: string(2)
+    +productId?: string(20)
+    +sku?: string(20)
+    +status: enum
+    +expirationDate?: Date
+    +createdAt: Date
+    +updatedAt: Date
+    +includeInAllBatches: boolean
+    +batchNumber?: number
+}
+class SQLClosedGroupBatchStatistics implements ClosedGroupBatchStatistics {
+    +id: number
+    +eventId: string
+    +batchNumber: number
+    +startDate: Date
+    +endDate: Date
+}
+class SQLClosedGroupEvents implements ClosedGroupEvent {
+    +id: string
+    +style: string
+    +displayName: string
+    +products: string[]
+    +isEnabled: boolean
+    +postToFeed: boolean
+    +startDate: Date
+    +channels: string[]
+    +minIosVersion?: string
+    +minAndroidVersion?: string
+    +createdAt: Date
+    +updatedAt: Date
+    +translations?: any
+    +lastReport?: any
+    +lastReportCreationDate?: Date
+    +batchInterval: number
+    +checkoutMargin?: number
+    +skuReservationDuration?: number
+    +batchSize: number
+    +nextBatchOffset?: number
+    +addressableHoursFrom?: number
+    +addressableHoursTo?: number
+    +purchaseLimit?: number
+    +type: enum
+    +latestBatchStartDate?: Date
+    +isPlpEnabled: boolean
+    +feedImageUrls: any[]
+    +plpImageUrls: any[]
+    +isSecondChance: boolean
+    +selectionStrategy: enum
+}
+class SQLCountryConfigurations implements IEventCountryConfiguration {
+    +id: number
+    +eventId?: string
+    +countryCode: string
+    +currency: string
+    +inventoryListId: string
+    +secondaryInventoryListId?: string
+    +maxRiskScore?: number
+    +supportedPaymentMethodIds: string[]
+    +supportedCarrierServices: any[]
+    +scoringWeights: any
+    +cancelCutOffRate?: number
+    +returnCutOffRate?: number
+    +paymentValidationRiskProfileId?: string
+    +checkoutRiskProfileId?: string
+    +freeShippingThreshold?: number
+    +shippingCosts?: number
+}
+class SQLDefaultMessages implements DefaultMessages {
+    +id: number
+    +key: string
+    +defaultMessage?: string
+    +translations: { [locale: string]: string; }
+    +createdAt: timestamptz
+    +updatedAt: timestamptz
+}
+class SQLSegmentDefinitions implements SegmentDefinition {
+    +id: number
+    +translatedSelectionCriteria: string
+    +selectionCriteria: any[]
+    +name: string
+    +eventSegments: any[]
+}
+SQLSegmentDefinitions --> SQLEventSegments
+class SQLEventSegments implements EventSegment {
+    +id: number
+    +priority: number
+    +operationModeValue: number
+    +operationMode: enum
+    +eventId: string
+    +event: any
+    +segmentDefinitionId: integer
+    +simulation?: any
+    +segmentDefinition: SQLSegmentDefinitions
+}
+class SQLEvents implements ICreateEvent {
+    +id: string
+    +style: string
+    +displayName: string
+    +products: string[]
+    +isEnabled: boolean
+    +feedBackgroundImageUrl?: string
+    +eventOpensAt: Date
+    +eventClosesAt: Date
+    +countdownStartsAt: Date
+    +registrationOpensAt: Date
+    +registrationClosesAt: Date
+    +extendedRegistrationEnabled: boolean
+    +sendReminderNotificationAt?: Date
+    +reminderNotificationsSent: boolean
+    +drawStartsAt: Date
+    +drawEndedAt?: Date
+    +channels: string[]
+    +minIosVersion?: string
+    +minAndroidVersion?: string
+    +createdAt?: Date
+    +updatedAt?: Date
+    +trackingUrls?: any[]
+    +translations?: any
+    +postToFeed?: boolean
+    +lastReport?: any
+    +lastReportCreationDate?: Date
+    +requiresExtendedVerification: boolean
+    +type: enum
+    +isPlpEnabled: boolean
+    +npsSurveyEnabled: boolean
+    +feedImageUrls: any[]
+    +plpImageUrls: any[]
+    +pdpDrawMessageKey?: string
+    +requiresBoostScore: boolean
+    +restrictions?: any[]
+    +loserNotificationStatus?: enum
+    +selectionStrategy: enum
+    +segmentSimulation?: any
+    +lastSegmentSimulationCreationDate?: Date
+    +segments: any[]
+}
+SQLEvents --> SQLEventSegments
+class SQLParticipation implements Participation {
+    +id: number
+    +riskScore?: number
+    +dynamicsScore?: number
+    +cancelScore?: number
+    +returnScore?: number
+    +cancellationRate?: number
+    +returnRate?: number
+    +manualScore?: number
+    +randomFactor?: number
+    +score?: number
+    +penalty?: number
+    +memberTier?: number
+    +dynamicsMemberId?: string
+    +lost: boolean
+    +loserNotificationSent?: boolean
+    +reminderNotificationSent?: boolean
+    +displaySize?: string
+    +eventId: string
+    +sku: string(20)
+    +countryCode: string(2)
+    +languageCode: string(2)
+    +userId: string(40)
+    +status: enum
+    +probablyFraudulent: boolean
+    +originalScore: number
+    +orderedAt?: Date
+    +registeredAt?: Date
+    +paymentTransactions: any[]
+    +order: any
+    +storedAuthorizationPaymentResponse?: any
+    +storedRedirectPaymentResponse?: any
+    +orderId?: string
+    +basketId?: string
+    +scoredAt?: Date
+    +paymentErrorMessage?: string
+    +paymentFailureCategory?: enum
+    +memberId?: string
+    +itemId?: string
+    +productId: string
+    +subOrdinate?: string
+    +inventoryId?: string
+    +orderCancellationReason?: any
+    +channel: enum
+    +keyCity?: enum
+    +pendingStockReserved: boolean
+    +userIPAddress?: string(45)
+    +userDeviceInfo?: any
+    +anonymised: boolean
+    +additionalDataFetched: boolean
+    +dryRunStatus?: enum
+}
+class SQLUserActivity implements UserActivity {
+    +id: number
+    +userId: string(40)
+    +counter: number
+    +updatedAt: Date
+}
+class SQLUserRisk implements UserRisk {
+    +userId: string
+    +memberId?: string
+    +lastUpdated: Date
+    +risk: enum
+    +reason?: string
+}
+@enduml

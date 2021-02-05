@@ -57,7 +57,6 @@ export class AppController {
   async keycloakLogin(@Request() req, @Response() res) {
     res.cookie('keycloakJWT', req.user.access_token);
     return res.send(req.user);
-    // return req.user;
   }
 
   @Post('keycloak/login')
