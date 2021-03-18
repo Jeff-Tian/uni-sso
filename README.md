@@ -7,7 +7,7 @@
 
 ## API Documentation
 
-- **Swagger Hub**: https://sso.jiwai.win/api
+- **Swagger Hub**: https://uni-sso.herokuapp.com/api
 
 ## Deployments
 

@@ -11,7 +11,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "NODE_ENV=production node dist/main",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest --detectOpenHandles",
     "test:windows": "bash -c \"export DOCKER_HOST='tcp://0.0.0.0:2375'&&test/mongo-up.sh\"&&npm run test:e2e",
@@ -29,7 +29,9 @@
     "kubesail": "k8ss switch --cluster=kubesail --namespace=jeff-tian",
     "k8ss:okteto": "k8ss switch --cluster=okteto --namespace=jeff-tian",
     "README": "latexmk -lualatex -f -shell-escape README && open README.pdf",
-    "swagger": "wget https://uni-sso-jeff-tian.cloud.okteto.net/api/json -O swagger.json"
+    "swagger": "wget https://uni-sso-jeff-tian.cloud.okteto.net/api/json -O swagger.json",
+    ".env": "SOPS_PGP_FP=9112553DDF6F34E5A986367BD01AF1D5C376C01F sops enc.env",
+    "decode-env": "sops -d --input-type dotenv enc.env > .env"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",

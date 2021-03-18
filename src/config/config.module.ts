@@ -9,7 +9,7 @@ import path from 'path';
       provide: ConfigService,
       useValue: new ConfigService(
         process.env.NODE_ENV === 'production'
-          ? '/not/exists'
+          ? path.join(__dirname, '../..', '.env')
           : path.join(
               __dirname,
               '../../config',

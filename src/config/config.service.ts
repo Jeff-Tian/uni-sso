@@ -83,6 +83,9 @@ export class ConfigService implements Config {
     this.WECHAT_MP_APP_ID = this.get('WECHAT_MP_APP_ID') as string;
     this.WECHAT_MP_APP_SECRET = this.get('WECHAT_MP_APP_SECRET') as string;
     this.ELASTIC_SEARCH_NODE = this.get('ELASTIC_SEARCH_NODE') as string;
+
+    // tslint:disable-next-line:no-console
+    console.log(this);
   }
 
   get(key: string): string | number | boolean {
