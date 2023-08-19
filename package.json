@@ -85,7 +85,7 @@
   "devDependencies": {
     "@jeff-tian/sleep": "^1.0.0",
     "@jeff-tian/tplant": "^2.6.1",
-    "@nestjs/cli": "^7.1.4",
+    "@nestjs/cli": "^10.1.12",
     "@nestjs/schematics": "^7.0.0",
     "@nestjs/testing": "^7.0.9",
     "@types/dotenv": "^8.2.0",
