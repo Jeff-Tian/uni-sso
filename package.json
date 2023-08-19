@@ -33,8 +33,8 @@
     "k8ss:okteto": "k8ss switch --cluster=okteto --namespace=jeff-tian",
     "README": "latexmk -lualatex -f -shell-escape README && open README.pdf",
     "swagger": "wget https://uni-sso-jeff-tian.cloud.okteto.net/api/json -O swagger.json",
-    ".env": "SOPS_PGP_FP=9112553DDF6F34E5A986367BD01AF1D5C376C01F sops enc.env",
-    "decode-env": "sops -d --input-type dotenv enc.env > .env"
+    ".env": "sops -e -i config/local.env --aws-profile lambda-doc-rotary",
+    "decode-env": "sops -d -i config/local.env --aws-profile lambda-doc-rotary"
   },
   "dependencies": {
     "@hapi/joi": "^16.1.8",
