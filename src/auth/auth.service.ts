@@ -48,7 +48,7 @@ export class AuthService {
   getKeycloakToken(user: IUser): Observable<IKeycloakToken> {
     return this.httpService
       .post<IKeycloakToken>(
-        `${this.configService.KEYCLOAK_HOST}/auth/realms/UniHeart/protocol/openid-connect/token`,
+        `${this.configService.KEYCLOAK_HOST}/realms/UniHeart/protocol/openid-connect/token`,
         `username=${user.username}&password=${user.password}&grant_type=password&client_id=${this.configService.KEYCLOAK_CLIENT_ID}&client_secret=${this.configService.KEYCLOAK_CLIENT_SECRET}`,
         {
           headers: {
