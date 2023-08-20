@@ -45,10 +45,10 @@ export class WechatService {
         sceneId: string = uuidv4(),
         expiresInSeconds: number = 60,
     ) {
-        this.logger.info(`getMediaPlatformTempQRImageTicketResult with ${sceneId}, ${expiresInSeconds}, config is ${{
+        this.logger.info(`getMediaPlatformTempQRImageTicketResult with ${sceneId}, ${expiresInSeconds}, config is ${util.inspect({
             appId: this.configService.WECHAT_MP_APP_ID,
             appSecret: this.configService.WECHAT_MP_APP_SECRET,
-        }}`);
+        })}`);
 
         const ticketResult = await this.wechatApi.createTmpQRCode(
             sceneId,
