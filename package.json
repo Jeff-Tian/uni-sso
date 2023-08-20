@@ -43,7 +43,7 @@
     "@jeff-tian/memory-storage": "^1.1.11",
     "@jeff-tian/nest-keycloak-connect": "^1.2.1",
     "@nestjs/common": "^7.0.9",
-    "@nestjs/core": "^7.0.9",
+    "@nestjs/core": "^9.0.5",
     "@nestjs/jwt": "^7.0.0",
     "@nestjs/passport": "^7.0.0",
     "@nestjs/platform-express": "^7.0.9",
