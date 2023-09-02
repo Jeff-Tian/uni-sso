@@ -1,0 +1,48 @@
+name: Deploy to kubesail
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 18.x ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      - run: npm install yarn -g
+      - run: yarn build
+      - run: docker build -t "$DOCKER_USERNAME"/uni-sso .
+      - run: docker images
+      - run: docker run -d -p 127.0.0.1:3000:3000 --name uni-sso "$DOCKER_USERNAME"/uni-sso
+      - run: docker ps | grep -q uni-sso
+      - run: docker ps -aqf "name=uni-sso$"
+      - run: docker push "$DOCKER_USERNAME"/uni-sso
+      - run: docker logs $(docker ps -aqf name=uni-sso$)
+      - run: curl localhost:3000 || docker logs $(docker ps -aqf name=uni-sso$)
+      - run: curl -X POST localhost:3000/auth/login -d '{"username":"john","password":"changeme"}' -H "Content-Type:application/json" || docker logs $(docker ps -aqf name=uni-sso$)
+      - run: docker kill uni-sso || echo "uni-sso killed"
+      - run: docker rm uni-sso || echo "uni-sso removed"
+
+      - run: curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+      - run: chmod +x ./kubectl
+      - run: sudo mv ./kubectl /usr/local/bin/kubectl
+      - run: mkdir ${HOME}/.kube&&mkdir ${HOME}/.aws
+      - run: npm i -g k8ss
+      - run: echo -e "machine github.com\n  login ${{secrets.GH_TOKEN}}" > ~/.netrc
+      - run: echo -e "[lambda-doc-rotary]\naws_access_key_id = ${{secrets.AWS_ACCESS_KEY}}\naws_secret_access_key = ${{secrets.AWS_SECRET_KEY}}\n" > ~/.aws/config
+
+      - run: .travis/deploy-kubesail.sh
