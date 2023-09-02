@@ -4,6 +4,11 @@ FROM node:12-slim
 
 WORKDIR /app
 
+# Update stretch repositories （https://stackoverflow.com/a/76095392/769900）
+RUN sed -i -e 's/deb.debian.org/archive.debian.org/g' \
+           -e 's|security.debian.org|archive.debian.org/|g' \
+           -e '/stretch-updates/d' /etc/apt/sources.list
+
 # Add common build deps
 RUN apt-get update && apt-get install -yqq nginx && \
   sed -i 's/root \/var\/www\/html/root \/app\/build/' /etc/nginx/sites-enabled/default && \
