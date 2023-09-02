@@ -45,5 +45,4 @@ jobs:
       - run: echo -e "machine github.com\n  login ${{secrets.GH_TOKEN}}" > ~/.netrc
       - run: git clone https://github.com/Jeff-Tian/k8s-config.git ${HOME}/k8s-config
       - run: echo -e "[lambda-doc-rotary]\naws_access_key_id = ${{secrets.AWS_ACCESS_KEY}}\naws_secret_access_key = ${{secrets.AWS_SECRET_KEY}}\n" > ~/.aws/config
-
-      - run: .travis/deploy-kubesail.sh
+      - run: sh .travis/trigger-assertible.sh
