@@ -47,7 +47,7 @@
     "@nestjs/jwt": "^7.0.0",
     "@nestjs/passport": "^7.0.0",
     "@nestjs/platform-express": "^7.0.9",
-    "@nestjs/swagger": "^4.5.9",
+    "@nestjs/swagger": "^4.8.2",
     "@nestjs/typeorm": "^7.1.0",
     "@typegoose/typegoose": "^6.2.1",
     "@willsoto/nestjs-prometheus": "^0.1.1",
