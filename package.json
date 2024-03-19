@@ -53,7 +53,7 @@
     "@willsoto/nestjs-prometheus": "^0.1.1",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
-    "body-parser-xml": "^2.0.0",
+    "body-parser-xml": "^2.0.5",
     "class-validator": "^0.11.0",
     "co-wechat-api": "^3.10.0",
     "cookie-parser": "^1.4.5",
@@ -80,7 +80,7 @@
     "swagger-stats": "^0.95.17",
     "swagger-ui-express": "^4.1.4",
     "typegoose": "^5.9.1",
-    "typeorm": "^0.2.25",
+    "typeorm": "^0.3.17",
     "uuid": "^8.0.0"
   },
   "devDependencies": {
