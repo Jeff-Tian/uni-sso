@@ -1,20 +1,24 @@
 import ICacheStorage from "@jeff-tian/memory-storage/src/ICacheStorage";
-import Redis from "ioredis";
+
+const Redis = require("ioredis");
 
 export default class RedisStorage implements ICacheStorage {
-    private static redis = new Redis();
+    private readonly redis;
+
+    constructor() {
+        this.redis = new Redis(process.env.UPSTASH_REDIS_URL);
+    }
 
     async get(traceId: string) {
-        // return RedisStorage.redis.get(traceId);
-        return Promise.resolve(void 0);
+        return this.redis.get(traceId);
     }
 
     async save(traceId: string, referer: string, forHowLong: number) {
-        // return RedisStorage.redis.set(traceId, referer, 'EX', forHowLong / 1000);
+        return this.redis.set(traceId, referer, 'EX', forHowLong / 1000);
     }
 
     async delete(traceId: string) {
-        // return RedisStorage.redis.del(traceId);
+        return this.redis.del(traceId);
     }
 
     size: number;
