@@ -17,7 +17,7 @@ export class UsersService {
     private readonly userAttributesRepo: Repository<UserAttribute>,
   ) {}
 
-  async findOne(username: string): Promise<User | undefined> {
+  async findOne(username: string): Promise<any | undefined> {
     return this.userModel.find({ username });
   }
 

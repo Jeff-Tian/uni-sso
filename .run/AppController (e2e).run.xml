@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="AppController (e2e)" type="JavaScriptTestRunnerJest" nameIsGenerated="true">
+    <config-file value="$PROJECT_DIR$/test/jest-e2e.json" />
+    <node-interpreter value="project" />
+    <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+    <working-dir value="$PROJECT_DIR$" />
+    <envs />
+    <scope-kind value="SUITE" />
+    <test-file value="$PROJECT_DIR$/test/app.e2e-spec.ts" />
+    <test-names>
+      <test-name value="AppController (e2e)" />
+    </test-names>
+    <method v="2" />
+  </configuration>
+</component>

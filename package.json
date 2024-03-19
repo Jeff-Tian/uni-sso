@@ -5,7 +5,7 @@
   "author": "",
   "license": "MIT",
   "engines": {
-    "node": "12.x"
+    "node": "20.x"
   },
   "scripts": {
     "prebuild": "rimraf dist",
@@ -16,7 +16,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "NODE_ENV=production node dist/main",
     "lint": "tslint -p tsconfig.json -c tslint.json",
-    "test": "jest --detectOpenHandles",
+    "test": "NODE_ENV=test jest",
     "test:windows": "bash -c \"export DOCKER_HOST='tcp://0.0.0.0:2375'&&test/mongo-up.sh\"&&npm run test:e2e",
     "test:mac": "docker-compose up -d&&npm run test:e2e&&docker-compose down",
     "test:watch": "jest --watch",
@@ -60,6 +60,7 @@
     "data.either": "^1.5.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "ioredis": "^5.3.2",
     "keycloak-connect": "^10.0.1",
     "mongoose": "^5.8.7",
     "nestjs-pino": "^1.2.0",
@@ -96,6 +97,7 @@
     "@types/passport-jwt": "^3.0.3",
     "@types/passport-local": "^1.0.33",
     "@types/pino-pretty": "^5.0.0",
+    "@types/pino-std-serializers": "^4.0.0",
     "@types/ramda": "^0.26.37",
     "@types/supertest": "^2.0.8",
     "@types/uuid": "^8.0.0",

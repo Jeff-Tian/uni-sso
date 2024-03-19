@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from './config/config.service';
-import { PinoLogger } from 'nestjs-pino/dist';
 
 @Injectable()
 export class AppService {

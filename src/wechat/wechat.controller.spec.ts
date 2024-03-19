@@ -7,13 +7,20 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { LoggerModule } from 'nestjs-pino';
 import { ConfigService } from '../config/config.service';
-import { Logger } from 'nestjs-pino/dist';
+import {Logger, PinoLogger} from 'nestjs-pino/dist';
 import { v4 as uuid } from 'uuid';
 import MemoryStorage from '@jeff-tian/memory-storage/src/MemoryStorage';
 import WechatNocked from '../../test/nocks/wechat';
 import QrScanStatus from './QrScanStatus';
 
 jest.mock('uuid');
+
+class FakeLogger {
+  info(...args){
+    // tslint:disable-next-line:no-console
+    console.log('info: ', args);
+  }
+}
 
 describe('WechatController', () => {
   let wechatController: WechatController;
@@ -30,6 +37,14 @@ describe('WechatController', () => {
         {
           provide: 'QrScanStatus',
           useClass: QrScanStatus,
+        },
+        {
+          provide: PinoLogger.name,
+          useClass: FakeLogger,
+        },
+        {
+          provide: Logger.name,
+          useClass: FakeLogger,
         },
         WechatService,
       ],
@@ -110,7 +125,6 @@ describe('pipes', () => {
           // tslint:disable-next-line:no-console
           console.log('on ', event);
 
-          callback();
         },
         once: logBuffer,
         emit: logBuffer,

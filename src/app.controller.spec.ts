@@ -80,7 +80,7 @@ describe('AppController', () => {
 
   describe('config', () => {
     it('should show config', async () => {
-      const res = await appController.getConfig();
+      const res = appController.getConfig();
 
       expect(res).toEqual('test');
     });

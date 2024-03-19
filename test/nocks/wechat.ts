@@ -6,7 +6,7 @@ export default class WechatNocked {
   static nockGetClientAccessToken(fakeToken: string) {
     scope
       .get(
-        /\/cgi\-bin\/token\?grant_type=client_credential&appid=[\w\d]+&secret=[\w\d]+/,
+        /\/cgi-bin\/token\?grant_type=client_credential&appid=\w+&secret=\w+/,
       )
       .reply(200, {
         access_token: fakeToken,
