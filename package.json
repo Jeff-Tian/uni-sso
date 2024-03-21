@@ -80,7 +80,7 @@
     "swagger-stats": "^0.95.17",
     "swagger-ui-express": "^4.1.4",
     "typegoose": "^5.9.1",
-    "typeorm": "^0.2.25",
+    "typeorm": "^0.3.0",
     "uuid": "^8.0.0"
   },
   "devDependencies": {
